@@ -25,6 +25,9 @@ public class DungeonGenerator : MonoBehaviour
     public TileBase floorTile;
     public TileBase wallTile;
 
+    [Header("ミニマップ")]
+    [SerializeField] private MiniMapRenderer miniMapRenderer;
+
     // 内部データ
     public TileType[,] map;
 
@@ -64,6 +67,13 @@ public class DungeonGenerator : MonoBehaviour
 
         // (3) Tilemap に配置
         RenderMap();
+
+        // (4)ミニマップ描画
+        if (miniMapRenderer != null)
+            miniMapRenderer.DrawMiniMap(map);
+
+        // デバッグ用（ここでプレイヤーをスポーン）
+        FindAnyObjectByType<Test_PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
     }
 
     private void CreateRooms()
@@ -161,5 +171,32 @@ public class DungeonGenerator : MonoBehaviour
                     tilemap.SetTile(new Vector3Int(x, y, 0), wallTile);
             }
         }
+    }
+
+    /// <summary>
+    /// ランダムな床タイルの位置を返す
+    /// </summary>
+    public Vector2Int GetRandomFloorPosition()
+    {
+        List<Vector2Int> floors = new List<Vector2Int>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] == TileType.Floor)
+                {
+                    floors.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+
+        if (floors.Count == 0)
+        {
+            Debug.LogError("床がありません！");
+            return Vector2Int.zero;
+        }
+
+        return floors[Random.Range(0, floors.Count)];
     }
 }
