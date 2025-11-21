@@ -1021,7 +1021,6 @@ GameObject:
   - component: {fileID: 1224574054}
   - component: {fileID: 1224574058}
   - component: {fileID: 1224574057}
-  - component: {fileID: 1224574059}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1161,20 +1160,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &1224574059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224574053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ad0084c156fe9459e47474625e3631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Test_PlayerSpawner
-  playerPrefab: {fileID: 6326546393922405982, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
-  cameraFollow: {fileID: 1224574057}
 --- !u!1 &1546625369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7ea168930631e41b39a5e6a4e1ca67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
+  isPlayerTurn: 1
+  playerHP: 100
+  enemyHP: 100
+  attack: 20
 --- !u!1 &1653003244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1292,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1733756264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1733756266}
+  - component: {fileID: 1733756265}
+  m_Layer: 0
+  m_Name: SpawnerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1733756265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733756264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ad0084c156fe9459e47474625e3631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test_PlayerSpawner
+  playerPrefab: {fileID: 6326546393922405982, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
+  enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  cameraFollow: {fileID: 1224574057}
+--- !u!4 &1733756266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733756264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1310,6 +1346,7 @@ SceneRoots:
   - {fileID: 1224574056}
   - {fileID: 1093144211}
   - {fileID: 1546625370}
+  - {fileID: 1733756266}
   - {fileID: 971171798}
   - {fileID: 8810256}
   - {fileID: 826748323}

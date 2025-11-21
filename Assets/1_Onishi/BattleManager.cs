@@ -57,11 +57,12 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EnemyTurn());
     }
 
-    IEnumerator EnemyTurn()
+    public IEnumerator EnemyTurn()
     {
         //Debug.Log("敵のターン ");
         //敵の処理
         //ChangeTurn();
+        isPlayerTurn = false;
 
         yield return new WaitForSeconds(1f); // n秒待つ
 
@@ -76,10 +77,26 @@ public class BattleManager : MonoBehaviour
             x = Random.Range(-1, 2);
             y = Random.Range(-1, 2);
         }
-            
 
+        while (Test_EnemyMovement.instance.TryMove(x, y) == 1)
+        {
+            x = Random.Range(-1, 2);
+            y = Random.Range(-1, 2);
+        }
 
-        Test_PlayerMovement.instance.TryMove(x,y); // 左に1マス移動
+        bool moved = false;
+
+        // 移動完了コールバックを設定
+        Test_EnemyMovement.instance.onMoveFinished = () =>
+        {
+            moved = true;
+        };
+
+        Test_EnemyMovement.instance.TryMove(x,y); // 左に1マス移動
+
+        // 敵の移動が終了するまで待つ
+        while (!moved)
+            yield return null;
 
         // 敵ターン終了 > プレイヤーの行動待ち
         isPlayerTurn = true;
