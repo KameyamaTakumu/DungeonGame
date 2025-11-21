@@ -1,27 +1,28 @@
 using UnityEngine;
+using System.Collections;
 
 public class BattleManager : MonoBehaviour
 {
-    private bool isPlayerTurn;
+    public bool isPlayerTurn;
     public int playerHP = 100;
-    public int enemyHP  = 100;
-    public int attack   = 20;
+    public int enemyHP = 100;
+    public int attack = 20;
 
     public void Start()
     {
         isPlayerTurn = true;
-        StartCoroutine(TurnCalc());
+        //StartCoroutine(TurnCalc());
     }
 
     public void Update()
     {
-        
+
     }
 
-    public void ChangeTurn() 
+    public void ChangeTurn()
     {
         isPlayerTurn = !isPlayerTurn; // ターンを逆にする
-        StartCoroutine(TurnCalc());   // ターンを相手に回す
+        //StartCoroutine(TurnCalc());   // ターンを相手に回す
     }
 
     // ターン処理を待機してから実行するコルーチン
@@ -41,20 +42,34 @@ public class BattleManager : MonoBehaviour
 
     public void PlayerTurn()
     {
+        if (!isPlayerTurn) return;
+
         Debug.Log("プレイヤーのターン ");
         //プレイヤーの処理
         enemyHP -= attack;
         Debug.Log("敵に" + attack + "のダメージを与えた。敵の残りHPは" + enemyHP);
-        ChangeTurn();
-        
+        //ChangeTurn();
+
+        Debug.Log("プレイヤーターン終了 > 敵ターンへ");
+        isPlayerTurn = false;
+
+        StartCoroutine(EnemyTurn());
     }
 
-    public void EnemyTurn()
+    IEnumerator EnemyTurn()
     {
-        Debug.Log("敵のターン ");
+        //Debug.Log("敵のターン ");
         //敵の処理
+        //ChangeTurn();
 
+        yield return new WaitForSeconds(1f); // n秒待つ
 
-        ChangeTurn();
+        Debug.Log("敵ターン");
+
+        // 敵ターン終了 > プレイヤーの行動待ち
+        isPlayerTurn = true;
+
+        Debug.Log("敵ターン終了 > 次のプレイヤー行動待ち");
+        yield return null;
     }
 }

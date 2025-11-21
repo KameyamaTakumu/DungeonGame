@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// シンプルな2D移動。WASD/矢印キーで動く。
 /// </summary>
 public class Test_PlayerMovement : MonoBehaviour
 {
+    public static Test_PlayerMovement instance; // 唯一のインスタンス（常駐）
+
     [Header("1マスの大きさ")]
     public float cellSize = 1f;
 
@@ -14,11 +17,22 @@ public class Test_PlayerMovement : MonoBehaviour
 
     [HideInInspector]
     public bool isMoving = false;
+    [HideInInspector]
+    public bool isAttacking = false;
 
     private DungeonGenerator dungeon;   // 自動取得    
 
     private void Awake()
     {
+        // --- シングルトンパターンの確立 ---
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject); // 重複したインスタンスを削除
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject); // シーンを跨いでも破棄しない
+
         // シーン内の DungeonGenerator を自動取得
         dungeon = FindFirstObjectByType<DungeonGenerator>();
 
@@ -31,6 +45,8 @@ public class Test_PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (isMoving) return; // 移動中は受付しない
+        BattleManager bm = FindFirstObjectByType<BattleManager>();
+        if(bm != null && !bm.isPlayerTurn) return; // 戦闘中でプレイヤーターンでないなら受付しない
 
         int x = 0, y = 0;
 
@@ -44,6 +60,19 @@ public class Test_PlayerMovement : MonoBehaviour
 
         // 移動先チェック
         TryMove(x, y);
+
+        // --デバッグ用　攻撃--
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Attack!");
+            isAttacking = true;
+
+            
+            if (bm != null)
+            {
+                bm.PlayerTurn();
+            }
+        }
     }
 
     private void TryMove(int mx, int my)
@@ -86,5 +115,14 @@ public class Test_PlayerMovement : MonoBehaviour
 
         transform.position = end;
         isMoving = false;
+
+        // ★移動完了 → ターン経過
+        //TurnManager.Instance.PlayerDidAction();
+
+        BattleManager bm = FindFirstObjectByType<BattleManager>();
+        if (bm != null)
+        {
+            bm.PlayerTurn();
+        }
     }
 }
