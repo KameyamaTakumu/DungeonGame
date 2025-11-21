@@ -76,6 +76,7 @@ public class DungeonGenerator : MonoBehaviour
 
         // デバッグ用（ここでプレイヤーをスポーン）
         FindAnyObjectByType<Test_PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
+        FindAnyObjectByType<Test_PlayerSpawner>()?.SpawnEnemy(GetRandomFloorPosition());
     }
 
     private void CreateRooms()
