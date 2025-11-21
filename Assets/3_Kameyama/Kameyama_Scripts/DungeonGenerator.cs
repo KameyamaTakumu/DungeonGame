@@ -21,7 +21,9 @@ public class DungeonGenerator : MonoBehaviour
     public int roomMaxSize = 10;
 
     [Header("Tilemapä÷òA")]
-    public Tilemap tilemap;
+    public Tilemap floorTilemap;   // è∞
+    public Tilemap wallTilemap;    // ï«
+
     public TileBase floorTile;
     public TileBase wallTile;
 
@@ -159,16 +161,23 @@ public class DungeonGenerator : MonoBehaviour
 
     private void RenderMap()
     {
-        tilemap.ClearAllTiles();
+        floorTilemap.ClearAllTiles();
+        wallTilemap.ClearAllTiles();
 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+
                 if (map[x, y] == TileType.Floor)
-                    tilemap.SetTile(new Vector3Int(x, y, 0), floorTile);
+                {
+                    floorTilemap.SetTile(pos, floorTile);
+                }
                 else
-                    tilemap.SetTile(new Vector3Int(x, y, 0), wallTile);
+                {
+                    wallTilemap.SetTile(pos, wallTile);
+                }
             }
         }
     }

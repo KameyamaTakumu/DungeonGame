@@ -23,12 +23,24 @@ public class Test_PlayerSpawner : MonoBehaviour
         // 既に生成済みなら位置だけ更新
         if (playerInstance == null)
         {
-            playerInstance = Instantiate(playerPrefab);
+            playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         }
 
-        playerInstance.transform.position = new Vector3(pos.x, pos.y, 0);
+        // タイル中心に合わせる
+        Vector3 spawnPos = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0f);
+        playerInstance.transform.position = spawnPos;
 
-        cameraFollow.SetTarget(playerInstance.transform);
+        // カメラ追従を設定（null なら無視）
+        if (cameraFollow != null)
+        {
+            cameraFollow.SetTarget(playerInstance.transform);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerSpawner: cameraFollow がシーン内に設定されていません");
+        }
+
+        Debug.Log($"プレイヤーをスポーン: {spawnPos}");
     }
 
     public GameObject GetPlayer() => playerInstance;
