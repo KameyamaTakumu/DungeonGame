@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Net;
 
 public class BattleManager : MonoBehaviour
 {
@@ -66,10 +67,26 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("敵ターン");
 
+        // 敵の処理
+        
+        int x = Random.Range(-1, 2); // -1, 0, 1 のいずれか
+        int y = Random.Range(-1, 2); // -1, 0, 1 のいずれか
+        while (!(x == 0 && y != 0) || (x != 0 && y == 0))
+        {
+            x = Random.Range(-1, 2);
+            y = Random.Range(-1, 2);
+        }
+            
+
+
+        Test_PlayerMovement.instance.TryMove(x,y); // 左に1マス移動
+
         // 敵ターン終了 > プレイヤーの行動待ち
         isPlayerTurn = true;
 
         Debug.Log("敵ターン終了 > 次のプレイヤー行動待ち");
         yield return null;
     }
+
+
 }
