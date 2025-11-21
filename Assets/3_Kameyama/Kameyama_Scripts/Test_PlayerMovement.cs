@@ -75,7 +75,7 @@ public class Test_PlayerMovement : MonoBehaviour
         }
     }
 
-    private void TryMove(int mx, int my)
+    public void TryMove(int mx, int my)
     {
         // 現在のグリッド座標
         Vector3 pos = transform.position;
