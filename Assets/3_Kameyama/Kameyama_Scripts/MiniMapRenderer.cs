@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 /// <summary>
 /// Texture2D を使ったミニマップ描画クラス
@@ -12,6 +13,11 @@ public class MiniMapRenderer : MonoBehaviour
     public RawImage minimapImage;
     public RectTransform minimapRect;
     public RectTransform playerIcon;
+
+    [Header("敵アイコン")]
+    public RectTransform enemyIconPrefab;  // ★ アイコンのプレハブ
+    private List<RectTransform> enemyIcons = new List<RectTransform>();
+    private List<GameObject> enemies = new List<GameObject>();
 
     [Header("見た目")]
     public int pixelScale = 4;
@@ -94,14 +100,18 @@ public class MiniMapRenderer : MonoBehaviour
 
         if (playerIcon != null)
             UpdatePlayerIconPosition(playerTile);
-    }
+
+        UpdateEnemyIcons(); // ★ 敵アイコン更新
+    } 
 
     private Vector2Int WorldToTile(Vector2 worldPos)
     {
         int tx = Mathf.RoundToInt(worldPos.x);
         int ty = Mathf.RoundToInt(worldPos.y);
+
         tx = Mathf.Clamp(tx, 0, mapW - 1);
         ty = Mathf.Clamp(ty, 0, mapH - 1);
+
         return new Vector2Int(tx, ty);
     }
 
@@ -224,6 +234,73 @@ public class MiniMapRenderer : MonoBehaviour
 
         playerIcon.anchoredPosition = new Vector2(px, py);
     }
+
+    public void ForceRefreshEnemies()
+    {
+        enemies.Clear();
+        enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+        InitEnemyIcons();
+    }
+
+    private void InitEnemyIcons()
+    {
+        // 既存アイコンがあれば削除
+        foreach (var icon in enemyIcons)
+            Destroy(icon.gameObject);
+
+        enemyIcons.Clear();
+
+        // 敵の数だけアイコン作成
+        foreach (var enemy in enemies)
+        {
+            var icon = Instantiate(enemyIconPrefab, minimapRect);
+            icon.gameObject.SetActive(false); // 初期は非表示
+            enemyIcons.Add(icon);
+        }
+    }
+
+    private void UpdateEnemyIcons()
+    {
+        // ★ 敵数とアイコン数が違えば作り直す
+        if (enemyIcons.Count != enemies.Count)
+        {
+            InitEnemyIcons();
+        }
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            var enemy = enemies[i];
+            var icon = enemyIcons[i];
+
+            if (enemy == null)
+            {
+                icon.gameObject.SetActive(false);
+                continue;
+            }
+
+            Vector2Int tile = WorldToTile(enemy.transform.position);
+
+            // ★ 視界内のみ表示
+            if (!visibleNow[tile.x, tile.y])
+            {
+                icon.gameObject.SetActive(false);
+                continue;
+            }
+
+            icon.gameObject.SetActive(true);
+
+            // ミニマップ座標に変換
+            float u = (tile.x + 0.5f) / mapW;
+            float v = (tile.y + 0.5f) / mapH;
+
+            Vector2 size = minimapRect.sizeDelta;
+            float px = (u - 0.5f) * size.x;
+            float py = (v - 0.5f) * size.y;
+
+            icon.anchoredPosition = new Vector2(px, py);
+        }
+    }
+
 
     public void ForceRedraw() => ForceRecalculateFOVAndDraw();
 }

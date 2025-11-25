@@ -154,7 +154,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 15, y: 15}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &325449563
 MonoBehaviour:
@@ -226,6 +226,7 @@ MonoBehaviour:
   minimapImage: {fileID: 1951871602}
   minimapRect: {fileID: 1951871601}
   playerIcon: {fileID: 325449562}
+  enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
   pixelScale: 4
   floorColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
   wallColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
@@ -302,6 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 671442824}
   - component: {fileID: 671442823}
+  - component: {fileID: 671442825}
   m_Layer: 0
   m_Name: SpawnerManager
   m_TagString: Untagged
@@ -322,7 +324,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_PlayerSpawner
   playerPrefab: {fileID: 6326546393922405982, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
-  enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
   cameraFollow: {fileID: 1682916853}
 --- !u!4 &671442824
 Transform:
@@ -339,6 +340,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &671442825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671442822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77a859d63dd20046b822bf99c610873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
 --- !u!1 &1023932428
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_CameraFollow
   target: {fileID: 6737902979630441379, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
-  smooth: 5
+  smooth: 10
 --- !u!1 &1801278468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,8 +1063,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -480, y: -270}
-  m_SizeDelta: {x: 960, y: 540}
+  m_AnchoredPosition: {x: -375, y: -375}
+  m_SizeDelta: {x: 750, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1951871602
 MonoBehaviour:

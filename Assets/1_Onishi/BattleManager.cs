@@ -78,7 +78,7 @@ public class BattleManager : MonoBehaviour
             y = Random.Range(-1, 2);
         }
 
-        while (EnemyMovement.instance.TryMove(x, y) == 1)
+        while (!EnemyMovement.instance.TryMove(x, y))
         {
             x = Random.Range(-1, 2);
             y = Random.Range(-1, 2);

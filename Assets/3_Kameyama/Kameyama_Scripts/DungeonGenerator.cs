@@ -76,7 +76,10 @@ public class DungeonGenerator : MonoBehaviour
 
         // デバッグ用（ここでプレイヤーをスポーン）
         FindAnyObjectByType<PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
-        FindAnyObjectByType<PlayerSpawner>()?.SpawnEnemy(GetRandomFloorPosition());
+        FindAnyObjectByType<EnemySpawner>()?.SpawnEnemy(GetRandomFloorPosition());
+
+        // ★ スポーン後にミニマップの敵アイコン更新
+        miniMapRenderer.ForceRefreshEnemies();
     }
 
     private void CreateRooms()
