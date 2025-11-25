@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// プレイヤーをスムーズに追従するカメラ
 /// </summary>
-public class Test_CameraFollow : MonoBehaviour
+public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform target;  // プレイヤー
     [SerializeField] private float smooth = 5f;

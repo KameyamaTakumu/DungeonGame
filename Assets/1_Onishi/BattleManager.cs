@@ -78,7 +78,7 @@ public class BattleManager : MonoBehaviour
             y = Random.Range(-1, 2);
         }
 
-        while (Test_EnemyMovement.instance.TryMove(x, y) == 1)
+        while (EnemyMovement.instance.TryMove(x, y) == 1)
         {
             x = Random.Range(-1, 2);
             y = Random.Range(-1, 2);
@@ -87,12 +87,12 @@ public class BattleManager : MonoBehaviour
         bool moved = false;
 
         // 移動完了コールバックを設定
-        Test_EnemyMovement.instance.onMoveFinished = () =>
+        EnemyMovement.instance.onMoveFinished = () =>
         {
             moved = true;
         };
 
-        Test_EnemyMovement.instance.TryMove(x,y); // 左に1マス移動
+        EnemyMovement.instance.TryMove(x,y); // 左に1マス移動
 
         // 敵の移動が終了するまで待つ
         while (!moved)

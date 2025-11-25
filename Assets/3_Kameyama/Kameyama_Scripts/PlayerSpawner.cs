@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class Test_PlayerSpawner : MonoBehaviour
+public class PlayerSpawner : MonoBehaviour
 {
     [Header("ÉvÉåÉCÉÑÅ[ÇÃPrefab")]
     [SerializeField] private GameObject playerPrefab;
     [Header("ìGÇÃPrefab")]
     [SerializeField] private GameObject enemyPrefab;
 
-    public Test_CameraFollow cameraFollow;
+    public CameraFollow cameraFollow;
 
     private GameObject playerInstance;
     private GameObject enemyInstance;

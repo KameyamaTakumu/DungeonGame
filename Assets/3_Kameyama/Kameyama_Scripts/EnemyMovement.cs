@@ -5,9 +5,9 @@ using System;
 /// <summary>
 /// シンプルな2D移動。WASD/矢印キーで動く。
 /// </summary>
-public class Test_PlayerMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
-    public static Test_PlayerMovement instance; // 唯一のインスタンス（常駐）
+    public static EnemyMovement instance; // 唯一のインスタンス（常駐）
 
     [Header("1マスの大きさ")]
     public float cellSize = 1f;
@@ -19,6 +19,8 @@ public class Test_PlayerMovement : MonoBehaviour
     public bool isMoving = false;
     [HideInInspector]
     public bool isAttacking = false;
+
+    public Action onMoveFinished; // 移動完了イベント
 
     private DungeonGenerator dungeon;   // 自動取得
     private BattleManager bm;
@@ -41,45 +43,13 @@ public class Test_PlayerMovement : MonoBehaviour
             Debug.LogError("DungeonGenerator がシーンにありません！");
         }
         bm = FindFirstObjectByType<BattleManager>();
-        if(bm == null)
+        if (bm == null)
         {
             Debug.LogError("BattleManager がシーンにありません！");
         }
     }
 
-    private void Update()
-    {
-        if (isMoving) return; // 移動中は受付しない
-        BattleManager bm = FindFirstObjectByType<BattleManager>();
-        if(bm != null && !bm.isPlayerTurn) return; // 戦闘中でプレイヤーターンでないなら受付しない
-
-        int x = 0, y = 0;
-
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) y = 1;
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) y = -1;
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) x = -1;
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) x = 1;
-
-        // 入力なし
-        if (x == 0 && y == 0) return;
-
-        // 移動先チェック
-        TryMove(x, y);
-
-        // --デバッグ用　攻撃--
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Attack!");
-            isAttacking = true;
-            
-            if (bm != null)
-            {
-                bm.StartCoroutine(bm.EnemyTurn());
-            }
-        }
-    }
-
-    public void TryMove(int mx, int my)
+    public int TryMove(int mx, int my)
     {
         // 現在のグリッド座標
         Vector3 pos = transform.position;
@@ -91,14 +61,16 @@ public class Test_PlayerMovement : MonoBehaviour
 
         // マップ範囲外は移動不可
         if (nx < 0 || ny < 0 || nx >= dungeon.width || ny >= dungeon.height)
-            return;
+            return 0;
 
         // 壁なら移動しない
         if (dungeon.map[nx, ny] == TileType.Wall)
-            return;
+            return 1;
 
         // 床だから移動OK
         StartCoroutine(MoveToCell(new Vector2(nx, ny)));
+
+        return 0;
     }
 
     // コルーチンで1マス分だけ移動
@@ -120,9 +92,7 @@ public class Test_PlayerMovement : MonoBehaviour
         transform.position = end;
         isMoving = false;
 
-        if (bm != null)
-        {
-            bm.StartCoroutine(bm.EnemyTurn());
-        }
+        // 移動完了イベントを通知
+        onMoveFinished?.Invoke();
     }
 }
