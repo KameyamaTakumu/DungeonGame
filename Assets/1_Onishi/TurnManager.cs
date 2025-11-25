@@ -6,7 +6,7 @@ using System.Collections;
 /// 攻撃処理・ターン切り替え・敵の移動処理など、戦闘における
 /// メインループの役割を持つ。
 /// </summary>
-public class BattleManager : MonoBehaviour
+public class TrunManager : MonoBehaviour
 {
     [CustomLabel("プレイヤーHP")]
     public int playerHP = 100;

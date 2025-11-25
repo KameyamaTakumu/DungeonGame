@@ -30,7 +30,7 @@ public class PlayerMovement : BaseMovement
         // バトル中でプレイヤーターンでない場合は移動不可（Ctrl で無視可能）
         if (!debugMove)
         {
-            if (bm != null && !bm.isPlayerTurn)
+            if (tm != null && !tm.isPlayerTurn)
                 return;
         }
 
@@ -54,9 +54,9 @@ public class PlayerMovement : BaseMovement
             isAttacking = true;
 
             // 攻撃後に敵ターンへ移行
-            if (bm != null)
+            if (tm != null)
             {
-                bm.StartCoroutine(bm.EnemyTurn());
+                tm.StartCoroutine(tm.EnemyTurn());
             }
         }
     }
@@ -69,9 +69,9 @@ public class PlayerMovement : BaseMovement
     protected override void OnMoveFinished(bool debugMove)
     {
         // 移動完了 → 敵ターン開始
-        if (!debugMove && bm != null)
+        if (!debugMove && tm != null)
         {
-            bm.StartCoroutine(bm.EnemyTurn());
+            tm.StartCoroutine(tm.EnemyTurn());
         }
     }
 }
