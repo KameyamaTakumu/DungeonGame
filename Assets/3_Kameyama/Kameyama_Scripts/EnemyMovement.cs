@@ -1,29 +1,35 @@
+using UnityEngine;
 using System;
 
 /// <summary>
-/// シンプルな2D移動。WASD/矢印キーで動く。
+/// 敵キャラクターの2D移動を管理するクラス。
+/// BaseMovement を継承しており、グリッド単位での移動をサポート。
+/// AI やスクリプトによる制御を想定。
 /// </summary>
 public class EnemyMovement : BaseMovement
 {
+    // シングルトンインスタンス
     public static EnemyMovement instance;
-    public bool isAttacking = false;
 
+    [HideInInspector]
+    public bool isAttacking = false;　// 攻撃中フラグ
+
+    // 移動完了時のイベント
     public Action onMoveFinished;
 
     protected override void Awake()
     {
         base.Awake();
 
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
         instance = this;
-
-        DontDestroyOnLoad(gameObject);
     }
 
+    /// <summary>
+    /// 移動完了時に呼ばれるフックメソッド。
+    /// BaseMovement の OnMoveFinished をオーバーライドして
+    /// 登録された onMoveFinished イベントを呼び出す。
+    /// </summary>
+    /// <param name="debugMove">デバッグ用フラグ（派生先で使用可）</param>
     protected override void OnMoveFinished(bool debugMove)
     {
         onMoveFinished?.Invoke();
