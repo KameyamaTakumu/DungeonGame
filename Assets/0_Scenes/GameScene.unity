@@ -725,6 +725,24 @@ MonoBehaviour:
   wallTilemap: {fileID: 383448772}
   floorTile: {fileID: 11400000, guid: 1c1dca8506025394d922491d7156f1d9, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
+  wallTop: {fileID: 0}
+  wallBottom: {fileID: 0}
+  wallLeft: {fileID: 0}
+  wallRight: {fileID: 0}
+  wallInnerCornerTL: {fileID: 0}
+  wallInnerCornerTR: {fileID: 0}
+  wallInnerCornerBL: {fileID: 0}
+  wallInnerCornerBR: {fileID: 0}
+  wallOuterCornerTL: {fileID: 0}
+  wallOuterCornerTR: {fileID: 0}
+  wallOuterCornerBL: {fileID: 0}
+  wallOuterCornerBR: {fileID: 0}
+  wallSingle: {fileID: 0}
+  wallCross: {fileID: 0}
+  wallTUp: {fileID: 0}
+  wallTDown: {fileID: 0}
+  wallTLeft: {fileID: 0}
+  wallTRight: {fileID: 0}
   miniMapRenderer: {fileID: 1822266444}
 --- !u!4 &1093144211
 Transform:
@@ -1136,10 +1154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7ea168930631e41b39a5e6a4e1ca67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  isPlayerTurn: 1
   playerHP: 100
   enemyHP: 100
   attack: 20
+  isPlayerTurn: 1
 --- !u!1 &1733756264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,7 +1355,6 @@ MonoBehaviour:
   enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
   pixelScale: 4
   floorColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
-  wallColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   discoveredTint: {r: 0.35, g: 0.35, b: 0.35, a: 1}
   viewRadius: 8
 --- !u!4 &1822266445

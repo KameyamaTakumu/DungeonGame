@@ -229,7 +229,6 @@ MonoBehaviour:
   enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
   pixelScale: 4
   floorColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
-  wallColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   discoveredTint: {r: 0.35, g: 0.35, b: 0.35, a: 1}
   viewRadius: 8
 --- !u!4 &563147557
@@ -604,6 +603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1059402464}
   - component: {fileID: 1059402463}
+  - component: {fileID: 1059402465}
   m_Layer: 0
   m_Name: DungeonGenerator
   m_TagString: Untagged
@@ -625,12 +625,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
   width: 64
   height: 64
-  roomCount: 8
-  roomMinSize: 4
-  roomMaxSize: 10
+  roomCount: 10
+  roomMinSize: 2
+  roomMaxSize: 8
   floorTilemap: {fileID: 1801278471}
   wallTilemap: {fileID: 1023932434}
-  floorTile: {fileID: 11400000, guid: 1c1dca8506025394d922491d7156f1d9, type: 2}
+  floorTile: {fileID: 11400000, guid: 4eb13539e8c52a042bd0840a5b2d3ba4, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
   miniMapRenderer: {fileID: 563147556}
 --- !u!4 &1059402464
@@ -648,6 +648,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1059402465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059402462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b443d4215ebc414794c36c46789064e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallAutoTilePainter
+  wallTiles:
+  - {fileID: 11400000, guid: 0dadface59438df4f97c5571c3efa9a6, type: 2}
+  - {fileID: 11400000, guid: 8505086ab1c81774dab44a22b0c20b01, type: 2}
+  - {fileID: 11400000, guid: d96f6f68ffdacae49adf538a5ade2729, type: 2}
+  - {fileID: 11400000, guid: 08062ec1f3d9dcf4d9c2a176238eee81, type: 2}
+  - {fileID: 11400000, guid: 8ebe9671e23b0f54d9d51a2d3dac0470, type: 2}
+  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
+  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
+  - {fileID: 11400000, guid: 5a9b90adce5bec94abd41a0d9f3ca6db, type: 2}
+  - {fileID: 11400000, guid: 090dc0a342c125b4bb7943fc66c86f30, type: 2}
+  - {fileID: 11400000, guid: e83da1c24b630894a81448762240abab, type: 2}
+  - {fileID: 11400000, guid: e0dc192aa529b6640a60002c79508833, type: 2}
+  - {fileID: 11400000, guid: 2026348c79a61d24080e95f748be062e, type: 2}
+  - {fileID: 11400000, guid: 2f0bacdeee2fca44a9c812ecdc7b46e2, type: 2}
+  - {fileID: 11400000, guid: 96ad8989e8cccfd4987ff2399b009fe4, type: 2}
+  - {fileID: 11400000, guid: 3d05af2c74df7bb4c8747c0aa7706fd7, type: 2}
+  - {fileID: 11400000, guid: 08062ec1f3d9dcf4d9c2a176238eee81, type: 2}
+  - {fileID: 11400000, guid: 8ebe9671e23b0f54d9d51a2d3dac0470, type: 2}
+  - {fileID: 11400000, guid: 8505086ab1c81774dab44a22b0c20b01, type: 2}
+  - {fileID: 11400000, guid: d96f6f68ffdacae49adf538a5ade2729, type: 2}
+  - {fileID: 11400000, guid: 0dadface59438df4f97c5571c3efa9a6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  wallTilemap: {fileID: 1023932434}
 --- !u!1 &1279441312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,9 +1246,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1682916851}
-  - {fileID: 1059402464}
   - {fileID: 563147557}
   - {fileID: 671442824}
+  - {fileID: 1059402464}
   - {fileID: 1279441316}
   - {fileID: 609879682}
   - {fileID: 2015939015}

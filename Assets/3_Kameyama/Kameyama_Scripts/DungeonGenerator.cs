@@ -32,6 +32,7 @@ public enum TileType
 /// ・部屋間を結ぶ通路の作成
 /// ・Tilemap への描画
 /// ・ミニマップ描画やプレイヤー／敵の自動配置
+/// ・壁タイルの自動タイル適用
 /// など、マップ生成に必要な一連の処理を統括します。
 /// </summary>
 public class DungeonGenerator : MonoBehaviour
@@ -106,6 +107,7 @@ public class DungeonGenerator : MonoBehaviour
     /// ・Tilemap 反映
     /// ・ミニマップ描画
     /// ・プレイヤー／敵のスポーン
+    /// ・壁タイルの自動タイル適用
     /// </summary>
     private void Generate()
     {
@@ -123,6 +125,9 @@ public class DungeonGenerator : MonoBehaviour
         // (2) 部屋同士を通路で繋ぐ
         ConnectRooms();
 
+        // ★ 壁幅1のストライプを自動除去
+        RemoveThinWalls();
+
         // (3) Tilemap へ反映
         RenderMap();
 
@@ -136,6 +141,9 @@ public class DungeonGenerator : MonoBehaviour
 
         // (6) ミニマップの敵アイコン更新
         miniMapRenderer.ForceRefreshEnemies();
+
+        // (7) 壁タイルの自動タイル適用
+        FindAnyObjectByType<WallAutoTilePainter>()?.ApplyAutoTiles(map);
     }
 
     /// <summary>
@@ -165,7 +173,10 @@ public class DungeonGenerator : MonoBehaviour
             bool overlap = false;
             foreach (var r in rooms)
             {
-                if (rNew.Overlaps(r.ToRect()))
+                // 外周 1 マス余裕をつけて判定する
+                RectInt expanded = new RectInt(r.x - 1, r.y - 1, r.w + 2, r.h + 2);
+
+                if (expanded.Overlaps(rNew))
                 {
                     overlap = true;
                     break;
@@ -178,12 +189,8 @@ public class DungeonGenerator : MonoBehaviour
 
             // map 配列を床に変更
             for (int ix = x; ix < x + w; ix++)
-            {
                 for (int iy = y; iy < y + h; iy++)
-                {
                     map[ix, iy] = TileType.Floor;
-                }
-            }
         }
     }
 
@@ -220,25 +227,47 @@ public class DungeonGenerator : MonoBehaviour
     /// </summary>
     private void DigCorridor(int x1, int y1, int x2, int y2)
     {
-        int x = x1;
-        int y = y1;
-
+        int x = x1; int y = y1;
         // X方向に掘る
-        while (x != x2)
-        {
+        while (x != x2) 
+        { 
             map[x, y] = TileType.Floor;
             x += (x2 > x) ? 1 : -1;
-        }
-
+        } 
         // Y方向に掘る
-        while (y != y2)
-        {
+        while (y != y2) 
+        { 
             map[x, y] = TileType.Floor;
-            y += (y2 > y) ? 1 : -1;
-        }
-
+            y += (y2 > y) ? 1 : -1; 
+        } 
         // 最終地点も床に
         map[x, y] = TileType.Floor;
+    }
+
+    private void RemoveThinWalls()
+    {
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int y = 1; y < height - 1; y++)
+            {
+                if (map[x, y] != TileType.Wall) continue;
+
+                // ---- 横方向の薄い壁（幅1） ----
+                bool thinHorizontal =
+                    map[x - 1, y] == TileType.Floor &&
+                    map[x + 1, y] == TileType.Floor;
+
+                // ---- 縦方向の薄い壁（幅1） ----
+                bool thinVertical =
+                    map[x, y - 1] == TileType.Floor &&
+                    map[x, y + 1] == TileType.Floor;
+
+                if (thinHorizontal || thinVertical)
+                {
+                    map[x, y] = TileType.Floor; // 壁を潰す
+                }
+            }
+        }
     }
 
     /// <summary>
