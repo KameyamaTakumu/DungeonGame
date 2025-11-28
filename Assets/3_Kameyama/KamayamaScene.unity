@@ -567,6 +567,7 @@ GameObject:
   - component: {fileID: 989914525}
   - component: {fileID: 989914528}
   - component: {fileID: 989914527}
+  - component: {fileID: 989914529}
   m_Layer: 0
   m_Name: CardManager
   m_TagString: Untagged
@@ -615,10 +616,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61042924d0ea6f940bf9f40518d3ed7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardInventoryUI
-  inventory: {fileID: 0}
-  slotPrefab: {fileID: 0}
-  consumableParent: {fileID: 0}
-  passiveParent: {fileID: 0}
+  inventory: {fileID: 989914528}
+  slotPrefab: {fileID: 7584838958004092537, guid: be69256019c5b214eaf761c383b1aa28, type: 3}
+  consumableParent: {fileID: 7299546}
+  passiveParent: {fileID: 1480618661}
 --- !u!114 &989914528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,10 +632,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea68330cc1cd898449345cb6cc70d9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardInventory
-  consumableCards:
-  - {fileID: 11400000, guid: 106674f14d7e0cc4cbd60aa16baa884b, type: 2}
-  passiveCards:
-  - {fileID: 11400000, guid: 27e7818f7d2d52f4db5247fd27d0da63, type: 2}
+  consumableCards: []
+  passiveCards: []
+--- !u!114 &989914529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989914524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bec2112a375ccf40980860e6f18aef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardPickupTester
+  cardInventory: {fileID: 989914528}
+  testConsumableCard: {fileID: 11400000, guid: 106674f14d7e0cc4cbd60aa16baa884b, type: 2}
+  testPassiveCard: {fileID: 11400000, guid: 27e7818f7d2d52f4db5247fd27d0da63, type: 2}
 --- !u!1 &1023932428
 GameObject:
   m_ObjectHideFlags: 0
