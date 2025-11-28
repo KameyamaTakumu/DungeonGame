@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEditor;
 
 /// <summary>
 /// 敵キャラクターの2D移動を管理するクラス。
@@ -10,6 +11,8 @@ public class EnemyMovement : BaseMovement
 {
     // シングルトンインスタンス
     public static EnemyMovement instance;
+
+    public Vector2Int gridPos;
 
     [HideInInspector]
     public bool isAttacking = false;　// 攻撃中フラグ
@@ -24,6 +27,12 @@ public class EnemyMovement : BaseMovement
         instance = this;
     }
 
+    void Start()
+    {
+        UnitManager.instance.RegisterEnemy(this.gameObject);
+    }
+
+
     /// <summary>
     /// 移動完了時に呼ばれるフックメソッド。
     /// BaseMovement の OnMoveFinished をオーバーライドして
@@ -32,6 +41,7 @@ public class EnemyMovement : BaseMovement
     /// <param name="debugMove">デバッグ用フラグ（派生先で使用可）</param>
     protected override void OnMoveFinished(bool debugMove)
     {
+        gridPos = Vector2Int.RoundToInt(transform.position);
         onMoveFinished?.Invoke();
     }
 
@@ -40,10 +50,18 @@ public class EnemyMovement : BaseMovement
     /// </summary>
     public bool PlayerInCell(Vector2Int cell)
     {
+        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+        //Vector2 pos = player.transform.position;
+
+        //return Mathf.RoundToInt(pos.x) == cell.x &&
+        //       Mathf.RoundToInt(pos.y) == cell.y;
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector2 pos = player.transform.position;
+        Vector2Int pGrid = Vector2Int.RoundToInt(pos);
 
-        return Mathf.RoundToInt(pos.x) == cell.x &&
-               Mathf.RoundToInt(pos.y) == cell.y;
+        Debug.Log($"[PlayerInCell] cell={cell}, playerGrid={pGrid}, rawPos={pos}");
+
+        return Vector2.Distance(pos, cell) < 0.3f;   // 多少のズレを許容
     }
 }

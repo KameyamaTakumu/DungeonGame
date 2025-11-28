@@ -13,22 +13,32 @@ public static class CombatManager
     {
         Vector2Int checkPos = origin + dir * distance;
 
-        // シーン中の全対象（敵・プレイヤー）を検索して位置を比較
-        // 実際には GameManager が持つ List にすると高速（後述）
-        GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Unit");
-
-        foreach (var obj in allObjects)
+        // プレイヤーと敵の両方を調べる
+        foreach (var obj in UnitManager.instance.players)
         {
-            Vector2 pos = obj.transform.position;
+            if (IsAt(obj, checkPos))
+                return obj;
+        }
 
-            if (Mathf.RoundToInt(pos.x) == checkPos.x &&
-                Mathf.RoundToInt(pos.y) == checkPos.y)
-            {
-                return obj; // 見つかった
-            }
+        foreach (var obj in UnitManager.instance.enemies)
+        {
+            if (IsAt(obj, checkPos))
+                return obj;
         }
 
         return null;
     }
+
+
+    /// <summary>
+    /// 
+    private static bool IsAt(GameObject obj, Vector2Int pos)
+    {
+        Vector2 p = obj.transform.position;
+
+        return Mathf.RoundToInt(p.x) == pos.x &&
+               Mathf.RoundToInt(p.y) == pos.y;
+    }
+
 }
 
