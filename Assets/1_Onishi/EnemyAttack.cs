@@ -7,6 +7,8 @@ public class EnemyAttack : MonoBehaviour
     public int attackPower = 10; // 攻撃力
     public int hp = 10;
 
+    private Vector2Int attackDir;
+
     public static EnemyAttack instance;
 
     void Awake()
@@ -20,10 +22,17 @@ public class EnemyAttack : MonoBehaviour
     public bool TryAttackPlayer()
     {
         // 敵のグリッド位置
-        Vector2Int origin = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        //Vector2Int origin = new Vector2Int(
+        //    Mathf.RoundToInt(transform.position.x),
+        //    Mathf.RoundToInt(transform.position.y)
+        //);
+
+        Vector2Int origin = EnemyMovement.instance.gridPos;
+
+
+        Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Vector2Int playerGrid = Vector2Int.RoundToInt(playerPos);
+        Debug.Log($"[DEBUG] 敵の位置: {origin}, プレイヤーの位置: {playerGrid}, attackRange: {attackRange}");
 
         // 4方向（上下左右）を順番にチェックする
         Vector2Int[] dirs = {
@@ -35,15 +44,20 @@ public class EnemyAttack : MonoBehaviour
 
         foreach (var dir in dirs)
         {
+
+            Debug.Log($"[DEBUG] 方向チェック: {dir}");
+
             for (int i = 1; i <= attackRange; i++)
             {
                 Vector2Int check = origin + dir * i;
+                Debug.Log($"[DEBUG]   チェック座標: {check}");
 
                 // マスにプレイヤーがいるか判定
                 if (EnemyMovement.instance.PlayerInCell(check))
                 {
+                    attackDir = dir;
                     Debug.Log($"敵が {i} マス先のプレイヤーを攻撃！");
-                    AttackForward();
+                    AttackForward(dir);
                     return true;
                 }
             }
@@ -52,14 +66,12 @@ public class EnemyAttack : MonoBehaviour
         return false; // 攻撃範囲にプレイヤーはいない
     }
 
-    public void AttackForward()
+    public void AttackForward(Vector2Int dir)
     {
         Vector2Int origin = new Vector2Int(
-        Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.x),
             Mathf.RoundToInt(transform.position.y)
         );
-
-        Vector2Int dir = new Vector2Int(1, 0); // 右方向に攻撃
 
         GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
 

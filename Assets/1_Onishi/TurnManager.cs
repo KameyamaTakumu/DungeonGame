@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-//大西智也
-
 /// <summary>
 /// プレイヤーと敵のターン管理を行うバトルマネージャー。
 /// 攻撃処理・ターン切り替え・敵の移動処理など、戦闘における
@@ -72,6 +70,7 @@ public class TrunManager : MonoBehaviour
         Debug.Log("敵のターン");
 
         // ---- 攻撃できるならする ----
+
         if (EnemyAttack.instance.TryAttackPlayer())
         {
             Debug.Log("敵は攻撃してターン終了");

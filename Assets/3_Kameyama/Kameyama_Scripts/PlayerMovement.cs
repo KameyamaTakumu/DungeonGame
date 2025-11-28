@@ -19,6 +19,11 @@ public class PlayerMovement : BaseMovement
         instance = this;
     }
 
+    void Start()
+    {
+        UnitManager.instance.RegisterPlayer(this.gameObject);
+    }
+
     private void Update()
     {
         // ˆÚ“®’†‚Í“ü—Í‚ðŽó‚¯•t‚¯‚È‚¢
