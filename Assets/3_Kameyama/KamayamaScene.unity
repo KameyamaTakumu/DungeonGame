@@ -937,8 +937,8 @@ MonoBehaviour:
   roomMaxSize: 8
   floorTilemap: {fileID: 1801278471}
   wallTilemap: {fileID: 1023932434}
-  floorTile: {fileID: 11400000, guid: 1904f1b9b5f100249b2afcb2d6f2c822, type: 2}
-  wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
+  floorTile: {fileID: 11400000, guid: 1c1dca8506025394d922491d7156f1d9, type: 2}
+  wallTile: {fileID: 11400000, guid: 463aff36ec316c7408066eae784272d3, type: 2}
   miniMapRenderer: {fileID: 563147556}
 --- !u!4 &1059402464
 Transform:
@@ -975,10 +975,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
-  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
-  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
-  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
+  - {fileID: 11400000, guid: e4a3f9630686f4b409f7155bf8a2f4d0, type: 2}
+  - {fileID: 11400000, guid: 9f0204412f743cc44907249d9046ab6c, type: 2}
+  - {fileID: 11400000, guid: 5249e6b8067bd2b4a93d520d7f0a2e52, type: 2}
+  - {fileID: 11400000, guid: 4b507e2739595c344ac1ed79fb2348f4, type: 2}
   - {fileID: 11400000, guid: 793e309a362779346bc9557261821090, type: 2}
   - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
   - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
@@ -987,7 +987,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 23dabfc4c1bd78d478672508f68b208d, type: 2}
   - {fileID: 11400000, guid: c41525376bfd2fd41af70e62633dfd5a, type: 2}
   - {fileID: 11400000, guid: ba61907c1c327aa438ce7b542e5bf04e, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 463aff36ec316c7408066eae784272d3, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

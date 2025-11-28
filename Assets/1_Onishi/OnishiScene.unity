@@ -483,26 +483,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallAutoTilePainter
   wallTiles:
-  - {fileID: 11400000, guid: 0dadface59438df4f97c5571c3efa9a6, type: 2}
-  - {fileID: 11400000, guid: 8505086ab1c81774dab44a22b0c20b01, type: 2}
-  - {fileID: 11400000, guid: d96f6f68ffdacae49adf538a5ade2729, type: 2}
-  - {fileID: 11400000, guid: 08062ec1f3d9dcf4d9c2a176238eee81, type: 2}
-  - {fileID: 11400000, guid: 8ebe9671e23b0f54d9d51a2d3dac0470, type: 2}
-  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
-  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
-  - {fileID: 11400000, guid: 5a9b90adce5bec94abd41a0d9f3ca6db, type: 2}
-  - {fileID: 11400000, guid: 090dc0a342c125b4bb7943fc66c86f30, type: 2}
-  - {fileID: 11400000, guid: e83da1c24b630894a81448762240abab, type: 2}
-  - {fileID: 11400000, guid: e0dc192aa529b6640a60002c79508833, type: 2}
-  - {fileID: 11400000, guid: 2026348c79a61d24080e95f748be062e, type: 2}
-  - {fileID: 11400000, guid: 2f0bacdeee2fca44a9c812ecdc7b46e2, type: 2}
-  - {fileID: 11400000, guid: 96ad8989e8cccfd4987ff2399b009fe4, type: 2}
-  - {fileID: 11400000, guid: 3d05af2c74df7bb4c8747c0aa7706fd7, type: 2}
-  - {fileID: 11400000, guid: 08062ec1f3d9dcf4d9c2a176238eee81, type: 2}
-  - {fileID: 11400000, guid: 8ebe9671e23b0f54d9d51a2d3dac0470, type: 2}
-  - {fileID: 11400000, guid: 8505086ab1c81774dab44a22b0c20b01, type: 2}
-  - {fileID: 11400000, guid: d96f6f68ffdacae49adf538a5ade2729, type: 2}
-  - {fileID: 11400000, guid: 0dadface59438df4f97c5571c3efa9a6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
+  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
+  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
+  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
+  - {fileID: 11400000, guid: 793e309a362779346bc9557261821090, type: 2}
+  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
+  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
+  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
+  - {fileID: 11400000, guid: 20d47aebf997ad24daf729a04910eb5f, type: 2}
+  - {fileID: 11400000, guid: 23dabfc4c1bd78d478672508f68b208d, type: 2}
+  - {fileID: 11400000, guid: c41525376bfd2fd41af70e62633dfd5a, type: 2}
+  - {fileID: 11400000, guid: ba61907c1c327aa438ce7b542e5bf04e, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -550,7 +550,7 @@ MonoBehaviour:
   roomMaxSize: 8
   floorTilemap: {fileID: 192695551}
   wallTilemap: {fileID: 1159190107}
-  floorTile: {fileID: 11400000, guid: 4eb13539e8c52a042bd0840a5b2d3ba4, type: 2}
+  floorTile: {fileID: 11400000, guid: 1904f1b9b5f100249b2afcb2d6f2c822, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
   miniMapRenderer: {fileID: 1043071162}
 --- !u!4 &682816671
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardInventoryUIManager
   consumableUI: {fileID: 2013213580}
   passiveUI: {fileID: 504203037}
-  inventory: {fileID: 0}
+  inventory: {fileID: 1461356998}
 --- !u!4 &1461357000
 Transform:
   m_ObjectHideFlags: 0
@@ -1686,7 +1686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_PlayerSpawner
   playerPrefab: {fileID: 6326546393922405982, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
-  cameraFollow: {fileID: 0}
+  cameraFollow: {fileID: 1768412252}
 --- !u!4 &2139875796
 Transform:
   m_ObjectHideFlags: 0
