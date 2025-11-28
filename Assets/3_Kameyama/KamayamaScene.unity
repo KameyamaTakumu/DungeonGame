@@ -1147,9 +1147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7ea168930631e41b39a5e6a4e1ca67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  playerHP: 100
-  enemyHP: 100
-  attack: 20
   isPlayerTurn: 0
 --- !u!4 &1316982973
 Transform:
