@@ -212,12 +212,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 0
+  m_StartAxis: 1
+  m_CellSize: {x: 300, y: 400}
+  m_Spacing: {x: 100, y: 0}
+  m_Constraint: 2
   m_ConstraintCount: 2
 --- !u!1 &325449561
 GameObject:
@@ -589,6 +589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardInventoryUIManager
   consumableUI: {fileID: 7299545}
   passiveUI: {fileID: 1480618660}
+  inventory: {fileID: 989914528}
 --- !u!4 &989914526
 Transform:
   m_ObjectHideFlags: 0
@@ -632,8 +633,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea68330cc1cd898449345cb6cc70d9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardInventory
-  consumableCards: []
-  passiveCards: []
+  consumableLimit: 4
+  passiveLimit: 3
+  consumableCards:
+  - {fileID: 11400000, guid: 106674f14d7e0cc4cbd60aa16baa884b, type: 2}
+  - {fileID: 11400000, guid: 408075b10d8654d42a02a0cd935e82d8, type: 2}
+  - {fileID: 11400000, guid: 106674f14d7e0cc4cbd60aa16baa884b, type: 2}
+  - {fileID: 11400000, guid: 408075b10d8654d42a02a0cd935e82d8, type: 2}
+  passiveCards:
+  - {fileID: 11400000, guid: 27e7818f7d2d52f4db5247fd27d0da63, type: 2}
+  - {fileID: 11400000, guid: e16f097f733ce3f4e8d31f5c4d506c20, type: 2}
+  - {fileID: 11400000, guid: 27e7818f7d2d52f4db5247fd27d0da63, type: 2}
 --- !u!114 &989914529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,7 +937,7 @@ MonoBehaviour:
   roomMaxSize: 8
   floorTilemap: {fileID: 1801278471}
   wallTilemap: {fileID: 1023932434}
-  floorTile: {fileID: 11400000, guid: 4eb13539e8c52a042bd0840a5b2d3ba4, type: 2}
+  floorTile: {fileID: 11400000, guid: 1904f1b9b5f100249b2afcb2d6f2c822, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
   miniMapRenderer: {fileID: 563147556}
 --- !u!4 &1059402464
@@ -958,26 +968,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallAutoTilePainter
   wallTiles:
-  - {fileID: 11400000, guid: 0dadface59438df4f97c5571c3efa9a6, type: 2}
-  - {fileID: 11400000, guid: 8505086ab1c81774dab44a22b0c20b01, type: 2}
-  - {fileID: 11400000, guid: d96f6f68ffdacae49adf538a5ade2729, type: 2}
-  - {fileID: 11400000, guid: 08062ec1f3d9dcf4d9c2a176238eee81, type: 2}
-  - {fileID: 11400000, guid: 8ebe9671e23b0f54d9d51a2d3dac0470, type: 2}
-  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
-  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
-  - {fileID: 11400000, guid: 5a9b90adce5bec94abd41a0d9f3ca6db, type: 2}
-  - {fileID: 11400000, guid: 090dc0a342c125b4bb7943fc66c86f30, type: 2}
-  - {fileID: 11400000, guid: e83da1c24b630894a81448762240abab, type: 2}
-  - {fileID: 11400000, guid: e0dc192aa529b6640a60002c79508833, type: 2}
-  - {fileID: 11400000, guid: 2026348c79a61d24080e95f748be062e, type: 2}
-  - {fileID: 11400000, guid: 2f0bacdeee2fca44a9c812ecdc7b46e2, type: 2}
-  - {fileID: 11400000, guid: 96ad8989e8cccfd4987ff2399b009fe4, type: 2}
-  - {fileID: 11400000, guid: 3d05af2c74df7bb4c8747c0aa7706fd7, type: 2}
-  - {fileID: 11400000, guid: 08062ec1f3d9dcf4d9c2a176238eee81, type: 2}
-  - {fileID: 11400000, guid: 8ebe9671e23b0f54d9d51a2d3dac0470, type: 2}
-  - {fileID: 11400000, guid: 8505086ab1c81774dab44a22b0c20b01, type: 2}
-  - {fileID: 11400000, guid: d96f6f68ffdacae49adf538a5ade2729, type: 2}
-  - {fileID: 11400000, guid: 0dadface59438df4f97c5571c3efa9a6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
+  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
+  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
+  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
+  - {fileID: 11400000, guid: 793e309a362779346bc9557261821090, type: 2}
+  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
+  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
+  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
+  - {fileID: 11400000, guid: 20d47aebf997ad24daf729a04910eb5f, type: 2}
+  - {fileID: 11400000, guid: 23dabfc4c1bd78d478672508f68b208d, type: 2}
+  - {fileID: 11400000, guid: c41525376bfd2fd41af70e62633dfd5a, type: 2}
+  - {fileID: 11400000, guid: ba61907c1c327aa438ce7b542e5bf04e, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -1108,6 +1118,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1316982971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316982973}
+  - component: {fileID: 1316982972}
+  m_Layer: 0
+  m_Name: BattleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1316982972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316982971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7ea168930631e41b39a5e6a4e1ca67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleManager
+  playerHP: 100
+  enemyHP: 100
+  attack: 20
+  isPlayerTurn: 0
+--- !u!4 &1316982973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316982971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1480618660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,11 +1259,11 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 0, y: 0}
+  m_CellSize: {x: 300, y: 400}
+  m_Spacing: {x: 100, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &1682916848
@@ -1646,6 +1704,7 @@ SceneRoots:
   - {fileID: 1059402464}
   - {fileID: 563147557}
   - {fileID: 671442824}
+  - {fileID: 1316982973}
   - {fileID: 989914526}
   - {fileID: 609879682}
   - {fileID: 1279441316}
