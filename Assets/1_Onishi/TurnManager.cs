@@ -10,15 +10,6 @@ using System.Collections;
 /// </summary>
 public class TrunManager : MonoBehaviour
 {
-    [CustomLabel("プレイヤーHP")]
-    public int playerHP = 100;
-
-    [CustomLabel("敵HP")]
-    public int enemyHP = 100;
-
-    [CustomLabel("プレイヤーの攻撃力")]
-    public int attack = 20;
-
     // 現在がプレイヤーのターンかどうか
     [HideInInspector]
     public bool isPlayerTurn;
@@ -58,8 +49,6 @@ public class TrunManager : MonoBehaviour
         Debug.Log("プレイヤーのターン ");
 
         // ダメージ処理
-        enemyHP -= attack;
-        Debug.Log("敵に" + attack + "のダメージを与えた。敵の残りHPは" + enemyHP);
 
         // プレイヤーのターン終了
         Debug.Log("プレイヤーターン終了 > 敵ターンへ");
@@ -82,6 +71,17 @@ public class TrunManager : MonoBehaviour
 
         Debug.Log("敵のターン");
 
+        // ---- 攻撃できるならする ----
+        if (EnemyAttack.instance.TryAttackPlayer())
+        {
+            Debug.Log("敵は攻撃してターン終了");
+            isPlayerTurn = true;
+            yield break;   // 移動せずターン終了
+        }
+
+        // 攻撃できなければ移動
+        Debug.Log("攻撃できなかったため、移動へ");
+
         // ---- 移動方向の決定 ----
         //（上下・左右のいずれかのみを許可）
         int x = 0, y = 0;
@@ -90,7 +90,8 @@ public class TrunManager : MonoBehaviour
         // 上下（x=0, y=±1）または左右（x=±1, y=0）
         do
         {
-            x = Random.Range(-1, 2); // -1,0,1
+            // -1,0,1
+            x = Random.Range(-1, 2); 
             y = Random.Range(-1, 2);
         }
         while (!((x == 0 && y != 0) || (x != 0 && y == 0)));

@@ -34,4 +34,16 @@ public class EnemyMovement : BaseMovement
     {
         onMoveFinished?.Invoke();
     }
+
+    /// <summary>
+    /// 指定座標にプレイヤーがいるか判定
+    /// </summary>
+    public bool PlayerInCell(Vector2Int cell)
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Vector2 pos = player.transform.position;
+
+        return Mathf.RoundToInt(pos.x) == cell.x &&
+               Mathf.RoundToInt(pos.y) == cell.y;
+    }
 }
