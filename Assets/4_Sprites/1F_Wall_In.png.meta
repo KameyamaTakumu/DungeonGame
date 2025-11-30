@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4d2caf41d90b8cf499d2e777874fa593
+guid: 1501e039d3a2e7d47bae1d10ebbda2dd
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -103,10 +103,10 @@ TextureImporter:
       name: 1F_Wall_In_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 7
-        width: 372
-        height: 371
+        x: 0
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
