@@ -68,10 +68,17 @@ public class EnemyAttack : MonoBehaviour
 
     public void AttackForward(Vector2Int dir)
     {
-        Vector2Int origin = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        Vector2Int origin = EnemyMovement.instance.gridPos;
+
+        //Vector2Int origin = new Vector2Int(
+        //    Mathf.RoundToInt(transform.position.x),
+        //    Mathf.RoundToInt(transform.position.y)
+        //);
+
+        //デバッグ用
+        Vector2Int checkPos = origin + dir * attackRange;
+        Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
+
 
         GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
 
@@ -79,7 +86,12 @@ public class EnemyAttack : MonoBehaviour
         {
             Debug.Log($"敵は {attackRange} マス先の {target.name} を攻撃した！");
             // ダメージ処理
-            BaseDamage.instance.Damage(attackPower, hp);
+            hp -= attackPower;
+
+            if (hp < 0)
+            {
+                hp = 0;
+            }
 
             Debug.Log($"{target.name} に {attackPower} のダメージを与えた！");
             if(hp == 0)
