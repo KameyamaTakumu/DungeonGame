@@ -490,19 +490,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
-  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
-  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
-  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
-  - {fileID: 11400000, guid: 793e309a362779346bc9557261821090, type: 2}
-  - {fileID: 11400000, guid: fa679e8980ff9b342814fad4c5015199, type: 2}
-  - {fileID: 11400000, guid: 39927b5300ab6094cb8d6ea519420018, type: 2}
-  - {fileID: 11400000, guid: 5c2c98b2ffb5d6748838faae4742fcc7, type: 2}
-  - {fileID: 11400000, guid: 20d47aebf997ad24daf729a04910eb5f, type: 2}
-  - {fileID: 11400000, guid: 23dabfc4c1bd78d478672508f68b208d, type: 2}
-  - {fileID: 11400000, guid: c41525376bfd2fd41af70e62633dfd5a, type: 2}
-  - {fileID: 11400000, guid: ba61907c1c327aa438ce7b542e5bf04e, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: d813cc23ae98fbb478b77f60395b1aa1, type: 2}
+  - {fileID: 11400000, guid: d85e2c8f0e57c7f40957b6bc91513106, type: 2}
+  - {fileID: 11400000, guid: 74d4c06c4ca989744a0b318204ebbccc, type: 2}
+  - {fileID: 11400000, guid: 2c0e3c68e0f17224bb5359e83e454b17, type: 2}
+  - {fileID: 11400000, guid: 8ad06e4bf49e6c94b8f7c382ad221697, type: 2}
+  - {fileID: 11400000, guid: 44d6c15da4b8dfa4cade42491d25b333, type: 2}
+  - {fileID: 11400000, guid: 0a82baa86aa103e4cbb3fc1c191c3f4f, type: 2}
+  - {fileID: 11400000, guid: 2b56f1b720fe1f745a1dc4f5f215ab3a, type: 2}
+  - {fileID: 11400000, guid: cfe6427d22e5f324aa16f63688fd2457, type: 2}
+  - {fileID: 11400000, guid: 00acf44bd6e8eb247a6014ad8278c29b, type: 2}
+  - {fileID: 11400000, guid: b259d944924e53c4aa89e514647b2964, type: 2}
+  - {fileID: 11400000, guid: b1b2240d14dc5e644a0c9244e55a1dc4, type: 2}
+  - {fileID: 11400000, guid: 797b8da7bb8b5014b8ae08b3cd120509, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -550,7 +550,7 @@ MonoBehaviour:
   roomMaxSize: 8
   floorTilemap: {fileID: 192695551}
   wallTilemap: {fileID: 1159190107}
-  floorTile: {fileID: 11400000, guid: 1904f1b9b5f100249b2afcb2d6f2c822, type: 2}
+  floorTile: {fileID: 11400000, guid: 839b279df29ec6c42ae5d3159e632dcb, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
   miniMapRenderer: {fileID: 1043071162}
 --- !u!4 &682816671
@@ -643,6 +643,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748439340}
   m_CullTransparentMesh: 1
+--- !u!1 &761423553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761423555}
+  - component: {fileID: 761423554}
+  m_Layer: 0
+  m_Name: UnitManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &761423554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761423553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95456b4aee157c1469b777adf4f3249f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitManager
+  players: []
+  enemies: []
+--- !u!4 &761423555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761423553}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &888672101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,7 +1718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77a859d63dd20046b822bf99c610873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  enemyPrefabs: []
 --- !u!114 &2139875795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1716,3 +1762,4 @@ SceneRoots:
   - {fileID: 2139875796}
   - {fileID: 467678298}
   - {fileID: 1043071163}
+  - {fileID: 761423555}
