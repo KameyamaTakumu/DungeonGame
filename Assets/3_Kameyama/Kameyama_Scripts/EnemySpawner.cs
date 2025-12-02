@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 /// <summary>
@@ -7,33 +8,45 @@ using System.Collections.Generic;
 /// </summary>
 public class EnemySpawner : MonoBehaviour
 {
-    [CustomLabel("敵キャラクターのPrefab")]
-    [SerializeField] 
-    private GameObject enemyPrefab;
+    [Header("敵の種類リスト（任意の数だけ登録可能）")]
+    [SerializeField]
+    private List<GameObject> enemyPrefabs = new List<GameObject>();
 
     /// <summary>
-    /// 生成された敵のインスタンスを保持するリスト
-    /// IReadOnlyList を通じて外部から参照可能
+    /// 生成された敵のインスタンスを保持
     /// </summary>
     private List<GameObject> enemies = new List<GameObject>();
 
     /// <summary>
-    /// 指定位置に敵を生成し、内部リストに追加
+    /// 単体生成。敵の種類を index で指定。
     /// </summary>
-    /// <param name="pos">生成位置（グリッド座標）</param>
-    /// <returns>生成された敵の GameObject インスタンス</returns>
-    public GameObject SpawnEnemy(Vector2Int pos)
+    public GameObject SpawnEnemy(Vector2Int pos, int typeIndex)
     {
-        // プレハブから敵を生成
-        GameObject enemy = Instantiate(enemyPrefab);
+        if (typeIndex < 0 || typeIndex >= enemyPrefabs.Count)
+        {
+            Debug.LogError($"EnemySpawner: 不正な敵タイプ index={typeIndex}");
+            return null;
+        }
 
-        // 指定位置に配置（Z座標は 0 とする
+        GameObject prefab = enemyPrefabs[typeIndex];
+        GameObject enemy = Instantiate(prefab);
+
         enemy.transform.position = new Vector3(pos.x, pos.y, 0);
 
-        // 生成リストに追加して管理
         enemies.Add(enemy);
-
         return enemy;
+    }
+
+    /// <summary>
+    /// 敵をまとめて生成
+    /// </summary>
+    public void SpawnEnemies(Func<Vector2Int> getRandomPos, int typeIndex, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Vector2Int pos = getRandomPos();   // ← ここで毎回ランダム
+            SpawnEnemy(pos, typeIndex);
+        }
     }
 
     /// <summary>
