@@ -10,6 +10,8 @@ public class PlayerMovement : BaseMovement
     // シングルトンインスタンス
     public static PlayerMovement instance;
 
+    ScrollView scrollView;
+
     [HideInInspector]
     public bool isAttacking = false;
     protected override void Awake()
@@ -22,6 +24,8 @@ public class PlayerMovement : BaseMovement
     void Start()
     {
         UnitManager.instance.RegisterPlayer(this.gameObject);
+
+        scrollView = FindFirstObjectByType<ScrollView>();
     }
 
     private void Update()
@@ -78,6 +82,8 @@ public class PlayerMovement : BaseMovement
                 tm.StartCoroutine(tm.EnemyTurn());
             }
         }
+
+        Debug.Log("ScrollView Active: " + (scrollView != null && scrollView.gameObject.activeSelf));
     }
 
     /// <summary>

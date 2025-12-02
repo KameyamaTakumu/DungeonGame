@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +10,12 @@ public class ScrollView : MonoBehaviour
     public GameObject DebugWindow;
     public int logcnt = 0;
 
-    private Text _logText;
+    private TextMeshProUGUI _logText;
 
     void Awake()
     {
         Application.logMessageReceived += LoggedCb;  // ログ出力時のコールバックを登録
-        _logText = DebugText.GetComponent<Text>();
+        _logText = DebugText.GetComponent<TextMeshProUGUI>();
     }
 
     // Start と Updateは省略
