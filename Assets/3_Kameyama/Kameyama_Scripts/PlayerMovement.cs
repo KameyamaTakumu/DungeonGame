@@ -82,8 +82,6 @@ public class PlayerMovement : BaseMovement
                 tm.StartCoroutine(tm.EnemyTurn());
             }
         }
-
-        Debug.Log("ScrollView Active: " + (scrollView != null && scrollView.gameObject.activeSelf));
     }
 
     /// <summary>
