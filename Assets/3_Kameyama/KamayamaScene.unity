@@ -954,7 +954,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_PlayerSpawner
   playerPrefab: {fileID: 6326546393922405982, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
-  cameraFollow: {fileID: 1682916853}
 --- !u!4 &671442824
 Transform:
   m_ObjectHideFlags: 0
@@ -979,12 +978,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 671442822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77a859d63dd20046b822bf99c610873, type: 3}
+  m_Script: {fileID: 11500000, guid: 961327e4a49009441830764cf49af42d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefabs:
-  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
-  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerController
+  enemyPrefabs: []
+  spawnSettings: []
 --- !u!1 &689036948
 GameObject:
   m_ObjectHideFlags: 0

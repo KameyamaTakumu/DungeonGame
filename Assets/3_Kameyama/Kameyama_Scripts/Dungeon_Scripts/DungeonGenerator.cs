@@ -138,18 +138,6 @@ public class DungeonGenerator : MonoBehaviour
         // (5) プレイヤー / 敵の自動スポーン（デバッグ用途）
         FindAnyObjectByType<PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
 
-        // 敵スポーン
-        var es = FindAnyObjectByType<EnemySpawner>();
-
-        if (es != null)
-        {
-            // 敵タイプ 0 の敵をランダム位置に 3 体生成
-            es.SpawnEnemies(getRandomPos: () => GetRandomFloorPosition(), 0,  3);
-
-            // 敵タイプ 1 の敵を別の位置に 1 体生成
-            es.SpawnEnemy(GetRandomFloorPosition(), 1);
-        }
-
         // (6) ミニマップの敵アイコン更新
         miniMapRenderer.ForceRefreshEnemies();
 

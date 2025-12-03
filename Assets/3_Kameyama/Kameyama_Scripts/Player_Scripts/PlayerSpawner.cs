@@ -10,8 +10,7 @@ public class PlayerSpawner : MonoBehaviour
     [CustomLabel("プレイヤーのPrefab")]
     [SerializeField]
     private GameObject playerPrefab;
-    [CustomLabel("任意でカメラの追従スクリプト")]
-    [SerializeField]
+
     private CameraFollow cameraFollow;
 
     // 実際に生成されたプレイヤーのインスタンスを保持
@@ -31,9 +30,13 @@ public class PlayerSpawner : MonoBehaviour
         // 生成または既存プレイヤーを指定位置へ配置
         playerInstance.transform.position = new Vector3(pos.x, pos.y, 0);
 
-        // カメラがセットされていれば追従対象を設定
-        if (cameraFollow != null)
+        // カメラ追従スクリプトがシーン内にある場合は追従対象を設定
+        if (cameraFollow == null)            
+        { 
+            cameraFollow = FindAnyObjectByType<CameraFollow>();
             cameraFollow.SetTarget(playerInstance.transform);
+        }
+            
     }
 
     /// <summary>
