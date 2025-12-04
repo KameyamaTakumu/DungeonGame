@@ -18,12 +18,12 @@ using System.Collections;
 // 名前を追加すると自動的にSoundManagerのInspector上に表示されるようになります。
 public enum BGM
 {
-    Test_BGM
+    Test_BGM,
 }
 
 public enum SE
 {
-    Test,SE
+    Test_SE
 }
 public class SoundManager : MonoBehaviour
 {

@@ -35,6 +35,7 @@ using UnityEngine;
 /// SoundManager クラス専用のカスタムエディタ。
 /// Enum に応じた AudioClip リストを動的に整列・描画する。
 /// </summary>
+[CustomEditor(typeof(SoundManager))] 
 public class SoundManagerEditor : Editor
 {
     /// <summary>SoundManager.bgmList フィールド</summary>
