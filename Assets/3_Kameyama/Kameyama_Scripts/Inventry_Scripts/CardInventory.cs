@@ -9,61 +9,6 @@ using System.Collections.Generic;
 /// </summary>
 public class CardInventory : MonoBehaviour
 {
-    //// 使い切りカード
-    //public List<CardData> consumableCards = new List<CardData>();
-
-    //// バフカード
-    //public List<CardData> passiveCards = new List<CardData>();
-
-    //// UIへ更新を通知
-    //public Action OnInventoryChanged;
-
-    ///// <summary>
-    ///// カード追加
-    ///// </summary>
-    //public void AddCard(CardData card)
-    //{
-    //    if (card.cardType == CardType.Consumable && consumableCards.Count < 2)
-    //    {
-    //        consumableCards.Add(card);
-    //        Debug.Log($"使い切りカードを追加: {card.cardName}");
-    //    }
-    //    else if(card.cardType == CardType.Passive && passiveCards.Count < 2)
-    //    {
-    //        passiveCards.Add(card);
-    //        Debug.Log($"常時発動カードを追加: {card.cardName}");
-    //        ApplyPassiveEffect(card); // バフ効果の発動
-    //    }
-
-    //    OnInventoryChanged?.Invoke(); // ← UI更新！！
-    //}
-
-    ///// <summary>
-    ///// 常時発動カードの効果を適用
-    ///// </summary>
-    //void ApplyPassiveEffect(CardData passiveCard)
-    //{
-    //    // ★ ここで PlayerStatus などにバフを適用する
-    //    // （例：攻撃力+10、防御アップなど）
-    //}
-
-    ///// <summary>
-    ///// 使い切りカードの使用
-    ///// </summary>
-    //public void UseConsumableCard(int index)
-    //{
-    //    if (index < 0 || index >= consumableCards.Count) return;
-
-    //    var card = consumableCards[index];
-
-    //    // 技発動（プレイヤーに通知）
-    //    FindFirstObjectByType<PlayerSkillExecutor>()?.ExecuteCardSkill(card);
-
-    //    // 削除
-    //    consumableCards.RemoveAt(index);
-
-    //    OnInventoryChanged?.Invoke(); // UI更新
-    //}
     public int consumableLimit = 2;
     public int passiveLimit = 2;
 
@@ -85,36 +30,31 @@ public class CardInventory : MonoBehaviour
     /// </summary>
     public void AddCard(CardData card)
     {
-        if (card == null) return;
+        List<CardData> list = GetList(card.cardType);
+        int limit = GetLimit(card.cardType);
 
-        if (card.cardType == CardType.Consumable)
+        if (list.Count < limit)
         {
-            if (consumableCards.Count < consumableLimit)
-            {
-                consumableCards.Add(card);
-                Debug.Log($"使い切りカードを追加: {card.cardName}");
-                OnInventoryChanged?.Invoke();
-            }
-            else
-            {
-                // 上限到達 → 入れ替えモード
-                StartSwapMode(card, CardType.Consumable);
-            }
-        }
-        else // Passive
-        {
-            if (passiveCards.Count < passiveLimit)
-            {
-                passiveCards.Add(card);
-                Debug.Log($"常時発動カードを追加: {card.cardName}");
+            list.Add(card);
+            if (card.cardType == CardType.Passive)
                 ApplyPassiveEffect(card);
-                OnInventoryChanged?.Invoke();
-            }
-            else
-            {
-                StartSwapMode(card, CardType.Passive);
-            }
+
+            OnInventoryChanged?.Invoke();
         }
+        else
+        {
+            StartSwapMode(card, card.cardType);
+        }
+    }
+
+    List<CardData> GetList(CardType type)
+    {
+        return type == CardType.Consumable ? consumableCards : passiveCards;
+    }
+
+    int GetLimit(CardType type)
+    {
+        return type == CardType.Consumable ? consumableLimit : passiveLimit;
     }
 
     void StartSwapMode(CardData card, CardType type)
@@ -126,48 +66,28 @@ public class CardInventory : MonoBehaviour
         OnSwapRequested?.Invoke(card, type);
     }
 
-    /// <summary>
-    /// 入れ替え実行：使い切りスロット index を指定して、PendingCard と入替える
-    /// （※使い切りカードを選んで入替時は効果は発動しない）
-    /// </summary>
-    public void ReplaceConsumableAt(int index)
+    public void ReplaceCardAt(int index)
     {
-        if (!IsSwapMode) return;
-        if (PendingCard == null || PendingCardType != CardType.Consumable) return;
-        if (index < 0 || index >= consumableCards.Count) return;
+        if (!IsSwapMode || PendingCard == null)
+            return;
 
-        // 交換
-        var old = consumableCards[index];
-        consumableCards[index] = PendingCard;
+        var list = GetList(PendingCardType);
 
-        // （使い切りカードを選択しても効果は発動しない仕様）
-        Debug.Log($"使い切りカードを入替え: {old.cardName} -> {PendingCard.cardName}");
+        if (index < 0 || index >= list.Count)
+            return;
 
-        EndSwapMode();
-        OnInventoryChanged?.Invoke();
-    }
+        var old = list[index];
 
-    /// <summary>
-    /// 入れ替え実行：パッシブスロット index を指定して、PendingCard と入替える
-    /// （古いパッシブは効果解除し、新しいパッシブを適用する）
-    /// </summary>
-    public void ReplacePassiveAt(int index)
-    {
-        if (!IsSwapMode) return;
-        if (PendingCard == null || PendingCardType != CardType.Passive) return;
-        if (index < 0 || index >= passiveCards.Count) return;
+        // パッシブなら解除
+        if (PendingCardType == CardType.Passive)
+            RemovePassiveEffect(old);
 
-        var old = passiveCards[index];
+        // 差し替え
+        list[index] = PendingCard;
 
-        // 先に古い効果を解除（実装はゲームに合わせて）
-        RemovePassiveEffect(old);
-
-        passiveCards[index] = PendingCard;
-
-        // 新しい効果を適用
-        ApplyPassiveEffect(PendingCard);
-
-        Debug.Log($"パッシブカードを入替え: {old.cardName} -> {PendingCard.cardName}");
+        // パッシブなら新しい効果適用
+        if (PendingCardType == CardType.Passive)
+            ApplyPassiveEffect(PendingCard);
 
         EndSwapMode();
         OnInventoryChanged?.Invoke();

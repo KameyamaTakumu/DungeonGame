@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1246f0d5b90f204b830f91e521f0661, type: 3}
   m_Name: Test_Buff
   m_EditorClassIdentifier: Assembly-CSharp::CardData
+<<<<<<< Updated upstream
   cardName: 
   icon: {fileID: 21300000, guid: 0e4e93fa29f3e9f49af4cb5e854b26ae, type: 3}
   cardType: 0
+=======
+  cardName: Test_Buff
+  icon: {fileID: 21300000, guid: fb4d655620a74494da8b5946395cb588, type: 3}
+  cardType: 1
+>>>>>>> Stashed changes
   description: 
