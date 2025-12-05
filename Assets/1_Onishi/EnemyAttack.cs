@@ -32,7 +32,7 @@ public class EnemyAttack : MonoBehaviour
 
         Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
         Vector2Int playerGrid = Vector2Int.RoundToInt(playerPos);
-        Debug.Log($"[DEBUG] 敵の位置: {origin}, プレイヤーの位置: {playerGrid}, attackRange: {attackRange}");
+        //Debug.Log($"[DEBUG] 敵の位置: {origin}, プレイヤーの位置: {playerGrid}, attackRange: {attackRange}");
 
         // 4方向（上下左右）を順番にチェックする
         Vector2Int[] dirs = {
@@ -45,12 +45,12 @@ public class EnemyAttack : MonoBehaviour
         foreach (var dir in dirs)
         {
 
-            Debug.Log($"[DEBUG] 方向チェック: {dir}");
+            //Debug.Log($"[DEBUG] 方向チェック: {dir}");
 
             for (int i = 1; i <= attackRange; i++)
             {
                 Vector2Int check = origin + dir * i;
-                Debug.Log($"[DEBUG]   チェック座標: {check}");
+                //Debug.Log($"[DEBUG]   チェック座標: {check}");
 
                 // マスにプレイヤーがいるか判定
                 if (EnemyMovement.instance.PlayerInCell(check))
@@ -77,7 +77,7 @@ public class EnemyAttack : MonoBehaviour
 
         //デバッグ用
         Vector2Int checkPos = origin + dir * attackRange;
-        Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
+        //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
 
 
         GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);

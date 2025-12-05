@@ -52,7 +52,7 @@ public class TrunManager : MonoBehaviour
         // ダメージ処理
 
         // プレイヤーのターン終了
-        Debug.Log("プレイヤーターン終了 > 敵ターンへ");
+        //Debug.Log("プレイヤーターン終了 > 敵ターンへ");
         isPlayerTurn = false;
 
         StartCoroutine(EnemyTurn());
@@ -62,6 +62,10 @@ public class TrunManager : MonoBehaviour
     /// 敵の行動処理を行うコルーチン。
     /// 敵の移動完了まで待機し、移動後にプレイヤーターンへ戻る。
     /// </summary>
+
+    [SerializeField] private EnemySpawnerController enemySpawnerController;
+
+
     public IEnumerator EnemyTurn()
     {
         // ターンフラグを敵側に設定
@@ -74,15 +78,20 @@ public class TrunManager : MonoBehaviour
 
         // ---- 攻撃できるならする ----
 
+        var enemies = enemySpawnerController.GetSpawnedEnemies();
+        int enemyCount = enemies.Count;
+
+        for (int i = 0; i < enemyCount; i++)
+        {
         if (EnemyAttack.instance.TryAttackPlayer())
         {
-            Debug.Log("敵は攻撃してターン終了");
+            //Debug.Log("敵は攻撃してターン終了");
             isPlayerTurn = true;
             yield break;   // 移動せずターン終了
         }
 
         // 攻撃できなければ移動
-        Debug.Log("攻撃できなかったため、移動へ");
+        //Debug.Log("攻撃できなかったため、移動へ");
 
         // ---- 移動方向の決定 ----
         //（上下・左右のいずれかのみを許可）
@@ -108,21 +117,24 @@ public class TrunManager : MonoBehaviour
         // ---- 移動完了を待つ ----
         bool moved = false;
 
-        // 移動完了時に呼ばれるコールバック
-        EnemyMovement.instance.onMoveFinished = () =>
+            // 移動完了時に呼ばれるコールバック
+            EnemyMovement.instance.onMoveFinished = () =>
         {
             moved = true;
         };
 
-        // 実際の移動実行
+            // 実際の移動実行
         EnemyMovement.instance.TryMove(x,y); // 左に1マス移動
 
         // 移動完了になるまで待機
         while (!moved)
             yield return null;
 
+        }
+
+
         // ---- 敵ターン終了 ----
         isPlayerTurn = true;
-        Debug.Log("敵ターン終了 > 次のプレイヤー行動待ち");
+        //Debug.Log("敵ターン終了 > 次のプレイヤー行動待ち");
     }
 }
