@@ -981,8 +981,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961327e4a49009441830764cf49af42d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerController
-  enemyPrefabs: []
-  spawnSettings: []
+  enemyPrefabs:
+  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  spawnSettings:
+  - enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+    count: 5
 --- !u!1 &689036948
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,6 +2387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   isPlayerTurn: 0
+  turnDelay: 0.1
 --- !u!4 &1316982973
 Transform:
   m_ObjectHideFlags: 0

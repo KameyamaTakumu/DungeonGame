@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4802596815607216101}
   - component: {fileID: -71499250459087371}
   - component: {fileID: 1542714770711410195}
+  - component: {fileID: 2187083208882418907}
   m_Layer: 0
   m_Name: Test_Enemy
   m_TagString: Enemy
@@ -181,4 +182,20 @@ MonoBehaviour:
   cellSize: 1
   moveTime: 0.1
   isMoving: 0
+  gridPos: {x: 0, y: 0}
   isAttacking: 0
+--- !u!114 &2187083208882418907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657344967390109580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 090d7dec2e6a2224a9cfe3e99be82d6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  attackRange: 1
+  attackPower: 10
+  hp: 10

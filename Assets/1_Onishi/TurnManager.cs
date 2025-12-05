@@ -12,6 +12,9 @@ public class TrunManager : MonoBehaviour
     [HideInInspector]
     public bool isPlayerTurn;
 
+    // ƒ^[ƒ“’x‰„‚Ì•b”
+    public float turnDelay = 1f;
+
     public void Start()
     {
         isPlayerTurn = true;
@@ -65,7 +68,7 @@ public class TrunManager : MonoBehaviour
         isPlayerTurn = false;
 
         // ‰‰o‚Æ‚µ‚Ä­‚µ‘Ò‹@
-        yield return new WaitForSeconds(1f); // n•b‘Ò‚Â
+        yield return new WaitForSeconds(turnDelay); // n•b‘Ò‚Â
 
         Debug.Log("“G‚Ìƒ^[ƒ“");
 
