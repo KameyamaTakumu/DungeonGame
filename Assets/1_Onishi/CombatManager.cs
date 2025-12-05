@@ -40,5 +40,13 @@ public static class CombatManager
                Mathf.RoundToInt(p.y) == pos.y;
     }
 
+    public static bool IsPlayerAt(Vector2Int pos)
+    {
+        var p = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Vector2Int pg = Vector2Int.RoundToInt(p);
+        return pg == pos;
+    }
+
+
 }
 

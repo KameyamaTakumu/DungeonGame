@@ -276,6 +276,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   isPlayerTurn: 0
+  turnDelay: 1
+  enemySpawnerController: {fileID: 0}
 --- !u!4 &436545516
 Transform:
   m_ObjectHideFlags: 0
@@ -490,19 +492,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: d813cc23ae98fbb478b77f60395b1aa1, type: 2}
-  - {fileID: 11400000, guid: d85e2c8f0e57c7f40957b6bc91513106, type: 2}
-  - {fileID: 11400000, guid: 74d4c06c4ca989744a0b318204ebbccc, type: 2}
-  - {fileID: 11400000, guid: 2c0e3c68e0f17224bb5359e83e454b17, type: 2}
-  - {fileID: 11400000, guid: 8ad06e4bf49e6c94b8f7c382ad221697, type: 2}
-  - {fileID: 11400000, guid: 44d6c15da4b8dfa4cade42491d25b333, type: 2}
-  - {fileID: 11400000, guid: 0a82baa86aa103e4cbb3fc1c191c3f4f, type: 2}
-  - {fileID: 11400000, guid: 2b56f1b720fe1f745a1dc4f5f215ab3a, type: 2}
-  - {fileID: 11400000, guid: cfe6427d22e5f324aa16f63688fd2457, type: 2}
-  - {fileID: 11400000, guid: 00acf44bd6e8eb247a6014ad8278c29b, type: 2}
-  - {fileID: 11400000, guid: b259d944924e53c4aa89e514647b2964, type: 2}
-  - {fileID: 11400000, guid: b1b2240d14dc5e644a0c9244e55a1dc4, type: 2}
-  - {fileID: 11400000, guid: 797b8da7bb8b5014b8ae08b3cd120509, type: 2}
+  - {fileID: 11400000, guid: de14ee83790e2b54e85cf9daf241a187, type: 2}
+  - {fileID: 11400000, guid: d74c8575e68e36a46b114ecd9fe018c8, type: 2}
+  - {fileID: 11400000, guid: a74bbd7ba9093ba40bacae30294213d8, type: 2}
+  - {fileID: 11400000, guid: 099a9d183f5a5954fabe99817a78d56e, type: 2}
+  - {fileID: 11400000, guid: 2544600639760b0489f4053a6cd6fadf, type: 2}
+  - {fileID: 11400000, guid: 6d6d0b70ef3cb8d488bdc8ef84a6b5d7, type: 2}
+  - {fileID: 11400000, guid: fee5b7b860bf9c2409778cb88547b3e1, type: 2}
+  - {fileID: 11400000, guid: 3093db31a94d6a243bc739f09db4e826, type: 2}
+  - {fileID: 11400000, guid: b70d3def88de3a544a04ce0d6b4ffe1a, type: 2}
+  - {fileID: 11400000, guid: 34c6bb7299ffa384b891ea146831d32f, type: 2}
+  - {fileID: 11400000, guid: 198e3f41c9de2f2449adc1b797ed53b3, type: 2}
+  - {fileID: 11400000, guid: 07b689fdd9cbace489134f78e37cb0e2, type: 2}
+  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -550,7 +552,7 @@ MonoBehaviour:
   roomMaxSize: 8
   floorTilemap: {fileID: 192695551}
   wallTilemap: {fileID: 1159190107}
-  floorTile: {fileID: 11400000, guid: 839b279df29ec6c42ae5d3159e632dcb, type: 2}
+  floorTile: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
   miniMapRenderer: {fileID: 1043071162}
 --- !u!4 &682816671
@@ -1698,7 +1700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2139875796}
   - component: {fileID: 2139875795}
-  - component: {fileID: 2139875794}
+  - component: {fileID: 2139875797}
   m_Layer: 0
   m_Name: SpawnerManager
   m_TagString: Untagged
@@ -1706,21 +1708,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2139875794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139875793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77a859d63dd20046b822bf99c610873, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefabs:
-  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
-  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
 --- !u!114 &2139875795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,7 +1721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_PlayerSpawner
   playerPrefab: {fileID: 6326546393922405982, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
-  cameraFollow: {fileID: 1768412252}
 --- !u!4 &2139875796
 Transform:
   m_ObjectHideFlags: 0
@@ -1750,6 +1736,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2139875797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139875793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961327e4a49009441830764cf49af42d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerController
+  enemyPrefabs:
+  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  spawnSettings:
+  - enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+    count: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

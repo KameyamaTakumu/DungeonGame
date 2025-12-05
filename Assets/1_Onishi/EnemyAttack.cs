@@ -9,11 +9,9 @@ public class EnemyAttack : MonoBehaviour
 
     private Vector2Int attackDir;
 
-    public static EnemyAttack instance;
-
     void Awake()
     {
-        instance = this;
+        
     }
 
     /// <summary>
@@ -21,13 +19,7 @@ public class EnemyAttack : MonoBehaviour
     /// </summary>
     public bool TryAttackPlayer()
     {
-        // 敵のグリッド位置
-        //Vector2Int origin = new Vector2Int(
-        //    Mathf.RoundToInt(transform.position.x),
-        //    Mathf.RoundToInt(transform.position.y)
-        //);
-
-        Vector2Int origin = EnemyMovement.instance.gridPos;
+        Vector2Int origin = Vector2Int.RoundToInt(transform.position);
 
 
         Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
@@ -53,7 +45,7 @@ public class EnemyAttack : MonoBehaviour
                 //Debug.Log($"[DEBUG]   チェック座標: {check}");
 
                 // マスにプレイヤーがいるか判定
-                if (EnemyMovement.instance.PlayerInCell(check))
+                if (CombatManager.IsPlayerAt(check))
                 {
                     attackDir = dir;
                     Debug.Log($"敵が {i} マス先のプレイヤーを攻撃！");
@@ -68,41 +60,40 @@ public class EnemyAttack : MonoBehaviour
 
     public void AttackForward(Vector2Int dir)
     {
-        Vector2Int origin = EnemyMovement.instance.gridPos;
+        Debug.Log($"{name} が攻撃！");
 
         //Vector2Int origin = new Vector2Int(
         //    Mathf.RoundToInt(transform.position.x),
         //    Mathf.RoundToInt(transform.position.y)
         //);
 
-        //デバッグ用
-        Vector2Int checkPos = origin + dir * attackRange;
-        //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
+    //    //デバッグ用
+    //    Vector2Int checkPos = origin + dir * attackRange;
+    //    //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
 
 
-        GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
+    //    GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
 
-        if (target != null)
-        {
-            Debug.Log($"敵は {attackRange} マス先の {target.name} を攻撃した！");
-            // ダメージ処理
-            hp -= attackPower;
+    //    if (target != null)
+    //    {
+    //        Debug.Log($"敵は {attackRange} マス先の {target.name} を攻撃した！");
+    //        // ダメージ処理
+    //        hp -= attackPower;
 
-            if (hp < 0)
-            {
-                hp = 0;
-            }
+    //        if (hp < 0)
+    //        {
+    //            hp = 0;
+    //        }
 
-            Debug.Log($"{target.name} に {attackPower} のダメージを与えた！");
-            if(hp == 0)
-            {
-                Debug.Log($"{target.name} は倒れた！");
-            }
-        }
-        else
-        {
-            Debug.Log("攻撃は外れた（対象なし）");
-        }
+    //        Debug.Log($"{target.name} に {attackPower} のダメージを与えた！");
+    //        if(hp == 0)
+    //        {
+    //            Debug.Log($"{target.name} は倒れた！");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("攻撃は外れた（対象なし）");
+    //    }
     }
-
 }
