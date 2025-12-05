@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// 敵の種類リスト・スポーン設定・生成処理を一括管理するコントローラ。
@@ -15,12 +15,12 @@ using System;
 /// </summary>
 public class EnemySpawnerController : MonoBehaviour
 {
-    [Header("敵プレハブのリスト（プルダウンの選択肢になる）")]
-    [SerializeField]
+    [Header("敵プレハブのリスト")]
+    [CustomLabel("出現させたい敵プレハブのリスト"),SerializeField]
     private List<GameObject> enemyPrefabs = new List<GameObject>();
 
     [Header("スポーン設定")]
-    [SerializeField]
+    [CustomLabel("スポーンの出現敵・数の設定"),SerializeField]
     private List<SpawnInfo> spawnSettings = new List<SpawnInfo>();
 
     /// <summary>
@@ -63,6 +63,8 @@ public class EnemySpawnerController : MonoBehaviour
     /// <summary>
     /// 単体の敵を生成してリストに追加
     /// </summary>
+    /// <param name="pos">生成位置（グリッド座標）</param>
+    /// <param name="prefab">生成する敵のプレハブ</param>
     public GameObject SpawnEnemy(Vector2Int pos, GameObject prefab)
     {
         if (prefab == null)
@@ -95,9 +97,9 @@ public class EnemySpawnerController : MonoBehaviour
 [Serializable]
 public class SpawnInfo
 {
-    [Tooltip("enemyPrefabs の index。0 なら最初の敵プレハブ")]
+    [Tooltip("出現させたい敵のプレハブ")]
     public GameObject enemyPrefab;
 
-    [Tooltip("生成する数")]
+    [Tooltip("出現させたい敵の数")]
     public int count;
 }

@@ -25,7 +25,9 @@ public class PlayerSpawner : MonoBehaviour
     {
         // プレイヤー未生成時は生成
         if (playerInstance == null)
+        {
             playerInstance = Instantiate(playerPrefab);
+        }
 
         // 生成または既存プレイヤーを指定位置へ配置
         playerInstance.transform.position = new Vector3(pos.x, pos.y, 0);

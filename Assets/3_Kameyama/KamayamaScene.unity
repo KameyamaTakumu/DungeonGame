@@ -593,11 +593,6 @@ MonoBehaviour:
   minimapImage: {fileID: 1951871602}
   minimapRect: {fileID: 1951871601}
   playerIcon: {fileID: 325449562}
-  enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
-  pixelScale: 4
-  floorColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
-  discoveredTint: {r: 0.35, g: 0.35, b: 0.35, a: 1}
-  viewRadius: 8
 --- !u!4 &563147557
 Transform:
   m_ObjectHideFlags: 0
@@ -1028,8 +1023,8 @@ MonoBehaviour:
   slotPrefab: {fileID: 7584838958004092537, guid: be69256019c5b214eaf761c383b1aa28, type: 3}
   consumableParent: {fileID: 7299546}
   passiveParent: {fileID: 1480618661}
-  testConsumableCard: {fileID: 11400000, guid: 40bb136bc6eedba4ca94d1cbf9a36586, type: 2}
-  testPassiveCard: {fileID: 11400000, guid: ebb56865aa81e5e4e908614e0eb18b68, type: 2}
+  testConsumableCard: {fileID: 11400000, guid: acf705ff1bac7b74798d2ff9ffd1f241, type: 2}
+  testPassiveCard: {fileID: 11400000, guid: 3d5c5ac885dff7b4fa2f78ff2992d58d, type: 2}
 --- !u!1 &1011677974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,6 +1557,7 @@ MonoBehaviour:
   wallTilemap: {fileID: 1023932434}
   floorTile: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
   wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
+  stepsDownTile: {fileID: 11400000, guid: 8d2b38472b576454aa12b6c527db9086, type: 2}
   miniMapRenderer: {fileID: 563147556}
 --- !u!4 &1059402464
 Transform:
@@ -1599,9 +1595,9 @@ MonoBehaviour:
   innerTL: {fileID: 11400000, guid: 6d6d0b70ef3cb8d488bdc8ef84a6b5d7, type: 2}
   innerBR: {fileID: 11400000, guid: fee5b7b860bf9c2409778cb88547b3e1, type: 2}
   innerBL: {fileID: 11400000, guid: 3093db31a94d6a243bc739f09db4e826, type: 2}
-  tUp: {fileID: 11400000, guid: 69cb8f0a3c12b5a46b526445cb2261a1, type: 2}
+  tUp: {fileID: 11400000, guid: b70d3def88de3a544a04ce0d6b4ffe1a, type: 2}
   tRight: {fileID: 11400000, guid: 34c6bb7299ffa384b891ea146831d32f, type: 2}
-  tDown: {fileID: 11400000, guid: d86395a3707e6004787da508636cc791, type: 2}
+  tDown: {fileID: 11400000, guid: 198e3f41c9de2f2449adc1b797ed53b3, type: 2}
   tLeft: {fileID: 11400000, guid: 07b689fdd9cbace489134f78e37cb0e2, type: 2}
   cross: {fileID: 11400000, guid: 6739a1453fd5f664ba0ab895127d2e4d, type: 2}
 --- !u!1 &1098331484
