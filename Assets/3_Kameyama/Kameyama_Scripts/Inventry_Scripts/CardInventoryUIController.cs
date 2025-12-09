@@ -17,9 +17,10 @@ public class CardInventoryUIController : MonoBehaviour
     public Transform consumableParent;
     public Transform passiveParent;
 
-    [Header("テスト用 Pickup（任意）")]
-    public CardData testConsumableCard;
-    public CardData testPassiveCard;
+    [Header("カードデータベース")]
+    public CardDataBase database;
+    [Header("カード選択UI")]
+    public CardSelectUI selectUI;
 
     private void Start()
     {
@@ -67,17 +68,16 @@ public class CardInventoryUIController : MonoBehaviour
             inventory?.CancelSwap();
         }
 
-        // ----- テストカード取得 -----
-        // E → 消費カード
-        if (Input.GetKeyDown(KeyCode.E) && testConsumableCard != null)
+        // E → 使い切りカードを拾う（ランダム3枚から選択）
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            inventory.AddCard(testConsumableCard);
+            ShowRandomSelect(CardType.Consumable);
         }
 
-        // C → パッシブカード
-        if (Input.GetKeyDown(KeyCode.C) && testPassiveCard != null)
+        // C → パッシブカードを拾う（ランダム3枚から選択）
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            inventory.AddCard(testPassiveCard);
+            ShowRandomSelect(CardType.Passive);
         }
     }
 
@@ -140,5 +140,39 @@ public class CardInventoryUIController : MonoBehaviour
             var slot = slotObj.GetComponent<CardSlotUI>();
             slot.Setup(card, i, false);
         }
+    }
+
+    /// <summary>
+    /// ランダムで3枚選出してカード選択UIを開く
+    /// </summary>
+    /// <param name="type">カードタイプ</param>
+    void ShowRandomSelect(CardType type)
+    {
+        if (database == null)
+        {
+            Debug.LogError("CardDatabase が設定されていません");
+            return;
+        }
+
+        var list = database.GetCards(type);
+        if (list == null || list.Length == 0)
+        {
+            Debug.LogWarning("カードが設定されていません");
+            return;
+        }
+
+        // --- ランダムで3枚選出 ---
+        CardData[] options = new CardData[3];
+        for (int i = 0; i < 3; i++)
+        {
+            options[i] = list[Random.Range(0, list.Length)];
+        }
+
+        // --- カード選択UIを開く ---
+        selectUI.Open(inventory, options, () =>
+        {
+            // 選択後のUIリフレッシュ
+            Refresh();
+        });
     }
 }
