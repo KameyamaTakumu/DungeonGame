@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1246f0d5b90f204b830f91e521f0661, type: 3}
   m_Name: 1_Test_Syouhi
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: 
+  cardName: 1s
   icon: {fileID: 21300000, guid: 0e4e93fa29f3e9f49af4cb5e854b26ae, type: 3}
   cardType: 0
   description: 

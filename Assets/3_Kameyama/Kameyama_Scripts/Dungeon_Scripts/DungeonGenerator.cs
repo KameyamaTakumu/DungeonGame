@@ -328,6 +328,16 @@ public class DungeonGenerator : MonoBehaviour
         floorTilemap.SetTile(new Vector3Int(x, y, 0), stepsDownTile);
 
         Debug.Log($"下り階段を配置: {x},{y}");
+
+        // ▼トリガー用オブジェクトを生成
+        GameObject trigger = new GameObject("StepsDownTrigger");
+        trigger.transform.position = new Vector3(x, y, 0); // 中心合わせ
+
+        BoxCollider2D col = trigger.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+
+        // ▼判定用のスクリプトを追加
+        trigger.AddComponent<StepsDownTrigger>();
     }
 
     /// <summary>
