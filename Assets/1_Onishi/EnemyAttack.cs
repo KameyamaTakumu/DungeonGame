@@ -62,38 +62,38 @@ public class EnemyAttack : MonoBehaviour
     {
         Debug.Log($"{name} が攻撃！");
 
-        //Vector2Int origin = new Vector2Int(
-        //    Mathf.RoundToInt(transform.position.x),
-        //    Mathf.RoundToInt(transform.position.y)
-        //);
+        Vector2Int origin = new Vector2Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y)
+        );
 
-    //    //デバッグ用
-    //    Vector2Int checkPos = origin + dir * attackRange;
-    //    //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
+        //デバッグ用
+        Vector2Int checkPos = origin + dir * attackRange;
+        //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
 
 
-    //    GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
+        GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
 
-    //    if (target != null)
-    //    {
-    //        Debug.Log($"敵は {attackRange} マス先の {target.name} を攻撃した！");
-    //        // ダメージ処理
-    //        hp -= attackPower;
+        if (target != null)
+        {
+            Debug.Log($"敵は {attackRange} マス先の {target.name} を攻撃した！");
+            // ダメージ処理
+            hp -= attackPower;
 
-    //        if (hp < 0)
-    //        {
-    //            hp = 0;
-    //        }
+            if (hp < 0)
+            {
+                hp = 0;
+            }
 
-    //        Debug.Log($"{target.name} に {attackPower} のダメージを与えた！");
-    //        if(hp == 0)
-    //        {
-    //            Debug.Log($"{target.name} は倒れた！");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("攻撃は外れた（対象なし）");
-    //    }
+            Debug.Log($"{target.name} に {attackPower} のダメージを与えた！");
+            if (hp == 0)
+            {
+                Debug.Log($"{target.name} は倒れた！");
+            }
+        }
+        else
+        {
+            Debug.Log("攻撃は外れた（対象なし）");
+        }
     }
 }

@@ -454,122 +454,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504203037}
   m_CullTransparentMesh: 1
---- !u!1 &682816668
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 682816671}
-  - component: {fileID: 682816670}
-  - component: {fileID: 682816669}
-  m_Layer: 0
-  m_Name: DungeonGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &682816669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682816668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b443d4215ebc414794c36c46789064e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WallAutoTilePainter
-  wallTiles:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 11400000, guid: de14ee83790e2b54e85cf9daf241a187, type: 2}
-  - {fileID: 11400000, guid: d74c8575e68e36a46b114ecd9fe018c8, type: 2}
-  - {fileID: 11400000, guid: a74bbd7ba9093ba40bacae30294213d8, type: 2}
-  - {fileID: 11400000, guid: 099a9d183f5a5954fabe99817a78d56e, type: 2}
-  - {fileID: 11400000, guid: 2544600639760b0489f4053a6cd6fadf, type: 2}
-  - {fileID: 11400000, guid: 6d6d0b70ef3cb8d488bdc8ef84a6b5d7, type: 2}
-  - {fileID: 11400000, guid: fee5b7b860bf9c2409778cb88547b3e1, type: 2}
-  - {fileID: 11400000, guid: 3093db31a94d6a243bc739f09db4e826, type: 2}
-  - {fileID: 11400000, guid: b70d3def88de3a544a04ce0d6b4ffe1a, type: 2}
-  - {fileID: 11400000, guid: 34c6bb7299ffa384b891ea146831d32f, type: 2}
-  - {fileID: 11400000, guid: 198e3f41c9de2f2449adc1b797ed53b3, type: 2}
-  - {fileID: 11400000, guid: 07b689fdd9cbace489134f78e37cb0e2, type: 2}
-  - {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  wallTilemap: {fileID: 1159190107}
---- !u!114 &682816670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682816668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3704d31e69bf34146bd1f7418f430d6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
-  width: 64
-  height: 64
-  roomCount: 10
-  roomMinSize: 2
-  roomMaxSize: 8
-  floorTilemap: {fileID: 192695551}
-  wallTilemap: {fileID: 1159190107}
-  floorTile: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
-  wallTile: {fileID: 11400000, guid: b81785a7fdd08234f8bda12985458af0, type: 2}
-  miniMapRenderer: {fileID: 1043071162}
---- !u!4 &682816671
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682816668}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &748439340
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,6 +575,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &787381802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787381804}
+  - component: {fileID: 787381803}
+  m_Layer: 0
+  m_Name: HighlightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &787381803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787381802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef914d8bbc240641bed952c00620940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightManager
+  highlightPrefab: {fileID: 4494438289972106967, guid: 3403fa448ba28274f902c0f1704a318d, type: 3}
+--- !u!4 &787381804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787381802}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.34405, y: 28.47827, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &888672101
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,11 +725,6 @@ MonoBehaviour:
   minimapImage: {fileID: 888672104}
   minimapRect: {fileID: 888672102}
   playerIcon: {fileID: 748439341}
-  enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
-  pixelScale: 4
-  floorColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
-  discoveredTint: {r: 0.35, g: 0.35, b: 0.35, a: 1}
-  viewRadius: 8
 --- !u!4 &1043071163
 Transform:
   m_ObjectHideFlags: 0
@@ -1136,6 +1060,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1461043529
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: wallTilemap
+      value: 
+      objectReference: {fileID: 1159190107}
+    - target: {fileID: 5880948252305193662, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_Name
+      value: DungeonGenerator (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 38.34405
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.47827
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: wallTilemap
+      value: 
+      objectReference: {fileID: 1159190107}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: floorTilemap
+      value: 
+      objectReference: {fileID: 192695551}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: miniMapRenderer
+      value: 
+      objectReference: {fileID: 1043071162}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
 --- !u!1 &1461356995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,10 +1758,11 @@ SceneRoots:
   - {fileID: 1419284604}
   - {fileID: 1768412253}
   - {fileID: 1526049785}
-  - {fileID: 682816671}
   - {fileID: 1461357000}
   - {fileID: 1708347536}
   - {fileID: 2139875796}
   - {fileID: 467678298}
   - {fileID: 1043071163}
   - {fileID: 761423555}
+  - {fileID: 1461043529}
+  - {fileID: 787381804}

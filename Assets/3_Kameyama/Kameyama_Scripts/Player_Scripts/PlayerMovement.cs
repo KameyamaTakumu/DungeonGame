@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -14,6 +15,11 @@ public class PlayerMovement : BaseMovement
 
     [HideInInspector]
     public bool isAttacking = false;
+    [HideInInspector]
+    bool isSelectingAttackDir = false;
+    private Vector2Int attackDir = Vector2Int.zero;
+    public PlayerAttack pa;
+    public HighlightManager hm;
     protected override void Awake()
     {
         base.Awake();
@@ -26,6 +32,8 @@ public class PlayerMovement : BaseMovement
         UnitManager.instance.RegisterPlayer(this.gameObject);
 
         scrollView = FindFirstObjectByType<ScrollView>();
+
+        pa = GetComponent<PlayerAttack>();
     }
 
     private void Update()
@@ -71,18 +79,72 @@ public class PlayerMovement : BaseMovement
             TryMove(x, y, debugMove);
         }
 
-        // 攻撃処理（一旦、スペースキー)
+        // 攻撃方向選択モード
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            isAttacking = true;
-
-            // 攻撃後に敵ターンへ移行
-            if (tm != null)
+            if (!isSelectingAttackDir)
             {
-                tm.StartCoroutine(tm.EnemyTurn());
+                isSelectingAttackDir = true;
+                attackDir = Vector2Int.zero;
+                pa.ClearHighlight();
+
+                Debug.Log("攻撃方向を選んでください");
+                return;
+            }
+        }
+
+        // 方向キーで攻撃方向決定
+        if (isSelectingAttackDir)
+        {
+            Vector2Int dir = Vector2Int.zero;
+
+            if (Input.GetKeyDown(KeyCode.I)) dir = Vector2Int.up;
+            if (Input.GetKeyDown(KeyCode.K)) dir = Vector2Int.down;
+            if (Input.GetKeyDown(KeyCode.J)) dir = Vector2Int.left;
+            if (Input.GetKeyDown(KeyCode.L)) dir = Vector2Int.right;
+
+            if (dir != Vector2Int.zero)
+            {
+                attackDir = dir;
+                pa.ShowHighlight(attackDir);
+
+                Debug.Log("攻撃方向 → " + attackDir);
+                
+                    pa.AttackForward(attackDir);
+                    isSelectingAttackDir = false;
+                    tm.StartCoroutine(tm.EnemyTurn());
+                
+                return;
             }
         }
     }
+
+    private void UpdateAttackHighlight()
+    {
+        if (attackDir == Vector2Int.zero) return;
+        if (HighlightManager.instance == null)
+        {
+            Debug.LogError("HighlightManager.instance が null です！");
+            return;
+        }
+
+        // プレイヤー位置を grid へ
+        Vector2Int origin = new Vector2Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y)
+        );
+
+        // nマス分を計算
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        for (int i = 1; i <= pa.attackRange; i++)
+        {
+            tiles.Add(origin + attackDir * i);
+        }
+
+        // ハイライト更新
+        HighlightManager.instance.ShowTiles(tiles);
+    }
+
 
     /// <summary>
     /// 移動完了時のフックメソッド。

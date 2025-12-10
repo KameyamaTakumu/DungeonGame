@@ -49,6 +49,8 @@ public class TrunManager : MonoBehaviour
 
         Debug.Log("プレイヤーのターン ");
 
+
+
         // ダメージ処理
 
         // プレイヤーのターン終了
