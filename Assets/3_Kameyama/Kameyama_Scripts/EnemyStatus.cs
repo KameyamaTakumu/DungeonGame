@@ -23,6 +23,10 @@ public class EnemyStatus : MonoBehaviour
         if (status.IsDead())
         {
             Debug.Log("“G€–SI");
+
+            // š UnitManager ‚ÌƒŠƒXƒg‚©‚çíœ
+            UnitManager.instance.enemies.Remove(gameObject);
+
             Die();
         }
     }
