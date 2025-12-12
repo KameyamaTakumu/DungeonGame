@@ -7,11 +7,28 @@ public class EnemyAttack : MonoBehaviour
     public int attackPower = 10; // 攻撃力
     public int hp = 10;
 
+    private EnemyStatus enemyStatus;
+    int atk;
+    int range;
+
     private Vector2Int attackDir;
 
     void Awake()
     {
-        
+        // 同じオブジェクトの EnemyStatus を取得
+        enemyStatus = GetComponent<EnemyStatus>();
+
+        if (enemyStatus == null)
+        {
+            Debug.LogError("PlayerStatus コンポーネントが見つかりません！");
+        }
+        else
+        {
+            // ステータスを PlayerStatus から取得
+            range = enemyStatus.status.RANGE;
+            atk = enemyStatus.status.ATK;
+        }
+
     }
 
     /// <summary>
@@ -39,7 +56,7 @@ public class EnemyAttack : MonoBehaviour
 
             //Debug.Log($"[DEBUG] 方向チェック: {dir}");
 
-            for (int i = 1; i <= attackRange; i++)
+            for (int i = 1; i <= range; i++)
             {
                 Vector2Int check = origin + dir * i;
                 //Debug.Log($"[DEBUG]   チェック座標: {check}");
@@ -68,27 +85,34 @@ public class EnemyAttack : MonoBehaviour
         );
 
         //デバッグ用
-        Vector2Int checkPos = origin + dir * attackRange;
+        //Vector2Int checkPos = origin + dir * attackRange;
+        Vector2Int checkPos = origin + dir * range;
         //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
 
 
-        GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
+        //GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
+        // 指定方向に RANGE だけ飛ばす
+        GameObject target = CombatManager.GetObjectInLine(
+            origin,
+            dir,
+            range
+        );
 
         if (target != null)
         {
-            Debug.Log($"敵は {attackRange} マス先の {target.name} を攻撃した！");
-            // ダメージ処理
-            hp -= attackPower;
+            Debug.Log($"敵は {range} マス先の {target.name} を攻撃した！");
 
-            if (hp < 0)
+            // PlayerStatus を取得
+            PlayerStatus player = target.GetComponent<PlayerStatus>();
+
+            if (player != null)
             {
-                hp = 0;
+                player.TakeDamage(atk);
+                Debug.Log($"{target.name} に {atk} のダメージを与えた！");
             }
-
-            Debug.Log($"{target.name} に {attackPower} のダメージを与えた！");
-            if (hp == 0)
+            else
             {
-                Debug.Log($"{target.name} は倒れた！");
+                Debug.LogError("[ERROR] PlayerStatus が見つかりません！");
             }
         }
         else

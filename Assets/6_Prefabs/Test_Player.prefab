@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3157233565005297889}
   - component: {fileID: 5259691043410868644}
   - component: {fileID: 2326661613851279665}
+  - component: {fileID: -67262504944497268}
   - component: {fileID: 2849125875187777135}
   - component: {fileID: 3488715577648040062}
   m_Layer: 0
@@ -167,6 +168,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-67262504944497268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6326546393922405982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132066ff81429294b8c2b9e3940e551c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
+  status:
+    HP: 20
+    ATK: 10
+    RANGE: 1
 --- !u!114 &2849125875187777135
 MonoBehaviour:
   m_ObjectHideFlags: 0

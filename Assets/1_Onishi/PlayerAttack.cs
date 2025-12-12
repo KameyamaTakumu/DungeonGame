@@ -14,9 +14,31 @@ public class PlayerAttack : MonoBehaviour
     [Tooltip("攻撃を行う距離（例：1 → 1マス先に攻撃）")]
     public int attackRange = 1;
 
+    private PlayerStatus playerStatus;
+
+    // ステータスを PlayerStatus から取得
+    int range;
+    int atk;
+
     // 現在表示中のハイライトインスタンス
     private GameObject currentHighlight;
 
+    void Awake()
+    {
+        // 同じオブジェクトに付いている PlayerStatus を取得
+        playerStatus = GetComponent<PlayerStatus>();
+
+        if(playerStatus == null)
+        {
+            Debug.LogError("PlayerStatus コンポーネントが見つかりません！");
+        }
+        else
+        {
+            // ステータスを PlayerStatus から取得
+            range = playerStatus.status.RANGE;
+            atk = playerStatus.status.ATK;
+        }
+    }
 
     /// <summary>
     /// 指定方向へ攻撃を行う。
@@ -24,6 +46,8 @@ public class PlayerAttack : MonoBehaviour
     /// <param name="dir">攻撃方向（上下左右）を示す Vector2Int</param>
     public void AttackForward(Vector2Int dir)
     {
+        
+
         // プレイヤーの現在グリッド位置
         Vector2Int origin = new Vector2Int(
             Mathf.RoundToInt(transform.position.x),
@@ -31,12 +55,17 @@ public class PlayerAttack : MonoBehaviour
         );
 
         // 指定方向に attackRange マス先のターゲット取得
-        GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
+        GameObject target = CombatManager.GetObjectInLine(origin, dir, range);
 
         if (target != null)
         {
-            Debug.Log($"敵 {target.name} に攻撃！");
-            // TODO: ここにダメージ計算やノックバックなどの攻撃処理を記述
+            Debug.Log($"敵 {target.name} に攻撃！ ダメージ {atk}");
+
+            EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(atk);
+            }
         }
         else
         {
@@ -63,7 +92,7 @@ public class PlayerAttack : MonoBehaviour
 
         // プレイヤーの位置を基準に attackRange マス先を算出
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
-        Vector2Int tilePos = origin + dir * attackRange;
+        Vector2Int tilePos = origin + dir * range;
 
         // 攻撃ターゲット地点にハイライトを生成
         currentHighlight = Instantiate(
