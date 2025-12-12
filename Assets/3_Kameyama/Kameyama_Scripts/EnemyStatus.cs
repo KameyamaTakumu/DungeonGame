@@ -3,7 +3,17 @@ using UnityEngine;
 public class EnemyStatus : MonoBehaviour
 {
     [Header("Enemy Base Status")]
+    private DropSystem dropSystem;
+    private PlayerInventory playerInventory;
     public BaseStatus status = new BaseStatus(10, 5, 1);
+
+    //private void Start()
+    //{
+    //    dropSystem = GetComponent<DropSystem>();
+    //    playerInventory = FindObjectOfType<PlayerInventory>();
+    //    // ※ プレイヤーがシーンに1人いる前提
+    //}
+
 
     public void TakeDamage(int amount)
     {
@@ -22,6 +32,16 @@ public class EnemyStatus : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        //// ドロップ抽選
+        //var dropItem = dropSystem.GetWeightedDrop();
+
+        //if (dropItem != null)
+        //{
+        //    // 直接入手させる
+        //    playerInventory.AddItem(dropItem);
+        //}
+
+
         Debug.Log($"{name} は倒れた！");
         Destroy(gameObject);
     }
