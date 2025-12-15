@@ -7,15 +7,26 @@ using System.Collections;
 [System.Serializable]
 public class BaseStatus
 {
-    public int HP;       // 体力
+    public int HP;        // 現在HP
+    public int MAX_HP;    // 最大HP
     public int ATK;      // 攻撃力（ダメージになる）
     public int RANGE;    // 攻撃が届く距離（1なら1マス先のみ、2なら2マス先のみ）
 
-    public BaseStatus(int hp, int atk, int range)
+    public BaseStatus(int maxHp, int atk, int range)
     {
-        HP = hp;
+        MAX_HP = maxHp;
+        HP = maxHp;   // 初期状態では最大HP
         ATK = atk;
         RANGE = range;
+    }
+
+    /// <summary>
+    /// 回復（最大HPを超えない）
+    /// </summary>
+    public void Heal(int amount)
+    {
+        HP += amount;
+        if (HP > MAX_HP) HP = MAX_HP;
     }
 
     /// <summary>

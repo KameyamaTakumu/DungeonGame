@@ -73,4 +73,15 @@ public static class CombatManager
 
         return pg == pos;
     }
+
+    public static GameObject GetObjectAt(Vector2Int gridPos)
+    {
+        foreach (var enemy in UnitManager.instance.enemies)
+        {
+            Vector2Int enemyPos = Vector2Int.RoundToInt(enemy.transform.position);
+            if (enemyPos == gridPos)
+                return enemy;
+        }
+        return null;
+    }
 }

@@ -16,3 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 0e4e93fa29f3e9f49af4cb5e854b26ae, type: 3}
   cardType: 0
   description: 
+  damage: 1000
+  range: 1
+  buffType: 0
+  buffValue: 0

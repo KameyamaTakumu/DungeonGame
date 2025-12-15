@@ -105,13 +105,13 @@ public class CardInventory : MonoBehaviour
     void ApplyPassiveEffect(CardData passiveCard)
     {
         // TODO: 実際のステータス反映をここに書く
-        // 例：PlayerStatus.Instance.AddBuff(passiveCard);
+        FindFirstObjectByType<PlayerStatus>()?.ApplyBuff(passiveCard);
     }
 
     void RemovePassiveEffect(CardData passiveCard)
     {
         // TODO: 古いパッシブの効果解除処理をここに書く
-        // 例：PlayerStatus.Instance.RemoveBuff(passiveCard);
+        FindFirstObjectByType<PlayerStatus>()?.RemoveBuff(passiveCard);
     }
 
     /// <summary>
