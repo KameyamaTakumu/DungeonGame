@@ -231,8 +231,9 @@ MonoBehaviour:
   consumableUI: {fileID: 824386722}
   passiveUI: {fileID: 708041686}
   inventory: {fileID: 119069063}
-  consumableSlots: []
-  passiveSlots: []
+  slotPrefab: {fileID: 0}
+  consumableSlotPoints: []
+  passiveSlotPoints: []
   database: {fileID: 0}
   selectUI: {fileID: 0}
 --- !u!114 &119069063
@@ -1361,7 +1362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &708041687
 RectTransform:
   m_ObjectHideFlags: 0

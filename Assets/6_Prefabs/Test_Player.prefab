@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -67262504944497268}
   - component: {fileID: 2849125875187777135}
   - component: {fileID: 3488715577648040062}
+  - component: {fileID: 1626945054388627156}
   m_Layer: 0
   m_Name: Test_Player
   m_TagString: Player
@@ -182,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   status:
     HP: 20
+    MAX_HP: 20
     ATK: 10
     RANGE: 1
 --- !u!114 &2849125875187777135
@@ -200,7 +202,7 @@ MonoBehaviour:
   moveTime: 0.1
   isMoving: 0
   isAttacking: 0
-  pa: {fileID: 0}
+  pa: {fileID: 3488715577648040062}
   hm: {fileID: 0}
 --- !u!114 &3488715577648040062
 MonoBehaviour:
@@ -214,5 +216,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fff629e0ca209408f72d9a7863e395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  highlightPrefab: {fileID: 4494438289972106967, guid: 3403fa448ba28274f902c0f1704a318d, type: 3}
   attackRange: 3
+--- !u!114 &1626945054388627156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6326546393922405982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7eec8866d2b57d4f8f53fbe9d26cbc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  items: []
