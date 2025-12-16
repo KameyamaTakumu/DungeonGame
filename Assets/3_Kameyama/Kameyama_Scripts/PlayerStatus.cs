@@ -14,6 +14,8 @@ public class PlayerStatus : MonoBehaviour
 
     public Action OnHPChanged;
 
+    public Vector2Int facingDir = Vector2Int.down; // ‰ŠúŒü‚«
+
     public void ApplyBuff(CardData card)
     {
         switch (card.buffType)

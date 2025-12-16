@@ -4,9 +4,14 @@ public class PlayerSkillExecutor : MonoBehaviour
 {
     PlayerStatus playerStatus;
 
+
+    private CardInventoryUIController cardInventoryUIController;
+
     void Awake()
     {
         playerStatus = FindFirstObjectByType<PlayerStatus>();
+
+        cardInventoryUIController = FindFirstObjectByType<CardInventoryUIController>();
     }
 
     public void ExecuteCardSkill(CardData card)
@@ -22,51 +27,80 @@ public class PlayerSkillExecutor : MonoBehaviour
 
         Debug.Log($"カード使用: {card.cardName}");
 
-        // ★ プレイヤーのグリッド座標
-        Vector3 pos = playerStatus.transform.position;
-        Vector2Int origin = new Vector2Int(
-            Mathf.FloorToInt(pos.x),
-            Mathf.FloorToInt(pos.y)
-        );
+        // UIを閉じる
+        if (cardInventoryUIController != null)
+        {
+            cardInventoryUIController.HideAllUI();
+        }
 
+        Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
         int hitCount = 0;
 
-        // ★ 自分の周囲をレンジ分チェック
+        switch (card.rangeType)
+        {
+            case CardRangeType.Around:
+                hitCount = AttackAround(origin, card);
+                break;
+
+            case CardRangeType.Line:
+                hitCount = AttackLine(origin, card);
+                break;
+        }
+
+        if (hitCount == 0)
+            Debug.Log("範囲内に敵はいませんでした");
+        else
+            Debug.Log($"合計 {hitCount} 体の敵にヒット！");
+    }
+
+    int AttackAround(Vector2Int origin, CardData card)
+    {
+        int hitCount = 0;
+
         for (int x = -card.range; x <= card.range; x++)
         {
             for (int y = -card.range; y <= card.range; y++)
             {
-                // 自分の足元はスキップしたい場合は有効
-                if (x == 0 && y == 0)
-                    continue;
+                if (x == 0 && y == 0) continue;
 
                 Vector2Int checkPos = origin + new Vector2Int(x, y);
-
                 GameObject target = CombatManager.GetObjectAt(checkPos);
-                if (target == null)
-                    continue;
+
+                if (target == null) continue;
 
                 EnemyStatus enemy = target.GetComponent<EnemyStatus>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(card.damage);
                     hitCount++;
-
-                    Debug.Log(
-                        $"敵 {target.name} に {card.damage} ダメージ！ " +
-                        $"(pos={checkPos})"
-                    );
                 }
             }
         }
 
-        if (hitCount == 0)
-        {
-            Debug.Log("範囲内に敵はいませんでした");
-        }
-        else
-        {
-            Debug.Log($"合計 {hitCount} 体の敵にヒット！");
-        }
+        return hitCount;
     }
+
+    int AttackLine(Vector2Int origin, CardData card)
+    {
+        int hitCount = 0;
+        Vector2Int dir = playerStatus.facingDir;
+
+        for (int i = 1; i <= card.range; i++)
+        {
+            Vector2Int checkPos = origin + dir * i;
+            GameObject target = CombatManager.GetObjectAt(checkPos);
+
+            if (target == null) continue;
+
+            EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(card.damage);
+                hitCount++;
+            }
+        }
+
+        return hitCount;
+    }
+
 }

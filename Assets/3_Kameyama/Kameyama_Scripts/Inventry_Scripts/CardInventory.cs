@@ -25,6 +25,8 @@ public class CardInventory : MonoBehaviour
     // UIに「入れ替え開始」を通知するためのイベント
     public Action<CardData, CardType> OnSwapRequested;
 
+    public CardInventoryUIController cardInventoryUIController;
+
     /// <summary>
     /// カード追加（上限チェック→追加 or 入替モード）
     /// </summary>
@@ -57,12 +59,14 @@ public class CardInventory : MonoBehaviour
         return type == CardType.Consumable ? consumableLimit : passiveLimit;
     }
 
+    // 入れ替えモード開始
     void StartSwapMode(CardData card, CardType type)
     {
         IsSwapMode = true;
         PendingCard = card;
         PendingCardType = type;
         Debug.Log($"入れ替えモード開始: {card.cardName} ({type})");
+        // UIに通知
         OnSwapRequested?.Invoke(card, type);
     }
 
@@ -99,6 +103,9 @@ public class CardInventory : MonoBehaviour
         PendingCard = null;
         // PendingCardTypeは残しても良いが初期化しておく
         PendingCardType = default;
+
+        // UIを閉じる
+        cardInventoryUIController?.HideAllUI();
         Debug.Log("入れ替えモード終了");
     }
 

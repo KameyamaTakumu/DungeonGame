@@ -180,7 +180,7 @@ public class CardInventoryUIController : MonoBehaviour
     // ================================
     // カード選択UI
     // ================================
-    void ShowRandomSelect(CardType type)
+    public void ShowRandomSelect(CardType type)
     {
         if (database == null)
         {

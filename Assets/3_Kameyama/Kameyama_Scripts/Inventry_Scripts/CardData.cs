@@ -13,6 +13,12 @@ public enum BuffType
     HP
 }
 
+public enum CardRangeType
+{
+    Around, // 周囲攻撃（今まで通り）
+    Line    // 直線攻撃
+}
+
 [CreateAssetMenu(menuName = "Card/CardData")]
 public class CardData : ScriptableObject
 {
@@ -24,10 +30,11 @@ public class CardData : ScriptableObject
     public string description;
 
     [Header("Consumable Effect")]
-    public int damage;        // 敵に与えるダメージ
-    public int range = 1;     // 攻撃距離（マス）
+    public int damage;
+    public int range = 1;
+    public CardRangeType rangeType; // ★追加
 
     [Header("Passive Buff")]
     public BuffType buffType;
-    public int buffValue;     // ATK +◯ / HP +◯
+    public int buffValue;
 }
