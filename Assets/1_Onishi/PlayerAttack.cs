@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,10 +8,6 @@ using UnityEngine;
 /// </summary>
 public class PlayerAttack : MonoBehaviour
 {
-    [Header("Attack Settings")]
-    [Tooltip("攻撃範囲を可視化するためのハイライトタイル（薄い黄色）")]
-    public GameObject highlightPrefab;
-
     [Tooltip("攻撃を行う距離（例：1 → 1マス先に攻撃）")]
     public int attackRange = 1;
 
@@ -46,8 +43,6 @@ public class PlayerAttack : MonoBehaviour
     /// <param name="dir">攻撃方向（上下左右）を示す Vector2Int</param>
     public void AttackForward(Vector2Int dir)
     {
-        
-
         // プレイヤーの現在グリッド位置
         Vector2Int origin = new Vector2Int(
             Mathf.RoundToInt(transform.position.x),
@@ -73,9 +68,8 @@ public class PlayerAttack : MonoBehaviour
         }
 
         // 攻撃後はハイライトを消去
-        ClearHighlight();
+        HighlightManager.instance.Clear();
     }
-
 
     /// <summary>
     /// プレイヤーが攻撃方向を選択している時、
@@ -84,22 +78,20 @@ public class PlayerAttack : MonoBehaviour
     /// <param name="dir">攻撃方向</param>
     public void ShowHighlight(Vector2Int dir)
     {
-        // 最新のハイライト以外は削除
-        ClearHighlight();
-
-        // 無方向の場合は生成しない
+        // 攻撃方向が未指定の場合は何もしない
         if (dir == Vector2Int.zero) return;
 
-        // プレイヤーの位置を基準に attackRange マス先を算出
+        // プレイヤーの現在グリッド位置
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
-        Vector2Int tilePos = origin + dir * range;
+        List<Vector2Int> tiles = new List<Vector2Int>();
 
-        // 攻撃ターゲット地点にハイライトを生成
-        currentHighlight = Instantiate(
-            highlightPrefab,
-            new Vector3(tilePos.x, tilePos.y, 0),
-            Quaternion.identity
-        );
+        // nマス分を計算
+        for (int i = 1; i <= range; i++)
+        {
+            tiles.Add(origin + dir * i);
+        }
+
+        HighlightManager.instance.ShowTiles(tiles);
     }
 
 

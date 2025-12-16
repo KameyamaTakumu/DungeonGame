@@ -79,44 +79,63 @@ public class PlayerMovement : BaseMovement
             TryMove(x, y, debugMove);
         }
 
-        // 攻撃方向選択モード
+        // 攻撃方向選択モード開始
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (!isSelectingAttackDir)
             {
                 isSelectingAttackDir = true;
                 attackDir = Vector2Int.zero;
-                pa.ClearHighlight();
 
-                Debug.Log("攻撃方向を選んでください");
-                return;
+                HighlightManager.instance.Clear();
+                Debug.Log("攻撃方向を選択してください（IJKL）");
             }
+            return;
         }
 
-        // 方向キーで攻撃方向決定
+        // 攻撃方向選択中の処理
         if (isSelectingAttackDir)
         {
-            Vector2Int dir = Vector2Int.zero;
+            Vector2Int inputDir = Vector2Int.zero;
 
-            if (Input.GetKeyDown(KeyCode.I)) dir = Vector2Int.up;
-            if (Input.GetKeyDown(KeyCode.K)) dir = Vector2Int.down;
-            if (Input.GetKeyDown(KeyCode.J)) dir = Vector2Int.left;
-            if (Input.GetKeyDown(KeyCode.L)) dir = Vector2Int.right;
+            if (Input.GetKeyDown(KeyCode.I)) inputDir = Vector2Int.up;
+            if (Input.GetKeyDown(KeyCode.K)) inputDir = Vector2Int.down;
+            if (Input.GetKeyDown(KeyCode.J)) inputDir = Vector2Int.left;
+            if (Input.GetKeyDown(KeyCode.L)) inputDir = Vector2Int.right;
 
-            if (dir != Vector2Int.zero)
+            if (inputDir == Vector2Int.zero) return;
+
+            // ① 初回選択 → ハイライト表示
+            if (attackDir == Vector2Int.zero)
             {
-                attackDir = dir;
+                attackDir = inputDir;
                 pa.ShowHighlight(attackDir);
 
-                Debug.Log("攻撃方向 → " + attackDir);
-                
-                    pa.AttackForward(attackDir);
-                    isSelectingAttackDir = false;
-                    tm.StartCoroutine(tm.EnemyTurn());
-                
-                return;
+                Debug.Log("攻撃方向 仮決定：" + attackDir);
             }
+            // ② 同じ方向をもう一度 → 攻撃確定
+            else if (attackDir == inputDir)
+            {
+                pa.AttackForward(attackDir);
+
+                isSelectingAttackDir = false;
+                attackDir = Vector2Int.zero;
+
+                tm.StartCoroutine(tm.EnemyTurn());
+                Debug.Log("攻撃実行");
+            }
+            // ③ 違う方向を押した → 方向変更
+            else
+            {
+                attackDir = inputDir;
+                pa.ShowHighlight(attackDir);
+
+                Debug.Log("攻撃方向 変更：" + attackDir);
+            }
+
+            return;
         }
+
     }
 
     private void UpdateAttackHighlight()
