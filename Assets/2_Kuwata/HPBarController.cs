@@ -3,20 +3,24 @@ using UnityEngine.UI;
 public class HPBarController : MonoBehaviour
 {
     [SerializeField] Slider hpSlider;
-    [SerializeField] PlayerStatus playerStatus;
+    private PlayerStatus playerStatus;
     void Start()
     {
-        
+        playerStatus = FindObjectOfType<PlayerStatus>();
+        hpSlider.minValue = 0;
+        hpSlider.maxValue = playerStatus.status.MAX_HP;
+
+        playerStatus.OnHPChanged += UpdateHPBar;
+
         UpdateHPBar();
     }
-    void Update()
-    {
-        UpdateHPBar();
-    }
+    //void Update()
+    //{
+    //    UpdateHPBar();
+    //}
 
     void UpdateHPBar()
     {
-        float ratio = (float)playerStatus.status.HP / playerStatus.MaxHP;
-        hpSlider.value = ratio;
+        hpSlider.value = playerStatus.status.HP ;
     }
 }

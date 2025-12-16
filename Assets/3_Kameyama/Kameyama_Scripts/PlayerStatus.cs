@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -10,6 +11,8 @@ public class PlayerStatus : MonoBehaviour
     public int Attack => status.ATK + bonusATK;
     public int Range => status.RANGE;
     public int MaxHP => status.MAX_HP + bonusHP;
+
+    public Action OnHPChanged;
 
     public void ApplyBuff(CardData card)
     {
@@ -49,6 +52,8 @@ public class PlayerStatus : MonoBehaviour
     {
         status.TakeDamage(amount);
         Debug.Log($"ÉvÉåÉCÉÑÅ[HP: {status.HP}");
+
+        OnHPChanged?.Invoke();
 
         if (status.IsDead())
         {
