@@ -11,15 +11,12 @@ public class PlayerMovement : BaseMovement
     // シングルトンインスタンス
     public static PlayerMovement instance;
 
-    ScrollView scrollView;
-
-    [HideInInspector]
-    public bool isAttacking = false;
     [HideInInspector]
     bool isSelectingAttackDir = false;
     private Vector2Int attackDir = Vector2Int.zero;
+
     public PlayerAttack pa;
-    public HighlightManager hm;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,8 +27,6 @@ public class PlayerMovement : BaseMovement
     void Start()
     {
         UnitManager.instance.RegisterPlayer(this.gameObject);
-
-        scrollView = FindFirstObjectByType<ScrollView>();
 
         pa = GetComponent<PlayerAttack>();
     }
@@ -45,12 +40,18 @@ public class PlayerMovement : BaseMovement
         bool debugMove = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
 
         // バトル中でプレイヤーターンでない場合は移動不可（Ctrl で無視可能）
-        if (!debugMove)
-        {
-            if (tm != null && !tm.isPlayerTurn)
-                return;
-        }
+        if (!debugMove && tm != null && !tm.isPlayerTurn)
+            return;
 
+        HandleMovementInput(debugMove);
+        HandleAttackInput();
+    }
+
+    /// <summary>
+    /// 移動入力処理
+    /// </summary>
+    private void HandleMovementInput(bool debugMove)
+    {
         int x = 0, y = 0;
 
         // 移動入力の判定（WASD または 矢印キー）
@@ -58,7 +59,6 @@ public class PlayerMovement : BaseMovement
         // Ctrl中：押しっぱなしで連続移動（GetKey）
         if (debugMove)
         {
-            // 連続移動したいので GetKey にする
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) y = 1;
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) y = -1;
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) x = -1;
@@ -66,7 +66,6 @@ public class PlayerMovement : BaseMovement
         }
         else
         {
-            // 通常時は1マスずつ
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) y = 1;
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) y = -1;
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) x = -1;
@@ -78,92 +77,58 @@ public class PlayerMovement : BaseMovement
         {
             TryMove(x, y, debugMove);
         }
-
-        // 攻撃方向選択モード開始
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!isSelectingAttackDir)
-            {
-                isSelectingAttackDir = true;
-                attackDir = Vector2Int.zero;
-
-                HighlightManager.instance.Clear();
-                Debug.Log("攻撃方向を選択してください（IJKL）");
-            }
-            return;
-        }
-
-        // 攻撃方向選択中の処理
-        if (isSelectingAttackDir)
-        {
-            Vector2Int inputDir = Vector2Int.zero;
-
-            if (Input.GetKeyDown(KeyCode.I)) inputDir = Vector2Int.up;
-            if (Input.GetKeyDown(KeyCode.K)) inputDir = Vector2Int.down;
-            if (Input.GetKeyDown(KeyCode.J)) inputDir = Vector2Int.left;
-            if (Input.GetKeyDown(KeyCode.L)) inputDir = Vector2Int.right;
-
-            if (inputDir == Vector2Int.zero) return;
-
-            // ① 初回選択 → ハイライト表示
-            if (attackDir == Vector2Int.zero)
-            {
-                attackDir = inputDir;
-                pa.ShowHighlight(attackDir);
-
-                Debug.Log("攻撃方向 仮決定：" + attackDir);
-            }
-            // ② 同じ方向をもう一度 → 攻撃確定
-            else if (attackDir == inputDir)
-            {
-                pa.AttackForward(attackDir);
-
-                isSelectingAttackDir = false;
-                attackDir = Vector2Int.zero;
-
-                tm.StartCoroutine(tm.EnemyTurn());
-                Debug.Log("攻撃実行");
-            }
-            // ③ 違う方向を押した → 方向変更
-            else
-            {
-                attackDir = inputDir;
-                pa.ShowHighlight(attackDir);
-
-                Debug.Log("攻撃方向 変更：" + attackDir);
-            }
-
-            return;
-        }
-
     }
 
-    private void UpdateAttackHighlight()
+    /// <summary>
+    /// 攻撃入力処理
+    /// </summary>
+    private void HandleAttackInput()
     {
-        if (attackDir == Vector2Int.zero) return;
-        if (HighlightManager.instance == null)
+        // 攻撃モード開始
+        if (Input.GetKeyDown(KeyCode.Space) && !isSelectingAttackDir)
         {
-            Debug.LogError("HighlightManager.instance が null です！");
+            isSelectingAttackDir = true;
+            attackDir = Vector2Int.zero;
+
+            HighlightManager.instance.Clear();
+            Debug.Log("攻撃方向を選択してください（IJKL）");
             return;
         }
 
-        // プレイヤー位置を grid へ
-        Vector2Int origin = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        if (!isSelectingAttackDir) return;
 
-        // nマス分を計算
-        List<Vector2Int> tiles = new List<Vector2Int>();
-        for (int i = 1; i <= pa.attackRange; i++)
+        Vector2Int inputDir = Vector2Int.zero;
+
+        if (Input.GetKeyDown(KeyCode.I)) inputDir = Vector2Int.up;
+        if (Input.GetKeyDown(KeyCode.K)) inputDir = Vector2Int.down;
+        if (Input.GetKeyDown(KeyCode.J)) inputDir = Vector2Int.left;
+        if (Input.GetKeyDown(KeyCode.L)) inputDir = Vector2Int.right;
+
+        if (inputDir == Vector2Int.zero) return;
+
+        // 初回入力 → 仮決定＆ハイライト
+        if (attackDir == Vector2Int.zero)
         {
-            tiles.Add(origin + attackDir * i);
+            attackDir = inputDir;
+            pa.ShowHighlight(attackDir);
         }
+        // 同じ方向 → 攻撃確定
+        else if (attackDir == inputDir)
+        {
+            pa.AttackForward(attackDir);
 
-        // ハイライト更新
-        HighlightManager.instance.ShowTiles(tiles);
+            isSelectingAttackDir = false;
+            attackDir = Vector2Int.zero;
+
+            tm.StartCoroutine(tm.EnemyTurn());
+        }
+        // 別方向 → 方向変更
+        else
+        {
+            attackDir = inputDir;
+            pa.ShowHighlight(attackDir);
+        }
     }
-
 
     /// <summary>
     /// 移動完了時のフックメソッド。
