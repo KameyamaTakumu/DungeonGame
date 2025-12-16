@@ -1354,11 +1354,10 @@ MonoBehaviour:
   consumableUI: {fileID: 7299545}
   passiveUI: {fileID: 1480618660}
   inventory: {fileID: 989914528}
-  slotPrefab: {fileID: 7584838958004092537, guid: be69256019c5b214eaf761c383b1aa28, type: 3}
-  consumableParent: {fileID: 7299546}
-  passiveParent: {fileID: 1480618661}
-  database: {fileID: 11400000, guid: d09ce38656a826e4a8da8b57a9103e57, type: 2}
-  selectUI: {fileID: 493189863}
+  consumableSlots: []
+  passiveSlots: []
+  database: {fileID: 0}
+  selectUI: {fileID: 0}
 --- !u!1 &1005542768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2543,7 +2542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1480618661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2561,7 +2560,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 150, y: -300}
-  m_SizeDelta: {x: 1500, y: 500}
+  m_SizeDelta: {x: 1000, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1480618662
 MonoBehaviour:
@@ -2583,7 +2582,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 0946067374a05c445b6bc90f456573c0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

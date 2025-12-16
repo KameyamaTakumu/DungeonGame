@@ -1,7 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// CardInventory の UI 操作・スロット生成・キー操作・テスト取得 をすべて1本にまとめた統合版。
+/// CardInventory の UI 制御（固定スロット方式）
+/// ・スロットは事前配置
+/// ・GridLayout / Instantiate 不使用
+/// ・Index = スロット番号で完全一致
 /// </summary>
 public class CardInventoryUIController : MonoBehaviour
 {
@@ -12,82 +15,98 @@ public class CardInventoryUIController : MonoBehaviour
     [Header("インベントリ参照")]
     public CardInventory inventory;
 
-    [Header("スロット生成")]
-    public GameObject slotPrefab;
-    public Transform consumableParent;
-    public Transform passiveParent;
+    [Header("固定スロット（Inspectorで設定）")]
+    public CardSlotUI[] consumableSlots;
+    public CardSlotUI[] passiveSlots;
 
     [Header("カードデータベース")]
     public CardDataBase database;
+
     [Header("カード選択UI")]
     public CardSelectUI selectUI;
 
-    private void Start()
+    void Start()
     {
-        // Inventory が無ければ自動取得
         if (inventory == null)
-        {
             inventory = FindFirstObjectByType<CardInventory>();
-        }
 
-        // イベント登録
         if (inventory != null)
         {
-            inventory.OnSwapRequested += OnSwapRequested;
             inventory.OnInventoryChanged += Refresh;
+            inventory.OnSwapRequested += OnSwapRequested;
         }
 
-        Refresh(); // 初期スロット生成
+        // スロット初期設定
+        for (int i = 0; i < consumableSlots.Length; i++)
+        {
+            consumableSlots[i].slotIndex = i;
+            consumableSlots[i].isConsumable = true;
+            consumableSlots[i].Clear();
+        }
+
+        for (int i = 0; i < passiveSlots.Length; i++)
+        {
+            passiveSlots[i].slotIndex = i;
+            passiveSlots[i].isConsumable = false;
+            passiveSlots[i].Clear();
+        }
+
+        Refresh();
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         if (inventory != null)
         {
-            inventory.OnSwapRequested -= OnSwapRequested;
             inventory.OnInventoryChanged -= Refresh;
+            inventory.OnSwapRequested -= OnSwapRequested;
         }
     }
 
-    private void Update()
+    void Update()
     {
-        // ----- UI 切替 -----
+        // Q : Consumable UI
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            ShowConsumableUI();
+            if (consumableUI.activeSelf)
+            {
+                HideAllUI();
+                inventory?.CancelSwap();
+            }
+            else
+            {
+                ShowConsumableUI();
+            }
         }
 
+        // Z : Passive UI
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            ShowPassiveUI();
+            if (passiveUI.activeSelf)
+            {
+                HideAllUI();
+                inventory?.CancelSwap();
+            }
+            else
+            {
+                ShowPassiveUI();
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            HideAllUI();
-            inventory?.CancelSwap();
-        }
-
-        // E → 使い切りカードを拾う（ランダム3枚から選択）
+        // E : Consumable取得
         if (Input.GetKeyDown(KeyCode.E))
-        {
             ShowRandomSelect(CardType.Consumable);
-        }
 
-        // C → パッシブカードを拾う（ランダム3枚から選択）
+        // C : Passive取得
         if (Input.GetKeyDown(KeyCode.C))
-        {
             ShowRandomSelect(CardType.Passive);
-        }
     }
 
     // ================================
-    // UI 表示系
+    // UI 表示制御
     // ================================
     void OnSwapRequested(CardData pending, CardType type)
     {
-        Debug.Log($"UI: 入れ替え要求: {pending.cardName} ({type})");
-
         if (type == CardType.Consumable)
             ShowConsumableUI();
         else
@@ -113,39 +132,34 @@ public class CardInventoryUIController : MonoBehaviour
     }
 
     // ================================
-    // スロット生成系
+    // スロット更新
     // ================================
     void Refresh()
     {
         if (inventory == null) return;
 
-        // 既存削除
-        foreach (Transform t in consumableParent) Destroy(t.gameObject);
-        foreach (Transform t in passiveParent) Destroy(t.gameObject);
-
-        // 消費スロット生成
-        for (int i = 0; i < inventory.consumableCards.Count; i++)
+        // Consumable
+        for (int i = 0; i < consumableSlots.Length; i++)
         {
-            var card = inventory.consumableCards[i];
-            var slotObj = Instantiate(slotPrefab, consumableParent);
-            var slot = slotObj.GetComponent<CardSlotUI>();
-            slot.Setup(card, i, true);
+            if (i < inventory.consumableCards.Count)
+                consumableSlots[i].SetCard(inventory.consumableCards[i]);
+            else
+                consumableSlots[i].Clear();
         }
 
-        // パッシブスロット生成
-        for (int i = 0; i < inventory.passiveCards.Count; i++)
+        // Passive
+        for (int i = 0; i < passiveSlots.Length; i++)
         {
-            var card = inventory.passiveCards[i];
-            var slotObj = Instantiate(slotPrefab, passiveParent);
-            var slot = slotObj.GetComponent<CardSlotUI>();
-            slot.Setup(card, i, false);
+            if (i < inventory.passiveCards.Count)
+                passiveSlots[i].SetCard(inventory.passiveCards[i]);
+            else
+                passiveSlots[i].Clear();
         }
     }
 
-    /// <summary>
-    /// ランダムで3枚選出してカード選択UIを開く
-    /// </summary>
-    /// <param name="type">カードタイプ</param>
+    // ================================
+    // カード選択UI
+    // ================================
     void ShowRandomSelect(CardType type)
     {
         if (database == null)
@@ -157,22 +171,14 @@ public class CardInventoryUIController : MonoBehaviour
         var list = database.GetCards(type);
         if (list == null || list.Length == 0)
         {
-            Debug.LogWarning("カードが設定されていません");
+            Debug.LogWarning("カードが存在しません");
             return;
         }
 
-        // --- ランダムで3枚選出 ---
         CardData[] options = new CardData[3];
         for (int i = 0; i < 3; i++)
-        {
             options[i] = list[Random.Range(0, list.Length)];
-        }
 
-        // --- カード選択UIを開く ---
-        selectUI.Open(inventory, options, () =>
-        {
-            // 選択後のUIリフレッシュ
-            Refresh();
-        });
+        selectUI.Open(inventory, options, Refresh);
     }
 }
