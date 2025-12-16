@@ -15,15 +15,22 @@ public class CardInventoryUIController : MonoBehaviour
     [Header("インベントリ参照")]
     public CardInventory inventory;
 
-    [Header("固定スロット（Inspectorで設定）")]
-    public CardSlotUI[] consumableSlots;
-    public CardSlotUI[] passiveSlots;
+    [Header("カードスロットPrefab")]
+    public CardSlotUI slotPrefab;
+
+    [Header("固定スロット位置（Transform）")]
+    public Transform[] consumableSlotPoints;
+    public Transform[] passiveSlotPoints;
 
     [Header("カードデータベース")]
     public CardDataBase database;
 
     [Header("カード選択UI")]
     public CardSelectUI selectUI;
+
+    // 生成済みスロット管理
+    CardSlotUI[] consumableSlots;
+    CardSlotUI[] passiveSlots;
 
     void Start()
     {
@@ -36,20 +43,8 @@ public class CardInventoryUIController : MonoBehaviour
             inventory.OnSwapRequested += OnSwapRequested;
         }
 
-        // スロット初期設定
-        for (int i = 0; i < consumableSlots.Length; i++)
-        {
-            consumableSlots[i].slotIndex = i;
-            consumableSlots[i].isConsumable = true;
-            consumableSlots[i].Clear();
-        }
-
-        for (int i = 0; i < passiveSlots.Length; i++)
-        {
-            passiveSlots[i].slotIndex = i;
-            passiveSlots[i].isConsumable = false;
-            passiveSlots[i].Clear();
-        }
+        consumableSlots = new CardSlotUI[consumableSlotPoints.Length];
+        passiveSlots = new CardSlotUI[passiveSlotPoints.Length];
 
         Refresh();
     }
@@ -65,7 +60,6 @@ public class CardInventoryUIController : MonoBehaviour
 
     void Update()
     {
-        // Q : Consumable UI
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (consumableUI.activeSelf)
@@ -73,13 +67,9 @@ public class CardInventoryUIController : MonoBehaviour
                 HideAllUI();
                 inventory?.CancelSwap();
             }
-            else
-            {
-                ShowConsumableUI();
-            }
+            else ShowConsumableUI();
         }
 
-        // Z : Passive UI
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (passiveUI.activeSelf)
@@ -87,17 +77,12 @@ public class CardInventoryUIController : MonoBehaviour
                 HideAllUI();
                 inventory?.CancelSwap();
             }
-            else
-            {
-                ShowPassiveUI();
-            }
+            else ShowPassiveUI();
         }
 
-        // E : Consumable取得
         if (Input.GetKeyDown(KeyCode.E))
             ShowRandomSelect(CardType.Consumable);
 
-        // C : Passive取得
         if (Input.GetKeyDown(KeyCode.C))
             ShowRandomSelect(CardType.Passive);
     }
@@ -115,46 +100,81 @@ public class CardInventoryUIController : MonoBehaviour
 
     public void ShowConsumableUI()
     {
-        if (consumableUI) consumableUI.SetActive(true);
-        if (passiveUI) passiveUI.SetActive(false);
+        consumableUI?.SetActive(true);
+        passiveUI?.SetActive(false);
     }
 
     public void ShowPassiveUI()
     {
-        if (passiveUI) passiveUI.SetActive(true);
-        if (consumableUI) consumableUI.SetActive(false);
+        passiveUI?.SetActive(true);
+        consumableUI?.SetActive(false);
     }
 
     public void HideAllUI()
     {
-        if (consumableUI) consumableUI.SetActive(false);
-        if (passiveUI) passiveUI.SetActive(false);
+        consumableUI?.SetActive(false);
+        passiveUI?.SetActive(false);
     }
 
     // ================================
-    // スロット更新
+    // スロット更新（核心）
     // ================================
     void Refresh()
     {
         if (inventory == null) return;
 
-        // Consumable
-        for (int i = 0; i < consumableSlots.Length; i++)
+        // ---------- Consumable ----------
+        for (int i = 0; i < consumableSlotPoints.Length; i++)
         {
-            if (i < inventory.consumableCards.Count)
-                consumableSlots[i].SetCard(inventory.consumableCards[i]);
-            else
-                consumableSlots[i].Clear();
+            RefreshSlot(
+                inventory.consumableCards,
+                i,
+                consumableSlotPoints[i],
+                ref consumableSlots,
+                true
+            );
         }
 
-        // Passive
-        for (int i = 0; i < passiveSlots.Length; i++)
+        // ---------- Passive ----------
+        for (int i = 0; i < passiveSlotPoints.Length; i++)
         {
-            if (i < inventory.passiveCards.Count)
-                passiveSlots[i].SetCard(inventory.passiveCards[i]);
-            else
-                passiveSlots[i].Clear();
+            RefreshSlot(
+                inventory.passiveCards,
+                i,
+                passiveSlotPoints[i],
+                ref passiveSlots,
+                false
+            );
         }
+    }
+
+    void RefreshSlot(
+    System.Collections.Generic.List<CardData> cardList,
+    int index,
+    Transform parent,
+    ref CardSlotUI[] slots,
+    bool isConsumable)
+    {
+        // 既存スロットがあれば削除
+        if (slots[index] != null)
+        {
+            Destroy(slots[index].gameObject);
+            slots[index] = null;
+        }
+
+        // カードが無ければ何も生成しない
+        if (index >= cardList.Count)
+            return;
+
+        // Prefab生成
+        var slot = Instantiate(slotPrefab, parent);
+
+        // ★ここが重要：Setupは使わない
+        slot.slotIndex = index;
+        slot.isConsumable = isConsumable;
+        slot.SetCard(cardList[index]);
+
+        slots[index] = slot;
     }
 
     // ================================

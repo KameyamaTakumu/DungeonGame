@@ -2633,8 +2633,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1aa4dd87155d204d84a9ec96779f98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPBarController
-  hpSlider: {fileID: 0}
-  playerStatus: {fileID: 0}
+  hpSlider: {fileID: 1776077301}
+  playerStatus: {fileID: -67262504944497268, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
 --- !u!114 &1133840173
 MonoBehaviour:
   m_ObjectHideFlags: 0
