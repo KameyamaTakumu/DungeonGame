@@ -62,6 +62,11 @@ public class DungeonGenerator : MonoBehaviour
     [CustomLabel("部屋の最大サイズ"), SerializeField]
     private int roomMaxSize = 10;
 
+    [Header("階段設定")]
+    [CustomLabel("このマップに下り階段を生成する")]
+    [SerializeField]
+    private bool generateStepsDown = true;
+
     [Header("タイルマップ関連")]
     [CustomLabel("床タイルを描画するタイルマップ"), SerializeField]
     private Tilemap floorTilemap;
@@ -161,8 +166,11 @@ public class DungeonGenerator : MonoBehaviour
         // (7) 壁タイルの自動タイル適用
         FindAnyObjectByType<WallAutoTilePainter>()?.ApplyAutoTiles(map);
 
-        // (8) 階段設置
-        PlaceStepDown();
+        // (8) 階段設置（設定次第）
+        if (generateStepsDown)
+        {
+            PlaceStepDown();
+        }
     }
 
     /// <summary>
@@ -347,7 +355,7 @@ public class DungeonGenerator : MonoBehaviour
     private void RenderMap()
     {
         floorTilemap.ClearAllTiles();
-        wallTilemap. ClearAllTiles();
+        wallTilemap.ClearAllTiles();
 
         for (int x = 0; x < width; x++)
         {

@@ -19,19 +19,38 @@ public class CameraFollow : MonoBehaviour
     [CustomLabel("追尾の滑らかさ")]
     [SerializeField] private float smooth = 5f;
 
+    [Header("マップ制限")]
+    [SerializeField] private DungeonGenerator dungeon;
+
     /// <summary>
     /// 毎フレームの後処理としてカメラ位置を調整
     /// target が存在しない場合は処理を行わない
     /// </summary>
     private void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null || dungeon == null) return;
 
         Vector3 pos = transform.position;
 
-        // ターゲット位置へ線形補間し、滑らかな追従を実現
+        // 追従（スムーズ）
         pos.x = Mathf.Lerp(pos.x, target.position.x, smooth * Time.deltaTime);
         pos.y = Mathf.Lerp(pos.y, target.position.y, smooth * Time.deltaTime);
+
+        // ===== カメラサイズ取得 =====
+        Camera cam = Camera.main;
+        float camHalfHeight = cam.orthographicSize;
+        float camHalfWidth = camHalfHeight * cam.aspect;
+
+        // ===== マップ端を計算（タイル中心基準）=====
+        float minX = camHalfWidth - 0.5f;
+        float maxX = dungeon.width - camHalfWidth - 0.5f;
+
+        float minY = camHalfHeight - 0.5f;
+        float maxY = dungeon.height - camHalfHeight - 0.5f;
+
+        // ===== Clamp =====
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
         transform.position = pos;
     }
