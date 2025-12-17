@@ -1226,6 +1226,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &503182263 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+  m_PrefabInstance: {fileID: 954441879}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3704d31e69bf34146bd1f7418f430d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
 --- !u!1 &587668210
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,6 +2062,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: wallPadding
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallTilemap
       value: 
       objectReference: {fileID: 1000810255}
@@ -2058,6 +2073,10 @@ PrefabInstance:
       propertyPath: floorTilemap
       value: 
       objectReference: {fileID: 818248150}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: stepsDownTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d2b38472b576454aa12b6c527db9086, type: 2}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: miniMapRenderer
       value: 
@@ -2917,6 +2936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Test_CameraFollow
   target: {fileID: 6737902979630441379, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
   smooth: 5
+  dungeon: {fileID: 503182263}
 --- !u!114 &1224574058
 MonoBehaviour:
   m_ObjectHideFlags: 0
