@@ -1,0 +1,147 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// ボス専用の行動制御クラス。
+/// 雑魚敵とは異なり「移動せず、範囲攻撃でプレイヤーを制圧する」
+/// ことを目的としたAI設計になっている。
+/// 
+/// 各攻撃は
+/// ・攻撃範囲の計算
+/// ・予兆（ハイライト表示）
+/// ・ダメージ／特殊効果の適用
+/// の3段階で構成されており、拡張性を重視している。
+/// </summary>
+public class BossController : MonoBehaviour
+{
+    [Header("ボスステータス")]
+    [CustomLabel("通常攻撃のダメージ量")]
+    public int normalDamage = 15;
+
+    [CustomLabel("正面範囲攻撃のダメージ量")]
+    public int wideDamage = 20;
+
+    [CustomLabel("ボスの最大HP")]
+    public int maxHP = 200;
+
+    /// <summary>
+    /// ボスの行動開始。
+    /// ターン制バトルマネージャーから呼ばれる想定。
+    /// </summary>
+    public void BossTurn()
+    {
+        // ランダムで行動を選択（将来的にHP条件などで分岐可能）
+        int action = Random.Range(0, 2);
+
+        switch (action)
+        {
+            case 0:
+                ExecuteFrontWideAttack();
+                break;
+
+            case 1:
+                ExecuteFrontLineAttack();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// ボス正面に対する2×3範囲攻撃。
+    /// プレイヤーが範囲内にいる場合、
+    /// ダメージ＋Y方向に2マスのノックバックを行う。
+    /// </summary>
+    void ExecuteFrontWideAttack()
+    {
+        List<Vector2Int> area = GetFrontWideArea();
+
+        // 攻撃予兆を表示
+        HighlightManager.instance.ShowTiles(area);
+
+        Vector2Int playerPos = GetPlayerGridPos();
+
+        if (area.Contains(playerPos))
+        {
+            PlayerStatus player = GetPlayerStatus();
+            player.TakeDamage(wideDamage);
+
+            // ノックバック（下方向に2マス）
+            player.transform.position += new Vector3(0, -2, 0);
+        }
+    }
+
+    /// <summary>
+    /// ボス正面に対する5×1の横一直線範囲攻撃。
+    /// シンプルな範囲ダメージ攻撃として使用。
+    /// </summary>
+    void ExecuteFrontLineAttack()
+    {
+        List<Vector2Int> area = GetFrontLineArea();
+
+        // 攻撃予兆を表示
+        HighlightManager.instance.ShowTiles(area);
+
+        Vector2Int playerPos = GetPlayerGridPos();
+
+        if (area.Contains(playerPos))
+        {
+            GetPlayerStatus().TakeDamage(normalDamage);
+        }
+    }
+
+    /// <summary>
+    /// ボス正面（下方向）に2×3の攻撃範囲を生成する。
+    /// ボスは3×3サイズのため、足元基準で計算している。
+    /// </summary>
+    List<Vector2Int> GetFrontWideArea()
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        Vector2Int center = Vector2Int.RoundToInt(transform.position);
+
+        // 正面に2マス
+        for (int y = 1; y <= 2; y++)
+        {
+            // 横3マス
+            for (int x = -1; x <= 1; x++)
+            {
+                tiles.Add(new Vector2Int(center.x + x, center.y - 2 - y));
+            }
+        }
+
+        return tiles;
+    }
+
+    /// <summary>
+    /// ボス正面に横5マスの攻撃範囲を生成する。
+    /// </summary>
+    List<Vector2Int> GetFrontLineArea()
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        Vector2Int center = Vector2Int.RoundToInt(transform.position);
+
+        for (int x = -2; x <= 2; x++)
+        {
+            tiles.Add(new Vector2Int(center.x + x, center.y - 3));
+        }
+
+        return tiles;
+    }
+
+    /// <summary>
+    /// プレイヤーの現在のグリッド座標を取得する。
+    /// </summary>
+    Vector2Int GetPlayerGridPos()
+    {
+        return Vector2Int.RoundToInt(
+            GameObject.FindGameObjectWithTag("Player").transform.position
+        );
+    }
+
+    /// <summary>
+    /// プレイヤーの PlayerStatus コンポーネントを取得する。
+    /// </summary>
+    PlayerStatus GetPlayerStatus()
+    {
+        return GameObject.FindGameObjectWithTag("Player")
+                         .GetComponent<PlayerStatus>();
+    }
+}
