@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSkillExecutor : MonoBehaviour
@@ -18,6 +19,8 @@ public class PlayerSkillExecutor : MonoBehaviour
     {
         if (card.cardType != CardType.Consumable)
             return;
+
+        HighlightManager.instance.Clear(); // ★追加
 
         if (playerStatus == null)
         {
@@ -103,4 +106,36 @@ public class PlayerSkillExecutor : MonoBehaviour
         return hitCount;
     }
 
+    /// <summary>
+    /// カードの攻撃範囲を取得（ハイライト用）
+    /// </summary>
+    public List<Vector2Int> GetCardRangeTiles(CardData card)
+    {
+        Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
+        List<Vector2Int> tiles = new List<Vector2Int>();
+
+        switch (card.rangeType)
+        {
+            case CardRangeType.Around:
+                for (int x = -card.range; x <= card.range; x++)
+                {
+                    for (int y = -card.range; y <= card.range; y++)
+                    {
+                        if (x == 0 && y == 0) continue;
+                        tiles.Add(origin + new Vector2Int(x, y));
+                    }
+                }
+                break;
+
+            case CardRangeType.Line:
+                Vector2Int dir = playerStatus.facingDir;
+                for (int i = 1; i <= card.range; i++)
+                {
+                    tiles.Add(origin + dir * i);
+                }
+                break;
+        }
+
+        return tiles;
+    }
 }

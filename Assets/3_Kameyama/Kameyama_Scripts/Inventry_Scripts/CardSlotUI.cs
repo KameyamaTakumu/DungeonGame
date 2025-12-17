@@ -12,12 +12,6 @@ public class CardSlotUI : MonoBehaviour
     [SerializeField] Button btn; // ★直接指定
 
     CardData card;
-    //Button btn;
-
-    void Awake()
-    {
-        //btn = GetComponentInChildren<Button>();
-    }
 
     /// <summary>
     /// カードを表示する
@@ -74,7 +68,7 @@ public class CardSlotUI : MonoBehaviour
 
         if (isConsumable)
         {
-            inv.UseConsumableCard(slotIndex);
+            inv.OnConsumableCardClicked(slotIndex);
         }
         else
         {

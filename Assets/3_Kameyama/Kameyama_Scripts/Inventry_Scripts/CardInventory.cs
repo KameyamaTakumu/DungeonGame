@@ -22,6 +22,9 @@ public class CardInventory : MonoBehaviour
     public CardData PendingCard { get; private set; } = null;
     public CardType PendingCardType { get; private set; }
 
+    // 現在選択中の使い切りカード
+    public int SelectedConsumableIndex { get; private set; } = -1;
+
     // UIに「入れ替え開始」を通知するためのイベント
     public Action<CardData, CardType> OnSwapRequested;
 
@@ -141,6 +144,47 @@ public class CardInventory : MonoBehaviour
 
         // 削除
         consumableCards.RemoveAt(index);
+
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void OnConsumableCardClicked(int index)
+    {
+        if (index < 0 || index >= consumableCards.Count) return;
+        if (IsSwapMode) return;
+
+        // ① 未選択 → 範囲表示
+        if (SelectedConsumableIndex != index)
+        {
+            SelectedConsumableIndex = index;
+
+            var card = consumableCards[index];
+            var executor = FindFirstObjectByType<PlayerSkillExecutor>();
+
+            if (executor != null)
+            {
+                var tiles = executor.GetCardRangeTiles(card);
+                HighlightManager.instance.ShowTiles(tiles);
+            }
+
+            return;
+        }
+
+        // ② 同じカードを再クリック → 使用確定
+        ConsumeConsumableCard(index);
+    }
+
+    void ConsumeConsumableCard(int index)
+    {
+        var card = consumableCards[index];
+
+        FindFirstObjectByType<PlayerSkillExecutor>()
+            ?.ExecuteCardSkill(card);
+
+        consumableCards.RemoveAt(index);
+
+        SelectedConsumableIndex = -1;
+        HighlightManager.instance.Clear();
 
         OnInventoryChanged?.Invoke();
     }
