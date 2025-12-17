@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 /// <summary>
 /// 敵キャラクターの2D移動を管理するクラス。
@@ -28,7 +29,6 @@ public class EnemyMovement : BaseMovement
         UnitManager.instance.RegisterEnemy(this.gameObject);
         gridPos = Vector2Int.RoundToInt(transform.position);
     }
-
 
     /// <summary>
     /// 移動完了時に呼ばれるフックメソッド。
@@ -59,6 +59,23 @@ public class EnemyMovement : BaseMovement
         return new Vector2Int(x, y);
     }
 
+    public Vector2Int DecideChaseDir(Vector2Int playerPos)
+    {
+        // A* で経路取得
+        List<Vector2Int> path = PathFinder.FindPath(gridPos, playerPos);
+
+        // 経路が無い or 自分と同じマス
+        if (path == null || path.Count < 2)
+            return Vector2Int.zero;
+
+        // 次に進むマス
+        Vector2Int next = path[1];
+
+        // 現在地との差分 = 移動方向
+        return next - gridPos;
+    }
+
+
     // --- 移動開始 ---
     public void StartMove(Vector2Int dir)
     {
@@ -84,23 +101,37 @@ public class EnemyMovement : BaseMovement
         Debug.Log($"{name} が移動開始！");
     }
 
-    ///// <summary>
-    ///// 指定座標にプレイヤーがいるか判定
-    ///// </summary>
-    //public bool PlayerInCell(Vector2Int cell)
-    //{
-    //    //GameObject player = GameObject.FindGameObjectWithTag("Player");
-    //    //Vector2 pos = player.transform.position;
+    public Vector2Int DecideChaseByDistance(
+    Dictionary<Vector2Int, int> distMap)
+    {
+        int best = int.MaxValue;
+        Vector2Int bestDir = Vector2Int.zero;
 
-    //    //return Mathf.RoundToInt(pos.x) == cell.x &&
-    //    //       Mathf.RoundToInt(pos.y) == cell.y;
+        Vector2Int cur = gridPos;
 
-    //    GameObject player = GameObject.FindGameObjectWithTag("Player");
-    //    Vector2 pos = player.transform.position;
-    //    Vector2Int pGrid = Vector2Int.RoundToInt(pos);
+        Vector2Int[] dirs =
+        {
+        Vector2Int.up,
+        Vector2Int.down,
+        Vector2Int.left,
+        Vector2Int.right
+    };
 
-    //    Debug.Log($"[PlayerInCell] cell={cell}, playerGrid={pGrid}, rawPos={pos}");
+        foreach (var d in dirs)
+        {
+            Vector2Int next = cur + d;
 
-    //    return Vector2.Distance(pos, cell) < 0.3f;   // 多少のズレを許容
-    //}
+            if (!distMap.ContainsKey(next))
+                continue;
+
+            if (distMap[next] < best)
+            {
+                best = distMap[next];
+                bestDir = d;
+            }
+        }
+
+        return bestDir;
+    }
+
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   cardType: 0
   description: 
   damage: 1000
-  range: 59
-  rangeType: 1
+  range: 3
+  rangeType: 0
   buffType: 0
   buffValue: 0

@@ -70,20 +70,18 @@ public class TrunManager : MonoBehaviour
 
     public IEnumerator EnemyTurn()
     {
-        // ターンフラグを敵側に設定
         isPlayerTurn = false;
 
-        // 演出として少し待機
-        yield return new WaitForSeconds(turnDelay); // n秒待つ
+        yield return new WaitForSeconds(turnDelay);
 
         Debug.Log("敵のターン");
 
-        // ---- 攻撃できるならする ----
-
         var enemies = UnitManager.instance.enemies;
-
         int finishedCount = 0;
 
+        // ==============================
+        // ① 攻撃フェーズ
+        // ==============================
         foreach (var e in enemies)
         {
             e.GetComponent<EnemyAttack>().TryAttackPlayer();
@@ -91,40 +89,57 @@ public class TrunManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        // 攻撃できなければ移動
-        //Debug.Log("攻撃できなかったため、移動へ");
-        
+        // ==============================
+        // ② 距離マップを「1回だけ」作る
+        // ==============================
+        Vector2Int playerPos =
+            Vector2Int.RoundToInt(PlayerMovement.instance.transform.position);
 
-        // ---- 移動方向の決定 ----
-        
+        DungeonGenerator dungeon = FindFirstObjectByType<DungeonGenerator>();
 
-        // --- 移動する敵は移動開始（全員同時） ---
+        var distMap = DistanceMap.Build(playerPos, dungeon);
+
+        // ==============================
+        // ③ 移動フェーズ
+        // ==============================
         foreach (var e in enemies)
         {
             var mv = e.GetComponent<EnemyMovement>();
 
-            // ① コールバック登録（移動前）
+            // コールバック登録
             mv.onMoveFinished = () =>
             {
                 finishedCount++;
             };
 
-            // ② フラグ初期化
             mv.moveFinished = false;
 
-            // ③ 移動開始
-            Vector2Int dir = mv.DecideMoveDir();
-            mv.StartMove(dir);
+            // 距離マップから追尾方向を取得
+            Vector2Int dir = mv.DecideChaseByDistance(distMap);
 
+            if (dir != Vector2Int.zero)
+            {
+                mv.StartMove(dir);
+            }
+            else
+            {
+                // 動けない場合も完了扱い
+                mv.moveFinished = true;
+                mv.onMoveFinished?.Invoke();
+            }
         }
 
-        // ---- 移動完了を待つ ----
+        // ==============================
+        // ④ 全敵の移動完了待ち
+        // ==============================
         while (finishedCount < enemies.Count)
         {
             yield return null;
         }
 
-        // ---- 敵ターン終了 ----
+        // ==============================
+        // ⑤ ターン終了
+        // ==============================
         isPlayerTurn = true;
         Debug.Log("敵ターン終了 > 次のプレイヤー行動待ち");
     }

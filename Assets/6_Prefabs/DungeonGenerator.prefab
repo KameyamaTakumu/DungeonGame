@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6656987374891762163}
   - component: {fileID: 8184004258957010693}
   - component: {fileID: 699077126088926893}
+  - component: {fileID: -2113248624612626189}
   m_Layer: 0
   m_Name: DungeonGenerator
   m_TagString: Untagged
@@ -50,6 +51,7 @@ MonoBehaviour:
   roomCount: 10
   roomMinSize: 2
   roomMaxSize: 8
+  generateStepsDown: 1
   floorTilemap: {fileID: 0}
   wallTilemap: {fileID: 0}
   floorTile: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
@@ -82,3 +84,16 @@ MonoBehaviour:
   tDown: {fileID: 11400000, guid: 198e3f41c9de2f2449adc1b797ed53b3, type: 2}
   tLeft: {fileID: 11400000, guid: 07b689fdd9cbace489134f78e37cb0e2, type: 2}
   cross: {fileID: 11400000, guid: 6739a1453fd5f664ba0ab895127d2e4d, type: 2}
+--- !u!114 &-2113248624612626189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5880948252305193662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c6100f2f0ef054bb982817276840bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GridMap
+  wallTilemap: {fileID: 0}
