@@ -100,12 +100,16 @@ public class CardInventoryUIController : MonoBehaviour
 
     public void ShowConsumableUI()
     {
+        CardTooltipUI.Instance?.Hide();
+
         consumableUI?.SetActive(true);
         passiveUI?.SetActive(false);
     }
 
     public void ShowPassiveUI()
     {
+        CardTooltipUI.Instance?.Hide();
+
         passiveUI?.SetActive(true);
         consumableUI?.SetActive(false);
     }
@@ -114,6 +118,8 @@ public class CardInventoryUIController : MonoBehaviour
     {
         consumableUI?.SetActive(false);
         passiveUI?.SetActive(false);
+
+        CardTooltipUI.Instance?.Hide();
     }
 
     // ================================

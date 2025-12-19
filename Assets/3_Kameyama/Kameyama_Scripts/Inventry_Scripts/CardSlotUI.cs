@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardSlotUI : MonoBehaviour
+public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     public Image icon;
     public Text nameText;
@@ -9,13 +10,16 @@ public class CardSlotUI : MonoBehaviour
     [HideInInspector] public int slotIndex;
     [HideInInspector] public bool isConsumable;
 
-    [SerializeField] Button btn; // ★直接指定
+    [SerializeField] Button btn;
 
     CardData card;
+    RectTransform rect;
 
-    /// <summary>
-    /// カードを表示する
-    /// </summary>
+    void Awake()
+    {
+        rect = GetComponent<RectTransform>();
+    }
+
     public void SetCard(CardData cardData)
     {
         card = cardData;
@@ -23,12 +27,6 @@ public class CardSlotUI : MonoBehaviour
         if (card == null)
         {
             Clear();
-            return;
-        }
-
-        if (btn == null)
-        {
-            Debug.LogError("Button が CardSlotUI に見つかりません", this);
             return;
         }
 
@@ -41,16 +39,11 @@ public class CardSlotUI : MonoBehaviour
         btn.onClick.AddListener(OnClick);
     }
 
-    /// <summary>
-    /// 空スロット表示
-    /// </summary>
     public void Clear()
     {
         card = null;
-
         icon.enabled = false;
         nameText.text = "";
-
         btn.interactable = false;
         btn.onClick.RemoveAllListeners();
     }
@@ -67,12 +60,19 @@ public class CardSlotUI : MonoBehaviour
         }
 
         if (isConsumable)
-        {
             inv.OnConsumableCardClicked(slotIndex);
-        }
-        else
-        {
-            Debug.Log($"パッシブカード「{card.cardName}」は使用できません");
-        }
+    }
+
+    // ===== ★ここが追加 =====
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (card == null) return;
+        CardTooltipUI.Instance?.Show(card, rect);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        CardTooltipUI.Instance?.Hide();
     }
 }
