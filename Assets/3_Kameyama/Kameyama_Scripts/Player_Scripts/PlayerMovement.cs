@@ -140,7 +140,8 @@ public class PlayerMovement : BaseMovement
         // 移動完了 → 敵ターン開始
         if (!debugMove && tm != null)
         {
-            tm.StartCoroutine(tm.EnemyTurn());
+            //tm.StartCoroutine(tm.EnemyTurn());
+            tm.PlayerTurn();
         }
     }
 }

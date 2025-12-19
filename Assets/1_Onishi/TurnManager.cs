@@ -6,7 +6,7 @@ using System.Collections;
 /// 攻撃処理・ターン切り替え・敵の移動処理など、戦闘における
 /// メインループの役割を持つ。
 /// </summary>
-public class TrunManager : MonoBehaviour
+public class TurnManager : MonoBehaviour
 {
     // 現在がプレイヤーのターンかどうか
     [HideInInspector]
@@ -21,25 +21,6 @@ public class TrunManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 現在のターンを逆転させる
-    /// </summary>
-    public void ChangeTurn()
-    {
-        isPlayerTurn = !isPlayerTurn; // ターンを逆にする
-
-        if (isPlayerTurn)
-        {
-            Debug.Log("プレイヤーのターンへ");
-            PlayerTurn();
-        }
-        else
-        {
-            Debug.Log("敵のターンへ");
-            StartCoroutine(EnemyTurn());
-        }
-    }
-
-    /// <summary>
     /// プレイヤーの行動処理。
     /// </summary>
     public void PlayerTurn()
@@ -49,15 +30,23 @@ public class TrunManager : MonoBehaviour
 
         Debug.Log("プレイヤーのターン ");
 
-
-
         // ダメージ処理
 
         // プレイヤーのターン終了
         //Debug.Log("プレイヤーターン終了 > 敵ターンへ");
         isPlayerTurn = false;
 
-        StartCoroutine(EnemyTurn());
+        Debug.Log("CurrentFloor: " + DungeonGenerator.CurrentFloor);
+
+        if( DungeonGenerator.CurrentFloor == 3)
+        {
+            StartCoroutine(BossTurn());
+        }
+        else
+        {
+            StartCoroutine(EnemyTurn());
+        }
+        
     }
 
     /// <summary>
@@ -143,4 +132,46 @@ public class TrunManager : MonoBehaviour
         isPlayerTurn = true;
         Debug.Log("敵ターン終了 > 次のプレイヤー行動待ち");
     }
+
+    /// <summary>
+    /// ボス専用のターン処理。
+    /// ボスの行動を実行
+    /// 演出待ち
+    /// プレイヤーターンへ戻す
+    /// </summary>
+    public IEnumerator BossTurn()
+    {
+        isPlayerTurn = false;
+
+        Debug.Log("ボスのターン開始");
+
+        // 少し間を空けてから行動
+        yield return new WaitForSeconds(turnDelay);
+
+        // ボス取得
+        BossController boss =
+            FindFirstObjectByType<BossController>();
+
+        if (boss != null)
+        {
+            // ボスの行動を実行
+            boss.BossAction();
+        }
+        else
+        {
+            Debug.LogWarning("BossController が見つかりません");
+        }
+
+        // 攻撃演出・予兆表示を見せる時間
+        yield return new WaitForSeconds(1.0f);
+
+        // ハイライト消去
+        HighlightManager.instance.Clear();
+
+        // ターン終了 → プレイヤーへ
+        isPlayerTurn = true;
+
+        Debug.Log("ボスターン終了 > プレイヤーのターンへ");
+    }
+
 }

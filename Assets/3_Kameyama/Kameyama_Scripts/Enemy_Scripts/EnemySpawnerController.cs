@@ -23,6 +23,10 @@ public class EnemySpawnerController : MonoBehaviour
     [CustomLabel("スポーンの出現敵・数の設定"),SerializeField]
     private List<SpawnInfo> spawnSettings = new List<SpawnInfo>();
 
+    [Header("ボス設定")]
+    [SerializeField]
+    private GameObject bossPrefab;
+
     /// <summary>
     /// 生成済みの敵を保持
     /// </summary>
@@ -41,7 +45,15 @@ public class EnemySpawnerController : MonoBehaviour
             return;
         }
 
-        SpawnAllEnemies(); // 起動時に全ての敵をまとめて生成
+        // ▼ボス階層なら雑魚を出さない
+        if (DungeonGenerator.CurrentFloor == 3)
+        {
+            SpawnBoss();
+        }
+        else
+        {
+            SpawnAllEnemies();// 起動時に全ての敵をまとめて生成
+        }
     }
 
     /// <summary>
@@ -89,6 +101,27 @@ public class EnemySpawnerController : MonoBehaviour
     /// 生成された敵一覧を読み取り専用で返す
     /// </summary>
     public IReadOnlyList<GameObject> GetSpawnedEnemies() => spawnedEnemies;
+
+    /// <summary>
+    /// ボスを1体だけスポーンする。
+    /// 雑魚敵は一切生成しない。
+    /// </summary>
+    private void SpawnBoss()
+    {
+        if (bossPrefab == null)
+        {
+            Debug.LogError("BossPrefab が設定されていません");
+            return;
+        }
+
+        // 部屋中央に配置
+        Vector2Int bossPos = new Vector2Int(6, 6);
+
+        GameObject boss = Instantiate(bossPrefab);
+        boss.transform.position = new Vector3(bossPos.x, bossPos.y, 0);
+
+        spawnedEnemies.Add(boss);
+    }
 }
 
 /// <summary>
