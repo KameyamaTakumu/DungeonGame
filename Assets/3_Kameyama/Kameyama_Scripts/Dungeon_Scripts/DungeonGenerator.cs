@@ -87,7 +87,7 @@ public class DungeonGenerator : MonoBehaviour
 
     [Header("デバッグ用")]
     [CustomLabel("現在のフロア番号"), SerializeField]
-    public static int CurrentFloor = 3;
+    public static int CurrentFloor = 1;
 
 
     // マップデータ（TileType の 2 次元配列）
