@@ -23,7 +23,7 @@ public class BaseMovement : MonoBehaviour
     /// <summary>ダンジョン情報（地形・マップ）への参照。</summary>
     protected DungeonGenerator dungeon;
     /// <summary>バトル管理クラスへの参照。</summary>
-    protected TrunManager    tm;
+    protected TurnManager    tm;
 
     /// <summary>
     /// 必要な依存コンポーネント（DungeonGenerator / BattleManager）の参照取得。
@@ -32,10 +32,10 @@ public class BaseMovement : MonoBehaviour
     protected virtual void Awake()
     {
         dungeon = FindFirstObjectByType<DungeonGenerator>();
-        tm      = FindFirstObjectByType<TrunManager>();
+        tm      = FindFirstObjectByType<TurnManager>();
 
         if (dungeon == null) Debug.LogError("DungeonGenerator がシーン内に存在しません。"); 
-        if (tm      == null) Debug.LogError("BattleManager がシーン内に存在しません。"); 
+        if (tm      == null) Debug.LogError("TurnManager がシーン内に存在しません。"); 
     }
 
     /// <summary>

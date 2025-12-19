@@ -28,7 +28,7 @@ public class BossController : MonoBehaviour
     /// ボスの行動開始。
     /// ターン制バトルマネージャーから呼ばれる想定。
     /// </summary>
-    public void BossTurn()
+    public void BossAction()
     {
         // ランダムで行動を選択（将来的にHP条件などで分岐可能）
         int action = Random.Range(0, 2);
@@ -118,6 +118,7 @@ public class BossController : MonoBehaviour
         List<Vector2Int> tiles = new List<Vector2Int>();
         Vector2Int center = Vector2Int.RoundToInt(transform.position);
 
+        // 横5マス
         for (int x = -2; x <= 2; x++)
         {
             tiles.Add(new Vector2Int(center.x + x, center.y - 3));

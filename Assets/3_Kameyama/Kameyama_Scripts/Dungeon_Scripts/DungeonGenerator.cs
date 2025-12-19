@@ -85,6 +85,11 @@ public class DungeonGenerator : MonoBehaviour
     [CustomLabel("ミニマップ描画コンポーネント"), SerializeField]
     private MiniMapRenderer miniMapRenderer;
 
+    [Header("デバッグ用")]
+    [CustomLabel("現在のフロア番号"), SerializeField]
+    public static int CurrentFloor = 3;
+
+
     // マップデータ（TileType の 2 次元配列）
     // ここを基準に Tilemap やミニマップ描画を行う
     public TileType[,] map;
@@ -125,6 +130,13 @@ public class DungeonGenerator : MonoBehaviour
     /// </summary>
     private void Generate()
     {
+        // ボス階層なら専用生成
+        if (CurrentFloor == 3)
+        {
+            GenerateBossFloor();
+            return;
+        }
+
         // 2Dマップ配列を全て「壁」で初期化
         map = new TileType[width, height];
 
@@ -157,7 +169,7 @@ public class DungeonGenerator : MonoBehaviour
             miniMapRenderer.DrawMiniMap(map); 
         }
 
-        // (5) プレイヤー / 敵の自動スポーン
+        // (5) プレイヤー
         FindAnyObjectByType<PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
 
         // (6) ミニマップの敵アイコン更新
@@ -172,6 +184,49 @@ public class DungeonGenerator : MonoBehaviour
             PlaceStepDown();
         }
     }
+
+    /// <summary>
+    /// ボス専用フロアを生成する。
+    /// 12×12 の1部屋構成
+    /// 通路なし
+    /// 雑魚敵なし
+    /// </summary>
+    private void GenerateBossFloor()
+    {
+        width  = 18;
+        height = 10;
+
+        map = new TileType[width, height];
+
+        // 全体を壁で初期化
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                map[x, y] = TileType.Wall;
+            }
+        }
+
+        // 中央に1部屋を作成
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int y = 1; y < height - 1; y++)
+            {
+                map[x, y] = TileType.Floor;
+            }
+        }
+
+        RenderMap();
+
+        // プレイヤーを左下寄りに配置
+        FindAnyObjectByType<PlayerSpawner>()
+            ?.SpawnPlayer(new Vector2Int(3, 3));
+
+        // 壁オートタイル
+        FindAnyObjectByType<WallAutoTilePainter>()
+            ?.ApplyAutoTiles(map);
+    }
+
 
     /// <summary>
     /// ランダムな部屋を複数生成し、map を床タイルに置き換える

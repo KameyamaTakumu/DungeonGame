@@ -454,6 +454,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504203037}
   m_CullTransparentMesh: 1
+--- !u!114 &643806835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+  m_PrefabInstance: {fileID: 1461043529}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3704d31e69bf34146bd1f7418f430d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
 --- !u!1 &748439340
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,6 +1696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Test_CameraFollow
   target: {fileID: 6737902979630441379, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
   smooth: 10
+  dungeon: {fileID: 643806835}
 --- !u!4 &1768412253
 Transform:
   m_ObjectHideFlags: 0
