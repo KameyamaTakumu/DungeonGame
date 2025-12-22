@@ -93,7 +93,7 @@ public class EnemyStatus : MonoBehaviour
     {
         if (cardInventory == null) return true;
 
-        if (type == CardType.Passive)
+        if (type == CardType.Buff)
             return cardInventory.passiveCards.Count >= cardInventory.passiveLimit;
 
         return cardInventory.consumableCards.Count >= cardInventory.consumableLimit;

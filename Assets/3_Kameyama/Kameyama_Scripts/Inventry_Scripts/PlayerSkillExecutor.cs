@@ -17,7 +17,7 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     public void ExecuteCardSkill(CardData card)
     {
-        if (card.cardType != CardType.Consumable)
+        if (card.cardType != CardType.Use)
             return;
 
         HighlightManager.instance.Clear(); // Åöí«â¡
