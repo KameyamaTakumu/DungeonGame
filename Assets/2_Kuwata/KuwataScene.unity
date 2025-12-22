@@ -1414,7 +1414,7 @@ MonoBehaviour:
   spawnSettings:
   - enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
     count: 5
-  bossPrefab: {fileID: 0}
+  bossPrefab: {fileID: 2688545153726980253, guid: 27e68eb40ef5e204f90c7ae2d2a2e9a5, type: 3}
 --- !u!114 &452943306
 MonoBehaviour:
   m_ObjectHideFlags: 0

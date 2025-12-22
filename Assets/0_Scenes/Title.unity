@@ -687,6 +687,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e8a26dfa6cfa7449a2c28b74dc4ad18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleManager
+  optionPanel: {fileID: 0}
+  titleText: {fileID: 1097910373}
   GameObject: {fileID: 232385188}
 --- !u!4 &860255054
 Transform:
