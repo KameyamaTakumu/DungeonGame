@@ -653,7 +653,7 @@ MonoBehaviour:
   bgmSource: {fileID: 1848817224}
   seSource: {fileID: 350323818}
   bgmList:
-  - {fileID: 8300000, guid: d3372b16ed08ba5498c7873dd8d52fae, type: 3}
+  - {fileID: 8300000, guid: b347e3ddf768e494489731b3d751aa22, type: 3}
   seList:
   - {fileID: 8300000, guid: 9796758ee77170f4180bfc75330b691d, type: 3}
   fadeTime: 1
@@ -908,6 +908,8 @@ MonoBehaviour:
   - button: {fileID: 1959706952}
     seType: 0
   - button: {fileID: 1607550900}
+    seType: 0
+  - button: {fileID: 2013840780}
     seType: 0
 --- !u!4 &958156567
 Transform:
