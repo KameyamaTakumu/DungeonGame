@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
@@ -12,8 +13,10 @@ public class PlayerMovement : BaseMovement
     public static PlayerMovement instance;
 
     [HideInInspector]
-    bool isSelectingAttackDir = false;
-    private Vector2Int attackDir = Vector2Int.zero;
+    bool isSelectingAttackDir    = false; // 攻撃方向選択中かどうか
+    bool isAttackmode            = false; // 攻撃モード中かどうか
+    private Vector2Int attackDir = Vector2Int.zero; // 選択中の攻撃方向
+
 
     public PlayerAttack pa;
 
@@ -52,6 +55,8 @@ public class PlayerMovement : BaseMovement
     /// </summary>
     private void HandleMovementInput(bool debugMove)
     {
+        if (isSelectingAttackDir) return;
+
         int x = 0, y = 0;
 
         // 移動入力の判定（WASD または 矢印キー）
@@ -85,6 +90,7 @@ public class PlayerMovement : BaseMovement
     private void HandleAttackInput()
     {
         // 攻撃モード開始
+        // スぺースキーを押すと移動ができないようにする
         if (Input.GetKeyDown(KeyCode.Space) && !isSelectingAttackDir)
         {
             isSelectingAttackDir = true;
@@ -92,7 +98,18 @@ public class PlayerMovement : BaseMovement
 
             HighlightManager.instance.Clear();
             Debug.Log("攻撃方向を選択してください（IJKL）");
+            Debug.Log("移動するにはもう一度Spaceを押してください");
             return;
+        }
+
+        // 移動ロック解除
+        if (Input.GetKeyDown(KeyCode.Space) && isSelectingAttackDir)
+        {
+            isSelectingAttackDir = false;
+            attackDir = Vector2Int.zero;
+
+            HighlightManager.instance.Clear();
+            Debug.Log("移動モードに戻りました");
         }
 
         if (!isSelectingAttackDir) return;
@@ -116,17 +133,23 @@ public class PlayerMovement : BaseMovement
         else if (attackDir == inputDir)
         {
             pa.AttackForward(attackDir);
-
+            
             isSelectingAttackDir = false;
-            attackDir = Vector2Int.zero;
+            attackDir            = Vector2Int.zero;
+            isAttackmode         = false;
 
-            tm.StartCoroutine(tm.EnemyTurn());
+            tm.PlayerTurn();
         }
         // 別方向 → 方向変更
-        else
+        else if (attackDir != inputDir)
         {
             attackDir = inputDir;
             pa.ShowHighlight(attackDir);
+        }
+        // もう一度
+        else
+        {
+
         }
     }
 

@@ -33,10 +33,7 @@ public class TurnManager : MonoBehaviour
         // ダメージ処理
 
         // プレイヤーのターン終了
-        //Debug.Log("プレイヤーターン終了 > 敵ターンへ");
         isPlayerTurn = false;
-
-        Debug.Log("CurrentFloor: " + DungeonGenerator.CurrentFloor);
 
         if( DungeonGenerator.CurrentFloor == 3)
         {

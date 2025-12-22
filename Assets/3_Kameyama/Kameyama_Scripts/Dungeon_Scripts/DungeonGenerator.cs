@@ -118,6 +118,15 @@ public class DungeonGenerator : MonoBehaviour
         Generate();
     }
 
+    private void Update()
+    {
+        // デバッグ用: Rキーで再生成
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            CurrentFloor = 1;
+        }
+    }
+
     /// <summary>
     /// ダンジョン生成のメイン処理
     /// ・初期化

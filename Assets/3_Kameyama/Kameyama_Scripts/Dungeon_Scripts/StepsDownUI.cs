@@ -27,6 +27,7 @@ public class StepsDownUI : MonoBehaviour
     // ¥ƒ{ƒ^ƒ“‚©‚çŒÄ‚Ô
     public void OnYes()
     {
+        DungeonGenerator.CurrentFloor += 1;
         panel.SetActive(false);
         onYes?.Invoke();
     }
