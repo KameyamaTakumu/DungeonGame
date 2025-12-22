@@ -52,6 +52,12 @@ public class EnemyStatus : MonoBehaviour
     {
         Debug.Log($"{name} は倒れた！");
 
+        EnemyMovement mv = GetComponent<EnemyMovement>();
+        if (mv != null)
+        {
+            UnitManager.instance.UnregisterEnemy(mv);
+        }
+
         //// 通常ドロップ（必要なら）
         //var dropItem = dropSystem.GetWeightedDrop();
         //if (dropItem != null)

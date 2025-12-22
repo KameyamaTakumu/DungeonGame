@@ -36,8 +36,12 @@ public class EnemyAttack : MonoBehaviour
     /// </summary>
     public bool TryAttackPlayer()
     {
-        Vector2Int origin = Vector2Int.RoundToInt(transform.position);
+        // ★ すでに移動していたら攻撃しない
+        EnemyMovement mv = GetComponent<EnemyMovement>();
+        if (mv != null && mv.hasMoved)
+            return false;
 
+        Vector2Int origin = Vector2Int.RoundToInt(transform.position);
 
         Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
         Vector2Int playerGrid = Vector2Int.RoundToInt(playerPos);
@@ -67,6 +71,11 @@ public class EnemyAttack : MonoBehaviour
                     attackDir = dir;
                     Debug.Log($"敵が {i} マス先のプレイヤーを攻撃！");
                     AttackForward(dir);
+
+                    // ★ 攻撃したフラグを立てる
+                    if (mv != null)
+                        mv.hasAttacked = true;
+
                     return true;
                 }
             }

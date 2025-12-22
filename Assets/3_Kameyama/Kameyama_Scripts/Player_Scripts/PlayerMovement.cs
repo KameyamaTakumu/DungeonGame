@@ -153,6 +153,27 @@ public class PlayerMovement : BaseMovement
         }
     }
 
+    public override bool TryMove(int mx, int my, bool debugMove = false)
+    {
+        // 移動中は不可
+        if (isMoving) return false;
+
+        Vector3 pos = transform.position;
+        Vector2Int cur = Vector2Int.RoundToInt(pos);
+        Vector2Int next = cur + new Vector2Int(mx, my);
+
+        // ★ 敵がいるなら移動不可（入力を無視）
+        if (UnitManager.instance.IsEnemyAt(next))
+        {
+            // 必要ならSEやログ
+            // Debug.Log("敵がいて移動できない");
+            return false;
+        }
+
+        // 通常の移動処理
+        return base.TryMove(mx, my, debugMove);
+    }
+
     /// <summary>
     /// 移動完了時のフックメソッド。
     /// debugMove でない場合、移動後に敵ターンへ移行。

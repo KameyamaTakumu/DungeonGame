@@ -16,6 +16,14 @@ public class EnemyMovement : BaseMovement
     [HideInInspector]
     public bool isAttacking = false;　// 攻撃中フラグ
 
+    // ★ 追加：このターン攻撃したか
+    [HideInInspector]
+    public bool hasAttacked = false;
+
+    // ★ 追加：このターン移動したか
+    [HideInInspector]
+    public bool hasMoved = false;
+
     // 移動完了時のイベント
     public System.Action onMoveFinished;
 
@@ -30,6 +38,14 @@ public class EnemyMovement : BaseMovement
         gridPos = Vector2Int.RoundToInt(transform.position);
     }
 
+    // ★ ターン開始時に呼ぶ
+    public void ResetTurnState()
+    {
+        hasAttacked = false;
+        hasMoved = false;
+        moveFinished = false;
+    }
+
     /// <summary>
     /// 移動完了時に呼ばれるフックメソッド。
     /// BaseMovement の OnMoveFinished をオーバーライドして
@@ -38,8 +54,20 @@ public class EnemyMovement : BaseMovement
     /// <param name="debugMove">デバッグ用フラグ（派生先で使用可）</param>
     protected override void OnMoveFinished(bool debugMove)
     {
-        gridPos = Vector2Int.RoundToInt(transform.position);
+        Vector2Int oldPos = gridPos;
+
+        Vector2Int snapped = Vector2Int.RoundToInt(transform.position);
+        transform.position = new Vector3(snapped.x, snapped.y, transform.position.z);
+
+        gridPos = snapped;
+
+        // ★ UnitManager に位置更新を通知
+        UnitManager.instance.MoveEnemy(oldPos, gridPos, this);
+
         moveFinished = true;
+        hasMoved = true;
+
+
         onMoveFinished?.Invoke();
     }
 
@@ -79,26 +107,60 @@ public class EnemyMovement : BaseMovement
     // --- 移動開始 ---
     public void StartMove(Vector2Int dir)
     {
+        //// 移動中なら StartMove を受け付けない
+        //if (isMoving)
+        //    return;
+
+        //Vector2Int targetPos = gridPos + dir;
+
+        //// ★ ここで敵同士の重なりを防ぐ
+        //if (UnitManager.instance.IsEnemyAt(targetPos) || UnitManager.instance.IsReserved(targetPos))
+        //{
+        //    moveFinished = true;
+        //    onMoveFinished?.Invoke();
+        //    return;
+        //}
+
+        //moveFinished = false;     // ★ はじめに false にする
+
+        //bool moved = TryMove(dir.x, dir.y);
+
+        //if (!moved)
+        //{
+        //    // ★ 移動できなかった場合でも "完了" 扱いにする
+        //    moveFinished = true;
+        //    onMoveFinished?.Invoke();
+        //    return;
+        //}
+        //// ★ 移動成功したので予約
+        //UnitManager.instance.Reserve(targetPos);
+
+
+        //Debug.Log($"{name} が移動開始！");
         // 移動中なら StartMove を受け付けない
         if (isMoving)
-        {
-            Debug.LogWarning($"{name} は前の移動処理が終わっていないのに StartMove が呼ばれた");
             return;
-        }
 
-        moveFinished = false;     // ★ はじめに false にする
+        Vector2Int targetPos = gridPos + dir;
 
-        bool moved = TryMove(dir.x, dir.y);
-
-        if (!moved)
+        // ★ 予約チェック（隊列用）
+        if (!UnitManager.instance.CanReserve(targetPos))
         {
-            // ★ 移動できなかった場合でも "完了" 扱いにする
             moveFinished = true;
             onMoveFinished?.Invoke();
             return;
         }
 
-        Debug.Log($"{name} が移動開始！");
+        UnitManager.instance.Reserve(targetPos);
+
+        bool moved = TryMove(dir.x, dir.y);
+
+        if (!moved)
+        {
+            moveFinished = true;
+            onMoveFinished?.Invoke();
+            return;
+        }
     }
 
     public Vector2Int DecideChaseByDistance(

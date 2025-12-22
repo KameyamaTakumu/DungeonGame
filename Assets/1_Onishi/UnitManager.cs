@@ -19,6 +19,12 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     public static UnitManager instance;
 
+    private Dictionary<Vector2Int, EnemyMovement> enemyMap
+        = new Dictionary<Vector2Int, EnemyMovement>();
+
+    private HashSet<Vector2Int> reservedPositions
+        = new HashSet<Vector2Int>();
+
     [Header("Unit Lists")]
     [Tooltip("シーン内のプレイヤーユニット一覧")]
     public List<GameObject> players = new List<GameObject>();
@@ -26,13 +32,15 @@ public class UnitManager : MonoBehaviour
     [Tooltip("シーン内の敵ユニット一覧")]
     public List<GameObject> enemies = new List<GameObject>();
 
+    // ★ 追加：このターン中に予約されたマス
+    private HashSet<Vector2Int> reservedTiles = new();
+
 
     private void Awake()
     {
         // シングルトンとして自身を登録
         instance = this;
     }
-
 
     /// <summary>
     /// プレイヤーをリストに登録する。
@@ -47,7 +55,6 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// 敵をリストに登録する。
     /// 重複登録を防止。
@@ -56,11 +63,42 @@ public class UnitManager : MonoBehaviour
     public void RegisterEnemy(GameObject e)
     {
         if (!enemies.Contains(e))
-        {
             enemies.Add(e);
+
+        EnemyMovement mv = e.GetComponent<EnemyMovement>();
+        if (mv != null)
+        {
+            enemyMap[mv.gridPos] = mv;
         }
     }
 
+    // 現在位置
+    public bool IsEnemyAt(Vector2Int pos)
+    {
+        return enemyMap.ContainsKey(pos);
+    }
+
+    // ★ 予約済みか
+    public bool IsReserved(Vector2Int pos)
+    {
+        return reservedPositions.Contains(pos);
+    }
+
+    public bool CanReserve(Vector2Int pos)
+    {
+        return !enemyMap.ContainsKey(pos)
+            && !reservedTiles.Contains(pos);
+    }
+
+    public void Reserve(Vector2Int pos)
+    {
+        reservedTiles.Add(pos);
+    }
+
+    public void ClearReservations()
+    {
+        reservedTiles.Clear();
+    }
 
     /// <summary>
     /// 渡されたオブジェクトをプレイヤー/敵リストの両方から削除する。
@@ -71,5 +109,28 @@ public class UnitManager : MonoBehaviour
     {
         players.Remove(obj);
         enemies.Remove(obj);
+    }
+
+    public void UnregisterEnemy(EnemyMovement enemy)
+    {
+        if (enemy == null) return;
+
+        // enemies リストから削除
+        enemies.Remove(enemy.gameObject);
+
+        // enemyMap から削除
+        if (enemyMap.ContainsKey(enemy.gridPos))
+            enemyMap.Remove(enemy.gridPos);
+
+        // 予約マスも解放
+        reservedTiles.Remove(enemy.gridPos);
+    }
+
+    public void MoveEnemy(Vector2Int oldPos, Vector2Int newPos, EnemyMovement enemy)
+    {
+        if (enemyMap.ContainsKey(oldPos))
+            enemyMap.Remove(oldPos);
+
+        enemyMap[newPos] = enemy;
     }
 }
