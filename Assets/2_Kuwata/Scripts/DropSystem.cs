@@ -63,13 +63,13 @@ public class DropSystem : MonoBehaviour
         // 1〜3回目：確定でバフ
         if (cardDropCount <= guaranteedPassiveCount)
         {
-            return CardType.Passive;
+            return CardType.Buff;
         }
 
         // 4回目以降：消費カードのみ確率
         if (Random.value < consumableDropChance)
         {
-            return CardType.Consumable;
+            return CardType.Use;
         }
 
         // 出ない

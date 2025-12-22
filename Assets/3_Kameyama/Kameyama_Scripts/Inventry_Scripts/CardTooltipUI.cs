@@ -32,7 +32,7 @@ public class CardTooltipUI : MonoBehaviour
         // ===== テキスト設定 =====
         nameText.text = card.cardName;
 
-        typeText.text = card.cardType == CardType.Consumable
+        typeText.text = card.cardType == CardType.Use
             ? "種類：使い切り"
             : "種類：パッシブ";
 
@@ -49,7 +49,7 @@ public class CardTooltipUI : MonoBehaviour
 
     string BuildEffectText(CardData card)
     {
-        if (card.cardType == CardType.Consumable)
+        if (card.cardType == CardType.Use)
         {
             string rangeText =
                 card.rangeType == CardRangeType.Around ? "周囲攻撃" : "直線攻撃";

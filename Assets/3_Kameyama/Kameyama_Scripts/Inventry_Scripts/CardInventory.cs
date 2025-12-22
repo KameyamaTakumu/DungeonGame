@@ -41,7 +41,7 @@ public class CardInventory : MonoBehaviour
         if (list.Count < limit)
         {
             list.Add(card);
-            if (card.cardType == CardType.Passive)
+            if (card.cardType == CardType.Buff)
                 ApplyPassiveEffect(card);
 
             OnInventoryChanged?.Invoke();
@@ -54,12 +54,12 @@ public class CardInventory : MonoBehaviour
 
     List<CardData> GetList(CardType type)
     {
-        return type == CardType.Consumable ? consumableCards : passiveCards;
+        return type == CardType.Use ? consumableCards : passiveCards;
     }
 
     int GetLimit(CardType type)
     {
-        return type == CardType.Consumable ? consumableLimit : passiveLimit;
+        return type == CardType.Use ? consumableLimit : passiveLimit;
     }
 
     // 入れ替えモード開始
@@ -86,14 +86,14 @@ public class CardInventory : MonoBehaviour
         var old = list[index];
 
         // パッシブなら解除
-        if (PendingCardType == CardType.Passive)
+        if (PendingCardType == CardType.Buff)
             RemovePassiveEffect(old);
 
         // 差し替え
         list[index] = PendingCard;
 
         // パッシブなら新しい効果適用
-        if (PendingCardType == CardType.Passive)
+        if (PendingCardType == CardType.Buff)
             ApplyPassiveEffect(PendingCard);
 
         EndSwapMode();

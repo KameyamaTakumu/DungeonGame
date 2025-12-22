@@ -12,6 +12,6 @@ public class CardDataBase : ScriptableObject
     /// </summary>
     public CardData[] GetCards(CardType type)
     {
-        return type == CardType.Consumable ? consumableCards : passiveCards;
+        return type == CardType.Use ? consumableCards : passiveCards;
     }
 }

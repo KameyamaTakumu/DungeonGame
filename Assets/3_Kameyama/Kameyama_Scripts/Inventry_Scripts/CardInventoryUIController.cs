@@ -81,10 +81,10 @@ public class CardInventoryUIController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.E))
-            ShowRandomSelect(CardType.Consumable);
+            ShowRandomSelect(CardType.Use);
 
         if (Input.GetKeyDown(KeyCode.C))
-            ShowRandomSelect(CardType.Passive);
+            ShowRandomSelect(CardType.Buff);
     }
 
     // ================================
@@ -92,7 +92,7 @@ public class CardInventoryUIController : MonoBehaviour
     // ================================
     void OnSwapRequested(CardData pending, CardType type)
     {
-        if (type == CardType.Consumable)
+        if (type == CardType.Use)
             ShowConsumableUI();
         else
             ShowPassiveUI();

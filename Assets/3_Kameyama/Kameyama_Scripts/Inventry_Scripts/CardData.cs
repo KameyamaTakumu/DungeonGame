@@ -2,8 +2,8 @@ using UnityEngine;
 
 public enum CardType
 {
-    Consumable, // 使い切り
-    Passive     // 常時発動(バフ)
+    Use, // 使い切り
+    Buff     // 常時発動(バフ)
 }
 
 public enum BuffType
@@ -29,12 +29,12 @@ public class CardData : ScriptableObject
     [TextArea]
     public string description;
 
-    [Header("Consumable Effect")]
+    [Header("Use Effect")]
     public int damage;
     public int range = 1;
     public CardRangeType rangeType; // ★追加
 
-    [Header("Passive Buff")]
+    [Header("Buff Buff")]
     public BuffType buffType;
     public int buffValue;
 }
