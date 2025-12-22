@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: DataBase
   m_EditorClassIdentifier: Assembly-CSharp::CardDataBase
   consumableCards:
-  - {fileID: 11400000, guid: acf705ff1bac7b74798d2ff9ffd1f241, type: 2}
-  - {fileID: 11400000, guid: 74eab64834424d04e99042462cfe3c09, type: 2}
-  - {fileID: 11400000, guid: fa7616af47f15a34d844c54a19961eae, type: 2}
+  - {fileID: 11400000, guid: d85e92afafe35f440adecb9e80278671, type: 2}
+  - {fileID: 11400000, guid: cf4d2f95d781c564a9882b80fe682a6c, type: 2}
+  - {fileID: 11400000, guid: 3da08126c03d95f489540e840c36fe50, type: 2}
+  - {fileID: 11400000, guid: 76cab3715e8336a4c8df3df7bc6448c1, type: 2}
+  - {fileID: 11400000, guid: 280d6c8cef0b7344e850af438abeb295, type: 2}
+  - {fileID: 11400000, guid: b3f88996b2d8396479fe36f6971ad400, type: 2}
   passiveCards:
-  - {fileID: 11400000, guid: 27c2cc7448d0dd04caa0d5c389b2b96a, type: 2}
-  - {fileID: 11400000, guid: 3d5c5ac885dff7b4fa2f78ff2992d58d, type: 2}
-  - {fileID: 11400000, guid: d7b6fad52dc1cb049bca6195a3b51ebc, type: 2}
+  - {fileID: 11400000, guid: 4656ec0d4b6195e4b92ea727ea029f0b, type: 2}
+  - {fileID: 11400000, guid: d2d6ece5a9ca8a04694e88411613bab4, type: 2}
+  - {fileID: 11400000, guid: d0b9b0316fa70e0479c5a79672d67fee, type: 2}
+  - {fileID: 11400000, guid: 4568d25b4aee99f4a965a21420b5ec95, type: 2}
+  - {fileID: 11400000, guid: c217ae26f3afbe74dabc256143055216, type: 2}
+  - {fileID: 11400000, guid: 5ed9de7ddd413fe4bb1a0828a0e2399a, type: 2}

@@ -34,10 +34,13 @@ public class EnemySpawnerController : MonoBehaviour
 
     private DungeonGenerator dungeon;
 
+    private MiniMapRenderer miniMap;
+
     void Start()
     {
         // DungeonGenerator をシーンから取得
         dungeon = FindAnyObjectByType<DungeonGenerator>();
+        miniMap = FindAnyObjectByType<MiniMapRenderer>();
 
         if (dungeon == null)
         {
@@ -54,6 +57,10 @@ public class EnemySpawnerController : MonoBehaviour
         {
             SpawnAllEnemies();// 起動時に全ての敵をまとめて生成
         }
+
+        // ★ 敵生成が終わったあとに通知
+        if (miniMap != null)
+            miniMap.SetEnemies(spawnedEnemies);
     }
 
     /// <summary>

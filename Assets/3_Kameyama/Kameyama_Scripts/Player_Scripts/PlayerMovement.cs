@@ -169,6 +169,11 @@ public class PlayerMovement : BaseMovement
             // Debug.Log("敵がいて移動できない");
             return false;
         }
+        // デバッグモード中は通過可能にする
+        else if (!debugMove)
+        {
+
+        }
 
         // 通常の移動処理
         return base.TryMove(mx, my, debugMove);

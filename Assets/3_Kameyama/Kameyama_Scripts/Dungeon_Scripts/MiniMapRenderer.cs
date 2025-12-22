@@ -33,7 +33,7 @@ public class MiniMapRenderer : MonoBehaviour
     // ======================
 
     [Header("敵アイコン")]
-    [CustomLabel("敵の位置を示す UI アイコン")]
+    [CustomLabel("敵の位置を示す UI アイコン"), SerializeField]
     private RectTransform enemyIconPrefab;
     // 敵ごとのアイコンインスタンスを管理
     private List<RectTransform> enemyIcons = new List<RectTransform>();
@@ -85,6 +85,8 @@ public class MiniMapRenderer : MonoBehaviour
     // Player オブジェクト参照
     private GameObject player;
 
+    private bool enemyInitialized = false;
+
     private void Start()
     {
         if (player == null)
@@ -99,6 +101,16 @@ public class MiniMapRenderer : MonoBehaviour
         if (map == null || tex == null) return;
 
         if (player == null) return;
+
+        if (!enemyInitialized)
+        {
+            var found = GameObject.FindGameObjectsWithTag("Enemy");
+            if (found.Length > 0)
+            {
+                ForceRefreshEnemies();
+                enemyInitialized = true;
+            }
+        }
 
         // プレイヤー位置の変化を検知
         Vector2Int playerTile = WorldToTile(player.transform.position);
@@ -168,6 +180,9 @@ public class MiniMapRenderer : MonoBehaviour
 
         // 初回描画
         ForceRecalculateFOVAndDraw();
+
+        // ★ これを追加
+        ForceRefreshEnemies();
     }
 
     /// <summary>
@@ -177,7 +192,9 @@ public class MiniMapRenderer : MonoBehaviour
     public void ForceRefreshEnemies()
     {
         enemies.Clear();
-        enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+        var found = GameObject.FindGameObjectsWithTag("Enemy");
+
+        enemies.AddRange(found);
         InitEnemyIcons();
     }
 
@@ -411,7 +428,7 @@ public class MiniMapRenderer : MonoBehaviour
         foreach (var enemy in enemies)
         {
             var icon = Instantiate(enemyIconPrefab, minimapRect);
-            icon.gameObject.SetActive(false); // 敵数に合わせて新規生成
+            icon.gameObject.SetActive(true); // 敵数に合わせて新規生成
             enemyIcons.Add(icon);
         }
     }
@@ -464,5 +481,12 @@ public class MiniMapRenderer : MonoBehaviour
             // アイコン位置更新
             icon.anchoredPosition = new Vector2(px, py);
         }
-    } 
+    }
+
+    public void SetEnemies(IReadOnlyList<GameObject> list)
+    {
+        enemies.Clear();
+        enemies.AddRange(list);
+        InitEnemyIcons();
+    }
 }
