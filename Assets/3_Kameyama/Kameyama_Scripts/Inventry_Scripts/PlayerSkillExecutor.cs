@@ -80,6 +80,10 @@ public class PlayerSkillExecutor : MonoBehaviour
             case UseEffectType.Heal:
                 ExecuteHeal(card);
                 break;
+
+            case UseEffectType.StunAttack:
+                ExecuteStunAttack(card);
+                break;
         }
     }
 
@@ -119,6 +123,24 @@ public class PlayerSkillExecutor : MonoBehaviour
         int healed = playerStatus.status.HP - beforeHP;
 
         Debug.Log($"HP回復: +{healed}");
+    }
+
+    void ExecuteStunAttack(CardData card)
+    {
+        Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
+
+        foreach (var pos in GetCardRangeTiles(card))
+        {
+            var target = CombatManager.GetObjectAt(pos);
+            if (target == null) continue;
+
+            EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(CalculateDamage(card));
+                enemy.ApplyStun(card.stunTurn);
+            }
+        }
     }
 
     int AttackAround(Vector2Int origin, CardData card)
@@ -169,6 +191,23 @@ public class PlayerSkillExecutor : MonoBehaviour
         }
 
         return hitCount;
+    }
+
+    int CalculateDamage(CardData card)
+    {
+        int baseDamage = card.damage;
+
+        // 消費攻撃UP
+        baseDamage = Mathf.RoundToInt(baseDamage * playerStatus.UseAttackBoost);
+
+        // クリティカル
+        if (UnityEngine.Random.value < playerStatus.CritChance)
+        {
+            baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
+            Debug.Log("クリティカル！");
+        }
+
+        return baseDamage;
     }
 
     /// <summary>

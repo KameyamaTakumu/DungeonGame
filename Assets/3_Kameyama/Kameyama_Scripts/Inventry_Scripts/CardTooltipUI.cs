@@ -55,6 +55,14 @@ public class CardTooltipUI : MonoBehaviour
             {
                 return $"HP回復\n回復量：{card.healAmount}";
             }
+            if (card.useEffectType == UseEffectType.StunAttack)
+            {
+                return
+                    $"硬直攻撃\n" +
+                    $"ダメージ：{card.damage}\n" +
+                    $"硬直：{card.stunTurn}ターン\n" +
+                    $"範囲：{card.range}";
+            }
 
             string rangeText =
                 card.rangeType == CardRangeType.Around ? "周囲攻撃" : "直線攻撃";

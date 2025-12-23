@@ -9,14 +9,19 @@ public enum CardType
 public enum UseEffectType
 {
     Attack,
-    Heal
+    Heal,
+    StunAttack   // š’Ç‰Áid’¼‹Êj
 }
 
 public enum BuffType
 {
     None,
     Attack,
-    HP
+    HP,
+    Range,              // šUŒ‚”ÍˆÍ{
+    CritChance,         // šƒNƒŠ—¦
+    PassiveMultiplier,  // šíƒoƒt”{—¦
+    UseAttackBoost      // šÁ”ï˜gUŒ‚—ÍUP
 }
 
 public enum CardRangeType
@@ -45,4 +50,10 @@ public class CardData : ScriptableObject
     [Header("Buff Buff")]
     public BuffType buffType;
     public int buffValue;
+
+    [Header("Use Extra Effect")]
+    public int stunTurn; // šƒXƒ^ƒ“ƒ^[ƒ“”id’¼‹Ê—pj
+
+    [Header("Buff Extra")]
+    public float buffMultiplier = 1f; // š”{—¦Œn
 }

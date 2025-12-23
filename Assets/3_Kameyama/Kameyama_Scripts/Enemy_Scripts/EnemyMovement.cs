@@ -107,37 +107,6 @@ public class EnemyMovement : BaseMovement
     // --- 移動開始 ---
     public void StartMove(Vector2Int dir)
     {
-        //// 移動中なら StartMove を受け付けない
-        //if (isMoving)
-        //    return;
-
-        //Vector2Int targetPos = gridPos + dir;
-
-        //// ★ ここで敵同士の重なりを防ぐ
-        //if (UnitManager.instance.IsEnemyAt(targetPos) || UnitManager.instance.IsReserved(targetPos))
-        //{
-        //    moveFinished = true;
-        //    onMoveFinished?.Invoke();
-        //    return;
-        //}
-
-        //moveFinished = false;     // ★ はじめに false にする
-
-        //bool moved = TryMove(dir.x, dir.y);
-
-        //if (!moved)
-        //{
-        //    // ★ 移動できなかった場合でも "完了" 扱いにする
-        //    moveFinished = true;
-        //    onMoveFinished?.Invoke();
-        //    return;
-        //}
-        //// ★ 移動成功したので予約
-        //UnitManager.instance.Reserve(targetPos);
-
-
-        //Debug.Log($"{name} が移動開始！");
-        // 移動中なら StartMove を受け付けない
         if (isMoving)
             return;
 
@@ -195,5 +164,4 @@ public class EnemyMovement : BaseMovement
 
         return bestDir;
     }
-
 }

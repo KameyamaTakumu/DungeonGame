@@ -6,6 +6,7 @@ public class EnemyStatus : MonoBehaviour
     private DropSystem dropSystem;
     private PlayerInventory playerInventory;
     public BaseStatus status = new BaseStatus(10, 5, 1);
+    int stunRemain = 0;
 
     private CardInventory cardInventory;
 
@@ -43,6 +44,34 @@ public class EnemyStatus : MonoBehaviour
 
             Die();
         }
+    }
+
+    public void ApplyStun(int turn)
+    {
+        stunRemain = Mathf.Max(stunRemain, turn);
+        Debug.Log($"{name} は {turn} ターン硬直！");
+    }
+
+    public bool IsStunned()
+    {
+        return stunRemain > 0;
+    }
+
+    public void OnTurnStart()
+    {
+        if (stunRemain > 0)
+            stunRemain--;
+    }
+
+    // ★ ターン開始時に呼ぶ
+    public bool ConsumeStun()
+    {
+        if (stunRemain > 0)
+        {
+            stunRemain--;
+            return true; // スタン中
+        }
+        return false;
     }
 
     /// <summary>
