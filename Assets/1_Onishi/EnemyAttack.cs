@@ -1,78 +1,83 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using System.Collections;
+using System.Collections.Generic;
 
+/// <summary>
+/// 雑魚敵専用の攻撃処理クラス。
+/// </summary>
 public class EnemyAttack : MonoBehaviour
 {
-    public int attackRange = 1;  // 何マス先まで攻撃するか
-    public int attackPower = 10; // 攻撃力
-    public int hp = 10;
-
+    // 敵ステータス
     private EnemyStatus enemyStatus;
-    int atk;
-    int range;
 
+    // 攻撃力
+    private int atk;
+
+    // 攻撃レンジ（直線距離）
+    private int range;
+
+    // 最後に選択した攻撃方向
     private Vector2Int attackDir;
 
-    void Awake()
+    private void Awake()
     {
-        // 同じオブジェクトの EnemyStatus を取得
+        // EnemyStatus を取得
         enemyStatus = GetComponent<EnemyStatus>();
 
         if (enemyStatus == null)
         {
-            Debug.LogError("PlayerStatus コンポーネントが見つかりません！");
-        }
-        else
-        {
-            // ステータスを PlayerStatus から取得
-            range = enemyStatus.status.RANGE;
-            atk = enemyStatus.status.ATK;
+            Debug.LogError("EnemyStatus コンポーネントが見つかりません！");
+            return;
         }
 
+        // ステータス反映
+        atk   = enemyStatus.status.ATK;
+        range = enemyStatus.status.RANGE;
     }
 
     /// <summary>
-    /// 攻撃可能なら true を返す（n マス先にプレイヤーがいる）
+    /// 攻撃可能であれば攻撃シーケンスを開始する。
+    /// 
+    /// ・すでに移動済みの敵は攻撃しない
+    /// ・上下左右4方向をチェック
+    /// ・RANGE 内にプレイヤーがいれば攻撃
     /// </summary>
     public bool TryAttackPlayer()
     {
-        // ★ すでに移動していたら攻撃しない
         EnemyMovement mv = GetComponent<EnemyMovement>();
+
+        // すでに移動していた場合は攻撃しない
         if (mv != null && mv.hasMoved)
             return false;
 
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
+        Vector2Int playerGrid = Vector2Int.RoundToInt(
+            GameObject.FindGameObjectWithTag("Player").transform.position
+        );
 
-        Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-        Vector2Int playerGrid = Vector2Int.RoundToInt(playerPos);
-        //Debug.Log($"[DEBUG] 敵の位置: {origin}, プレイヤーの位置: {playerGrid}, attackRange: {attackRange}");
-
-        // 4方向（上下左右）を順番にチェックする
-        Vector2Int[] dirs = {
-        new Vector2Int(1, 0),
-        new Vector2Int(-1, 0),
-        new Vector2Int(0, 1),
-        new Vector2Int(0, -1)
-    };
+        // 上下左右4方向
+        Vector2Int[] dirs =
+        {
+            Vector2Int.up,
+            Vector2Int.down,
+            Vector2Int.left,
+            Vector2Int.right
+        };
 
         foreach (var dir in dirs)
         {
-
-            //Debug.Log($"[DEBUG] 方向チェック: {dir}");
-
             for (int i = 1; i <= range; i++)
             {
-                Vector2Int check = origin + dir * i;
-                //Debug.Log($"[DEBUG]   チェック座標: {check}");
+                Vector2Int checkPos = origin + dir * i;
 
-                // マスにプレイヤーがいるか判定
-                if (CombatManager.IsPlayerAt(check))
+                // プレイヤーが攻撃範囲内にいるか
+                if (playerGrid == checkPos)
                 {
                     attackDir = dir;
-                    Debug.Log($"敵が {i} マス先のプレイヤーを攻撃！");
-                    AttackForward(dir);
 
-                    // ★ 攻撃したフラグを立てる
+                    // ★ 即攻撃せず、予兆付き攻撃を開始
+                    StartCoroutine(AttackSequence(dir));
+
                     if (mv != null)
                         mv.hasAttacked = true;
 
@@ -81,52 +86,79 @@ public class EnemyAttack : MonoBehaviour
             }
         }
 
-        return false; // 攻撃範囲にプレイヤーはいない
+        return false;
     }
 
-    public void AttackForward(Vector2Int dir)
+    /// <summary>
+    /// 攻撃予兆 → 攻撃実行の一連の流れ。
+    /// 視覚的に分かりやすい戦闘を実現するため、
+    /// 予兆表示とダメージ処理を分離している。
+    /// </summary>
+    private IEnumerator AttackSequence(Vector2Int dir)
     {
-        Debug.Log($"{name} が攻撃！");
+        Vector2Int origin = Vector2Int.RoundToInt(transform.position);
 
-        Vector2Int origin = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        // ① 攻撃範囲を計算
+        List<Vector2Int> area = GetAttackArea(origin, dir);
 
-        //デバッグ用
-        //Vector2Int checkPos = origin + dir * attackRange;
-        Vector2Int checkPos = origin + dir * range;
-        //Debug.Log($"[DEBUG] 攻撃origin={origin}, dir={dir}, checkPos={checkPos}");
+        // ② 攻撃予兆表示
+        HighlightManager.instance.ShowTiles(area);
 
+        // ③ 予兆演出待ち
+        yield return new WaitForSeconds(0.5f);
 
-        //GameObject target = CombatManager.GetObjectInLine(origin, dir, attackRange);
-        // 指定方向に RANGE だけ飛ばす
-        GameObject target = CombatManager.GetObjectInLine(
-            origin,
-            dir,
-            range
-        );
+        // ④ 攻撃実行
+        ExecuteAttack(dir);
 
-        if (target != null)
+        // ⑤ ハイライト削除
+        HighlightManager.instance.Clear();
+    }
+
+    /// <summary>
+    /// 指定方向に対する直線攻撃の範囲を取得する。
+    /// </summary>
+    private List<Vector2Int> GetAttackArea(Vector2Int origin, Vector2Int dir)
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+
+        for (int i = 1; i <= range; i++)
         {
-            Debug.Log($"敵は {range} マス先の {target.name} を攻撃した！");
-
-            // PlayerStatus を取得
-            PlayerStatus player = target.GetComponent<PlayerStatus>();
-
-            if (player != null)
-            {
-                player.TakeDamage(atk);
-                Debug.Log($"{target.name} に {atk} のダメージを与えた！");
-            }
-            else
-            {
-                Debug.LogError("[ERROR] PlayerStatus が見つかりません！");
-            }
+            tiles.Add(origin + dir * i);
         }
-        else
+
+        return tiles;
+    }
+
+    /// <summary>
+    /// 実際のダメージ処理のみを担当する。
+    /// 攻撃演出や判定とは分離されている。
+    /// </summary>
+    private void ExecuteAttack(Vector2Int dir)
+    {
+        Vector2Int origin = Vector2Int.RoundToInt(transform.position);
+
+        for (int i = 1; i <= range; i++)
         {
-            Debug.Log("攻撃は外れた（対象なし）");
+            Vector2Int checkPos = origin + dir * i;
+
+            // プレイヤーがそのマスにいるか
+            if (CombatManager.IsPlayerAt(checkPos))
+            {
+                GameObject playerObj =
+                    GameObject.FindGameObjectWithTag("Player");
+
+                PlayerStatus player = playerObj.GetComponent<PlayerStatus>();
+                if (player != null)
+                {
+                    player.TakeDamage(atk);
+                    Debug.Log($"{name} が {i} マス先のプレイヤーに {atk} ダメージ");
+                }
+
+                // 直線攻撃なので最初に当たったら終了
+                return;
+            }
         }
     }
+
 }
+
