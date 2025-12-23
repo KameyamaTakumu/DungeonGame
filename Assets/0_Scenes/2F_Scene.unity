@@ -1825,7 +1825,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4109,7 +4109,7 @@ MonoBehaviour:
   minimapImage: {fileID: 1696916751}
   minimapRect: {fileID: 1696916749}
   playerIcon: {fileID: 382243880}
-  enemyIconPrefab: {fileID: 0}
+  enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
 --- !u!4 &1809794906
 Transform:
   m_ObjectHideFlags: 0

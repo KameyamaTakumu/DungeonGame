@@ -163,8 +163,13 @@ public class CardInventory : MonoBehaviour
 
             if (executor != null)
             {
-                var tiles = executor.GetCardRangeTiles(card);
-                HighlightManager.instance.ShowTiles(tiles);
+                //var tiles = executor.GetCardRangeTiles(card);
+                //HighlightManager.instance.ShowTiles(tiles);
+                if (card.useEffectType == UseEffectType.Attack)
+                {
+                    var tiles = executor.GetCardRangeTiles(card);
+                    HighlightManager.instance.ShowTiles(tiles);
+                }
             }
 
             return;

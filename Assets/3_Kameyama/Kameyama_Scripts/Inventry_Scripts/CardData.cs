@@ -6,6 +6,12 @@ public enum CardType
     Buff     // í”­“®(ƒoƒt)
 }
 
+public enum UseEffectType
+{
+    Attack,
+    Heal
+}
+
 public enum BuffType
 {
     None,
@@ -30,7 +36,9 @@ public class CardData : ScriptableObject
     public string description;
 
     [Header("Use Effect")]
+    public UseEffectType useEffectType; // š’Ç‰Á
     public int damage;
+    public int healAmount;              // š’Ç‰Á
     public int range = 1;
     public CardRangeType rangeType; // š’Ç‰Á
 

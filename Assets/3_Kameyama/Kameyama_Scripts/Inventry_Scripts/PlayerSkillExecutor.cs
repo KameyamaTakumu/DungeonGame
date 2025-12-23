@@ -17,10 +17,47 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     public void ExecuteCardSkill(CardData card)
     {
+        //if (card.cardType != CardType.Use)
+        //    return;
+
+        //HighlightManager.instance.Clear(); // ★追加
+
+        //if (playerStatus == null)
+        //{
+        //    Debug.LogError("PlayerStatus が見つかりません");
+        //    return;
+        //}
+
+        //Debug.Log($"カード使用: {card.cardName}");
+
+        //// UIを閉じる
+        //if (cardInventoryUIController != null)
+        //{
+        //    cardInventoryUIController.HideAllUI();
+        //}
+
+        //Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
+        //int hitCount = 0;
+
+        //switch (card.rangeType)
+        //{
+        //    case CardRangeType.Around:
+        //        hitCount = AttackAround(origin, card);
+        //        break;
+
+        //    case CardRangeType.Line:
+        //        hitCount = AttackLine(origin, card);
+        //        break;
+        //}
+
+        //if (hitCount == 0)
+        //    Debug.Log("範囲内に敵はいませんでした");
+        //else
+        //    Debug.Log($"合計 {hitCount} 体の敵にヒット！");
         if (card.cardType != CardType.Use)
             return;
 
-        HighlightManager.instance.Clear(); // ★追加
+        HighlightManager.instance.Clear();
 
         if (playerStatus == null)
         {
@@ -31,11 +68,23 @@ public class PlayerSkillExecutor : MonoBehaviour
         Debug.Log($"カード使用: {card.cardName}");
 
         // UIを閉じる
-        if (cardInventoryUIController != null)
-        {
-            cardInventoryUIController.HideAllUI();
-        }
+        cardInventoryUIController?.HideAllUI();
 
+        // ★ ここで効果タイプ判定
+        switch (card.useEffectType)
+        {
+            case UseEffectType.Attack:
+                ExecuteAttack(card);
+                break;
+
+            case UseEffectType.Heal:
+                ExecuteHeal(card);
+                break;
+        }
+    }
+
+    void ExecuteAttack(CardData card)
+    {
         Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
         int hitCount = 0;
 
@@ -54,6 +103,22 @@ public class PlayerSkillExecutor : MonoBehaviour
             Debug.Log("範囲内に敵はいませんでした");
         else
             Debug.Log($"合計 {hitCount} 体の敵にヒット！");
+    }
+
+    void ExecuteHeal(CardData card)
+    {
+        int beforeHP = playerStatus.status.HP;
+
+        playerStatus.status.HP = Mathf.Min(
+            playerStatus.status.HP + card.healAmount,
+            playerStatus.MaxHP
+        );
+
+        playerStatus.OnHPChanged?.Invoke();
+
+        int healed = playerStatus.status.HP - beforeHP;
+
+        Debug.Log($"HP回復: +{healed}");
     }
 
     int AttackAround(Vector2Int origin, CardData card)

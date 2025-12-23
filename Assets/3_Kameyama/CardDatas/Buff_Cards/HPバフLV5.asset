@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1246f0d5b90f204b830f91e521f0661, type: 3}
-  m_Name: "\u76F4\u7DDA\u30AB\u30FC\u30C9LV1"
+  m_Name: "HP\u30D0\u30D5LV5"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: "\u76F4\u7DDA\u30AB\u30FC\u30C9LV1"
-  icon: {fileID: 21300000, guid: 0e4e93fa29f3e9f49af4cb5e854b26ae, type: 3}
-  cardType: 0
+  cardName: "HP\u30D0\u30D5LV5"
+  icon: {fileID: 21300000, guid: fb4d655620a74494da8b5946395cb588, type: 3}
+  cardType: 1
   description: 
-  damage: 5
+  damage: 0
   range: 1
-  rangeType: 1
-  buffType: 0
-  buffValue: 0
+  rangeType: 0
+  buffType: 2
+  buffValue: 25

@@ -51,6 +51,11 @@ public class CardTooltipUI : MonoBehaviour
     {
         if (card.cardType == CardType.Use)
         {
+            if (card.useEffectType == UseEffectType.Heal)
+            {
+                return $"HP‰ñ•œ\n‰ñ•œ—ÊF{card.healAmount}";
+            }
+
             string rangeText =
                 card.rangeType == CardRangeType.Around ? "üˆÍUŒ‚" : "’¼üUŒ‚";
 

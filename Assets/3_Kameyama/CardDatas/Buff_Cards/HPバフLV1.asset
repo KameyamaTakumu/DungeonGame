@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "HP\u30D0\u30D5LV1"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "HP\u30D0\u30D5LV1"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: fb4d655620a74494da8b5946395cb588, type: 3}
   cardType: 1
   description: 
   damage: 0
