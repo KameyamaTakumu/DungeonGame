@@ -66,7 +66,7 @@ public class TurnManager : MonoBehaviour
         int finishedCount = 0;
 
         // ==============================
-        // ① ターン状態リセット
+        // ターン状態リセット
         // ==============================
         UnitManager.instance.ClearReservations();
 
@@ -76,7 +76,7 @@ public class TurnManager : MonoBehaviour
         }
 
         // ==============================
-        // ② 距離マップ作成（1回だけ）
+        // 距離マップ作成（1回だけ）
         // ==============================
         Vector2Int playerPos =
             Vector2Int.RoundToInt(PlayerMovement.instance.transform.position);
@@ -85,7 +85,7 @@ public class TurnManager : MonoBehaviour
         var distMap = DistanceMap.Build(playerPos, dungeon);
 
         // ==============================
-        // ③ 敵ごとに行動決定
+        // 敵ごとに行動決定
         // ==============================
         foreach (var e in enemies)
         {
@@ -123,7 +123,7 @@ public class TurnManager : MonoBehaviour
         }
 
         // ==============================
-        // ④ 全敵の行動完了待ち
+        // 全敵の行動完了待ち
         // ==============================
         while (finishedCount < enemies.Count)
         {
@@ -131,7 +131,7 @@ public class TurnManager : MonoBehaviour
         }
 
         // ==============================
-        // ⑤ ターン終了
+        // ターン終了
         // ==============================
         isPlayerTurn = true;
         Debug.Log("敵ターン終了 > プレイヤーのターンへ");
@@ -177,5 +177,4 @@ public class TurnManager : MonoBehaviour
 
         Debug.Log("ボスターン終了 > プレイヤーのターンへ");
     }
-
 }

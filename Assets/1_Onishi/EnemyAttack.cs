@@ -98,19 +98,19 @@ public class EnemyAttack : MonoBehaviour
     {
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
 
-        // ‡@ UŒ‚”ÍˆÍ‚ğŒvZ
+        // UŒ‚”ÍˆÍ‚ğŒvZ
         List<Vector2Int> area = GetAttackArea(origin, dir);
 
-        // ‡A UŒ‚—\’›•\¦
+        // UŒ‚—\’›•\¦
         HighlightManager.instance.ShowTiles(area);
 
-        // ‡B —\’›‰‰o‘Ò‚¿
+        // —\’›‰‰o‘Ò‚¿
         yield return new WaitForSeconds(0.5f);
 
-        // ‡C UŒ‚Às
+        // UŒ‚Às
         ExecuteAttack(dir);
 
-        // ‡D ƒnƒCƒ‰ƒCƒgíœ
+        // ƒnƒCƒ‰ƒCƒgíœ
         HighlightManager.instance.Clear();
     }
 

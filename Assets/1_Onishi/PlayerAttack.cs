@@ -8,9 +8,6 @@ using UnityEngine;
 /// </summary>
 public class PlayerAttack : MonoBehaviour
 {
-    [Tooltip("攻撃を行う距離（例：1 → 1マス先に攻撃）")]
-    public int attackRange = 1;
-
     private PlayerStatus playerStatus;
 
     // ステータスを PlayerStatus から取得
