@@ -10,10 +10,6 @@ public class PlayerAttack : MonoBehaviour
 {
     private PlayerStatus playerStatus;
 
-    // ステータスを PlayerStatus から取得
-    int range;
-    int atk;
-
     // 現在表示中のハイライトインスタンス
     private GameObject currentHighlight;
 
@@ -21,16 +17,9 @@ public class PlayerAttack : MonoBehaviour
     {
         // 同じオブジェクトに付いている PlayerStatus を取得
         playerStatus = GetComponent<PlayerStatus>();
-
         if(playerStatus == null)
         {
             Debug.LogError("PlayerStatus コンポーネントが見つかりません！");
-        }
-        else
-        {
-            // ステータスを PlayerStatus から取得
-            range = playerStatus.status.RANGE;
-            atk = playerStatus.status.ATK;
         }
     }
 
@@ -45,6 +34,9 @@ public class PlayerAttack : MonoBehaviour
             Mathf.RoundToInt(transform.position.x),
             Mathf.RoundToInt(transform.position.y)
         );
+
+        int range = playerStatus.Range;     // ★ 毎回最新
+        int atk = playerStatus.Attack;    // ★ 毎回最新
 
         // 指定方向に attackRange マス先のターゲット取得
         GameObject target = CombatManager.GetObjectInLine(origin, dir, range);
@@ -81,6 +73,8 @@ public class PlayerAttack : MonoBehaviour
         // プレイヤーの現在グリッド位置
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
         List<Vector2Int> tiles = new List<Vector2Int>();
+
+        int range = playerStatus.Range; // ★ ここも
 
         // nマス分を計算
         for (int i = 1; i <= range; i++)

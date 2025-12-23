@@ -153,19 +153,26 @@ public class CardInventory : MonoBehaviour
         if (index < 0 || index >= consumableCards.Count) return;
         if (IsSwapMode) return;
 
+        // ‰ñ•œ‚Ìê‡‚Íˆê‰ñ‚ÅŠm’è
+        var card = consumableCards[index];
+        if (card.useEffectType == UseEffectType.Heal)
+        {
+            ConsumeConsumableCard(index);
+            return;
+        }
+
         // ‡@ –¢‘I‘ğ ¨ ”ÍˆÍ•\¦
         if (SelectedConsumableIndex != index)
         {
             SelectedConsumableIndex = index;
 
-            var card = consumableCards[index];
             var executor = FindFirstObjectByType<PlayerSkillExecutor>();
 
             if (executor != null)
             {
                 //var tiles = executor.GetCardRangeTiles(card);
                 //HighlightManager.instance.ShowTiles(tiles);
-                if (card.useEffectType == UseEffectType.Attack)
+                if (card.useEffectType == UseEffectType.Attack || card.useEffectType == UseEffectType.StunAttack)
                 {
                     var tiles = executor.GetCardRangeTiles(card);
                     HighlightManager.instance.ShowTiles(tiles);
