@@ -29,26 +29,30 @@ public class PlayerAttack : MonoBehaviour
     /// <param name="dir">攻撃方向（上下左右）を示す Vector2Int</param>
     public void AttackForward(Vector2Int dir)
     {
-        // プレイヤーの現在グリッド位置
         Vector2Int origin = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        Mathf.RoundToInt(transform.position.x),
+        Mathf.RoundToInt(transform.position.y)
+    );
 
-        int range = playerStatus.Range;     // ★ 毎回最新
-        int atk = playerStatus.Attack;    // ★ 毎回最新
+        int range = playerStatus.Range;
 
-        // 指定方向に attackRange マス先のターゲット取得
         GameObject target = CombatManager.GetObjectInLine(origin, dir, range);
 
         if (target != null)
         {
-            Debug.Log($"敵 {target.name} に攻撃！ ダメージ {atk}");
-
             EnemyStatus enemy = target.GetComponent<EnemyStatus>();
             if (enemy != null)
             {
-                enemy.TakeDamage(atk);
+                bool isCritical;
+                int damage = CalculateDamage(out isCritical);
+
+                Debug.Log(
+                    isCritical
+                    ? $"【CRITICAL】{target.name} に {damage} ダメージ！"
+                    : $"{target.name} に {damage} ダメージ"
+                );
+
+                enemy.TakeDamage(damage);
             }
         }
         else
@@ -56,8 +60,31 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("攻撃は空振りしました。");
         }
 
-        // 攻撃後はハイライトを消去
         HighlightManager.instance.Clear();
+    }
+
+    int CalculateDamage(out bool isCritical)
+    {
+        int baseDamage = playerStatus.Attack;
+
+        // 消費攻撃UP（倍率系）
+        baseDamage = Mathf.RoundToInt(baseDamage * playerStatus.UseAttackBoost);
+
+        // クリティカル判定
+        float roll = UnityEngine.Random.value;
+        isCritical = roll < playerStatus.CritChance;
+
+        if (isCritical)
+        {
+            baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
+            Debug.Log($"【CRITICAL HIT!!】 クリ率:{playerStatus.CritChance * 100f:F1}%");
+        }
+        else
+        {
+            Debug.Log($"通常攻撃 判定値:{roll:F2}");
+        }
+
+        return baseDamage;
     }
 
     /// <summary>
@@ -84,7 +111,6 @@ public class PlayerAttack : MonoBehaviour
 
         HighlightManager.instance.ShowTiles(tiles);
     }
-
 
     /// <summary>
     /// 現在表示されている攻撃ハイライトを削除する。

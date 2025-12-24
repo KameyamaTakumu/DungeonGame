@@ -5,55 +5,21 @@ public class PlayerSkillExecutor : MonoBehaviour
 {
     PlayerStatus playerStatus;
 
-
     private CardInventoryUIController cardInventoryUIController;
+
+    TurnManager turnManager;
 
     void Awake()
     {
         playerStatus = FindFirstObjectByType<PlayerStatus>();
 
         cardInventoryUIController = FindFirstObjectByType<CardInventoryUIController>();
+
+        turnManager = FindFirstObjectByType<TurnManager>();
     }
 
     public void ExecuteCardSkill(CardData card)
     {
-        //if (card.cardType != CardType.Use)
-        //    return;
-
-        //HighlightManager.instance.Clear(); // ★追加
-
-        //if (playerStatus == null)
-        //{
-        //    Debug.LogError("PlayerStatus が見つかりません");
-        //    return;
-        //}
-
-        //Debug.Log($"カード使用: {card.cardName}");
-
-        //// UIを閉じる
-        //if (cardInventoryUIController != null)
-        //{
-        //    cardInventoryUIController.HideAllUI();
-        //}
-
-        //Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
-        //int hitCount = 0;
-
-        //switch (card.rangeType)
-        //{
-        //    case CardRangeType.Around:
-        //        hitCount = AttackAround(origin, card);
-        //        break;
-
-        //    case CardRangeType.Line:
-        //        hitCount = AttackLine(origin, card);
-        //        break;
-        //}
-
-        //if (hitCount == 0)
-        //    Debug.Log("範囲内に敵はいませんでした");
-        //else
-        //    Debug.Log($"合計 {hitCount} 体の敵にヒット！");
         if (card.cardType != CardType.Use)
             return;
 
@@ -85,6 +51,27 @@ public class PlayerSkillExecutor : MonoBehaviour
                 ExecuteStunAttack(card);
                 break;
         }
+
+        // ★ カード使用 = 行動終了
+        EndPlayerTurn();
+    }
+
+    void EndPlayerTurn()
+    {
+        if (turnManager == null)
+        {
+            Debug.LogError("TurnManager が見つかりません");
+            return;
+        }
+
+        if (!turnManager.isPlayerTurn)
+        {
+            Debug.Log("すでにプレイヤーターンではありません");
+            return;
+        }
+
+        Debug.Log("カード使用によりプレイヤーのターン終了");
+        turnManager.PlayerTurn();
     }
 
     void ExecuteAttack(CardData card)
@@ -145,11 +132,13 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     int AttackAround(Vector2Int origin, CardData card)
     {
+        int range = GetEffectiveRange(card);
+
         int hitCount = 0;
 
-        for (int x = -card.range; x <= card.range; x++)
+        for (int x = -range; x <= range; x++)
         {
-            for (int y = -card.range; y <= card.range; y++)
+            for (int y = -range; y <= range; y++)
             {
                 if (x == 0 && y == 0) continue;
 
@@ -172,10 +161,12 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     int AttackLine(Vector2Int origin, CardData card)
     {
+        int range = GetEffectiveRange(card);
+
         int hitCount = 0;
         Vector2Int dir = playerStatus.facingDir;
 
-        for (int i = 1; i <= card.range; i++)
+        for (int i = 1; i <= range; i++)
         {
             Vector2Int checkPos = origin + dir * i;
             GameObject target = CombatManager.GetObjectAt(checkPos);
@@ -215,15 +206,17 @@ public class PlayerSkillExecutor : MonoBehaviour
     /// </summary>
     public List<Vector2Int> GetCardRangeTiles(CardData card)
     {
+        int range = GetEffectiveRange(card);
+
         Vector2Int origin = Vector2Int.RoundToInt(playerStatus.transform.position);
         List<Vector2Int> tiles = new List<Vector2Int>();
 
         switch (card.rangeType)
         {
             case CardRangeType.Around:
-                for (int x = -card.range; x <= card.range; x++)
+                for (int x = -range; x <= range; x++)
                 {
-                    for (int y = -card.range; y <= card.range; y++)
+                    for (int y = -range; y <= range; y++)
                     {
                         if (x == 0 && y == 0) continue;
                         tiles.Add(origin + new Vector2Int(x, y));
@@ -233,7 +226,7 @@ public class PlayerSkillExecutor : MonoBehaviour
 
             case CardRangeType.Line:
                 Vector2Int dir = playerStatus.facingDir;
-                for (int i = 1; i <= card.range; i++)
+                for (int i = 1; i <= range; i++)
                 {
                     tiles.Add(origin + dir * i);
                 }
@@ -241,5 +234,10 @@ public class PlayerSkillExecutor : MonoBehaviour
         }
 
         return tiles;
+    }
+
+    int GetEffectiveRange(CardData card)
+    {
+        return card.range + playerStatus.Range;
     }
 }

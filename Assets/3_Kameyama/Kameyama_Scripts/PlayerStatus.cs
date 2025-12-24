@@ -14,13 +14,13 @@ public class PlayerStatus : MonoBehaviour
     float useAttackBoost = 1f;
 
     public int Attack => status.ATK + bonusATK;
-    //public int Range => status.RANGE;
     public int MaxHP => status.MAX_HP + bonusHP;
-
-    public int Range => status.RANGE + bonusRange;
+    public int Range => status.RANGE + bonusRange + RangeBonus;
     public float CritChance => critChance;
     public float PassiveMultiplier => passiveMultiplier;
     public float UseAttackBoost => useAttackBoost;
+
+    public int RangeBonus { get; private set; } = 0;
 
     public Action OnHPChanged;
 
@@ -40,7 +40,8 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.Range:
-                bonusRange += card.buffValue;
+                RangeBonus += card.buffValue;
+                Debug.Log($"çUåÇîÕàÕÉoÉt +{card.buffValue}");
                 break;
 
             case BuffType.CritChance:
@@ -73,7 +74,7 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.Range:
-                bonusRange -= card.buffValue;
+                RangeBonus -= card.buffValue;
                 break;
 
             case BuffType.CritChance:

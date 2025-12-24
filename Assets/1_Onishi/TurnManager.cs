@@ -89,37 +89,6 @@ public class TurnManager : MonoBehaviour
         // ==============================
         foreach (var e in enemies)
         {
-            //EnemyMovement mv = e.GetComponent<EnemyMovement>();
-            //EnemyAttack atk = e.GetComponent<EnemyAttack>();
-
-            //// 移動完了コールバック
-            //mv.onMoveFinished = () =>
-            //{
-            //    finishedCount++;
-            //};
-
-            //// ---------- 攻撃を試す ----------
-            //bool attacked = atk.TryAttackPlayer();
-
-            //if (attacked)
-            //{
-            //    // 攻撃したらこの敵は終了
-            //    finishedCount++;
-            //    continue;
-            //}
-
-            //// ---------- 移動 ----------
-            //Vector2Int dir = mv.DecideChaseByDistance(distMap);
-
-            //if (dir != Vector2Int.zero)
-            //{
-            //    mv.StartMove(dir);
-            //}
-            //else
-            //{
-            //    // 動けない場合も即終了
-            //    finishedCount++;
-            //}
             EnemyMovement mv = e.GetComponent<EnemyMovement>();
             EnemyAttack atk = e.GetComponent<EnemyAttack>();
             EnemyStatus status = e.GetComponent<EnemyStatus>();
