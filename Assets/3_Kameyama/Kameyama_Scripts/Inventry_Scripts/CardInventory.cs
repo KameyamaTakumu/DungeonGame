@@ -30,6 +30,8 @@ public class CardInventory : MonoBehaviour
 
     public CardInventoryUIController cardInventoryUIController;
 
+    public CardSlotUI currentSelectedSlot;
+
     /// <summary>
     /// カード追加（上限チェック→追加 or 入替モード）
     /// </summary>
@@ -153,37 +155,49 @@ public class CardInventory : MonoBehaviour
         if (index < 0 || index >= consumableCards.Count) return;
         if (IsSwapMode) return;
 
-        // 回復の場合は一回で確定
         var card = consumableCards[index];
+
+        // 回復は即使用
         if (card.useEffectType == UseEffectType.Heal)
         {
             ConsumeConsumableCard(index);
             return;
         }
 
-        // ① 未選択 → 範囲表示
+        // 未選択 → 選択
         if (SelectedConsumableIndex != index)
         {
             SelectedConsumableIndex = index;
 
-            var executor = FindFirstObjectByType<PlayerSkillExecutor>();
+            HighlightManager.instance.Clear();
 
+            var executor = FindFirstObjectByType<PlayerSkillExecutor>();
             if (executor != null)
             {
-                //var tiles = executor.GetCardRangeTiles(card);
-                //HighlightManager.instance.ShowTiles(tiles);
-                if (card.useEffectType == UseEffectType.Attack || card.useEffectType == UseEffectType.StunAttack)
-                {
-                    var tiles = executor.GetCardRangeTiles(card);
-                    HighlightManager.instance.ShowTiles(tiles);
-                }
+                var tiles = executor.GetCardRangeTiles(card);
+                HighlightManager.instance.ShowTiles(tiles);
             }
 
+            UpdateSlotSelectionUI();
             return;
         }
 
-        // ② 同じカードを再クリック → 使用確定
+        // 同じカードを再クリック → 使用
         ConsumeConsumableCard(index);
+    }
+
+    void UpdateSlotSelectionUI()
+    {
+        var ui = cardInventoryUIController;
+        if (ui == null) return;
+
+        for (int i = 0; i < ui.consumableSlots.Length; i++)
+        {
+            var slot = ui.consumableSlots[i];
+            if (slot == null) continue;
+
+            slot.SetSelected(i == SelectedConsumableIndex);
+        }
     }
 
     void ConsumeConsumableCard(int index)
@@ -210,5 +224,18 @@ public class CardInventory : MonoBehaviour
         Debug.Log("入れ替えキャンセル");
         EndSwapMode();
         // UI側は必要なら閉じる
+    }
+
+    /// <summary>
+    /// カード選択を完全に解除する（UI中断時用）
+    /// </summary>
+    public void ClearConsumableSelection()
+    {
+        SelectedConsumableIndex = -1;
+        HighlightManager.instance?.Clear();
+        // ★ UIの色を元に戻す
+        UpdateSlotSelectionUI();
+
+        Debug.Log("カード選択状態を解除");
     }
 }

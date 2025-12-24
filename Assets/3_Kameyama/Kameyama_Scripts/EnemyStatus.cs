@@ -87,11 +87,6 @@ public class EnemyStatus : MonoBehaviour
             UnitManager.instance.UnregisterEnemy(mv);
         }
 
-        //// 通常ドロップ（必要なら）
-        //var dropItem = dropSystem.GetWeightedDrop();
-        //if (dropItem != null)
-        //    playerInventory.AddItem(dropItem);
-
         CardType? type = dropSystem.GetCardRewardType();
 
         if (!type.HasValue)
@@ -110,6 +105,9 @@ public class EnemyStatus : MonoBehaviour
         }
 
         Debug.Log($"カード報酬タイプ: {type.Value}");
+
+        // ★ ターン停止
+        TurnManager.Instance.isWaitingCardSelect = true;
 
         var ui = FindFirstObjectByType<CardInventoryUIController>();
         if (ui != null)

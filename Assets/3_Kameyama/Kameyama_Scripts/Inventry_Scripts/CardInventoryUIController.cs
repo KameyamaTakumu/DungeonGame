@@ -29,8 +29,8 @@ public class CardInventoryUIController : MonoBehaviour
     public CardSelectUI selectUI;
 
     // 生成済みスロット管理
-    CardSlotUI[] consumableSlots;
-    CardSlotUI[] passiveSlots;
+    public CardSlotUI[] consumableSlots;
+    public CardSlotUI[] passiveSlots;
 
     void Start()
     {
@@ -104,6 +104,9 @@ public class CardInventoryUIController : MonoBehaviour
 
         consumableUI?.SetActive(true);
         passiveUI?.SetActive(false);
+
+        // ★ ロック
+        PlayerInputLock.Instance?.Lock();
     }
 
     public void ShowPassiveUI()
@@ -112,6 +115,9 @@ public class CardInventoryUIController : MonoBehaviour
 
         passiveUI?.SetActive(true);
         consumableUI?.SetActive(false);
+
+        // ★ ロック
+        PlayerInputLock.Instance?.Lock();
     }
 
     public void HideAllUI()
@@ -120,6 +126,12 @@ public class CardInventoryUIController : MonoBehaviour
         passiveUI?.SetActive(false);
 
         CardTooltipUI.Instance?.Hide();
+
+        // ★ 追加：カード選択状態と範囲を完全リセット
+        inventory?.ClearConsumableSelection();
+
+        // ★ ロック解除
+        PlayerInputLock.Instance?.Unlock();
     }
 
     // ================================

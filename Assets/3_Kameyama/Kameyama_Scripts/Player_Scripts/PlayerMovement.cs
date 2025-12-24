@@ -41,6 +41,10 @@ public class PlayerMovement : BaseMovement
         // 左右どちらかの Ctrl が押されている場合はターン無視モード（デバッグ用）
         bool debugMove = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
 
+        // ★ UI操作中は移動不可（DebugModeは例外）
+        if (!debugMove && PlayerInputLock.Instance != null && PlayerInputLock.Instance.IsLocked)
+            return;
+
         // バトル中でプレイヤーターンでない場合は移動不可（Ctrl で無視可能）
         if (!debugMove && tm != null && !tm.isPlayerTurn)
             return;

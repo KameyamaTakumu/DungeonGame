@@ -15,6 +15,9 @@ public class CardSelectUI : MonoBehaviour
         inventory = inv;
         this.onClose = onClose;
 
+        // ★ プレイヤー操作ロック
+        PlayerInputLock.Instance?.Lock();
+
         foreach (Transform t in optionParent) Destroy(t.gameObject);
 
         for (int i = 0; i < options.Length; i++)
@@ -37,6 +40,29 @@ public class CardSelectUI : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
+
+        // ★ ロック解除
+        PlayerInputLock.Instance?.Unlock();
+
+        // ★ カード選択終了 → ターン再開
+        if (TurnManager.Instance != null)
+            TurnManager.Instance.isWaitingCardSelect = false;
+
         onClose?.Invoke();
+    }
+
+    // ★ 追加：中断用
+    public void Cancel()
+    {
+        gameObject.SetActive(false);
+
+        // ★ ロック解除
+        PlayerInputLock.Instance?.Unlock();
+
+        // ★ カード選択終了 → ターン再開
+        if (TurnManager.Instance != null)
+            TurnManager.Instance.isWaitingCardSelect = false;
+
+        onClose = null; // ← 中断時は何もしない
     }
 }

@@ -8,12 +8,22 @@ using System.Collections;
 /// </summary>
 public class TurnManager : MonoBehaviour
 {
+    public static TurnManager Instance;
+
     // 現在がプレイヤーのターンかどうか
     [HideInInspector]
     public bool isPlayerTurn;
 
+    // ★ 追加：カード選択待ち
+    public bool isWaitingCardSelect = false;
+
     // ターン遅延の秒数
     public float turnDelay = 1f;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void Start()
     {
@@ -57,6 +67,10 @@ public class TurnManager : MonoBehaviour
     public IEnumerator EnemyTurn()
     {
         isPlayerTurn = false;
+
+        // ★ カード選択が終わるまで待つ
+        while (isWaitingCardSelect)
+            yield return null;
 
         yield return new WaitForSeconds(turnDelay);
 

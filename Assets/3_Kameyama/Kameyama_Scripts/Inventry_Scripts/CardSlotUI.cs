@@ -59,8 +59,13 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
             return;
         }
 
-        if (isConsumable)
-            inv.OnConsumableCardClicked(slotIndex);
+        // ★ 判断はすべて Inventory に任せる
+        inv.OnConsumableCardClicked(slotIndex);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        icon.color = selected ? Color.yellow : Color.white;
     }
 
     // ===== ★ここが追加 =====
