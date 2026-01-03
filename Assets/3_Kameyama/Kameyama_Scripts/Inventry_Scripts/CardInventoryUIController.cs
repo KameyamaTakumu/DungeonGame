@@ -127,7 +127,6 @@ public class CardInventoryUIController : MonoBehaviour
 
         CardTooltipUI.Instance?.Hide();
 
-        // ★ 追加：カード選択状態と範囲を完全リセット
         inventory?.ClearConsumableSelection();
 
         // ★ ロック解除
@@ -166,12 +165,7 @@ public class CardInventoryUIController : MonoBehaviour
         }
     }
 
-    void RefreshSlot(
-    System.Collections.Generic.List<CardData> cardList,
-    int index,
-    Transform parent,
-    ref CardSlotUI[] slots,
-    bool isConsumable)
+    void RefreshSlot(    System.Collections.Generic.List<CardData> cardList,int index,Transform parent,ref CardSlotUI[] slots,bool isConsumable)
     {
         // 既存スロットがあれば削除
         if (slots[index] != null)
@@ -205,6 +199,9 @@ public class CardInventoryUIController : MonoBehaviour
             Debug.LogError("CardDatabase が設定されていません");
             return;
         }
+
+        // ★ ここでUIフェーズに入る
+        PlayerInputLock.Instance?.Lock();
 
         var list = database.GetCards(type);
         if (list == null || list.Length == 0)

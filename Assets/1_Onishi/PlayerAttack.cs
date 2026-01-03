@@ -29,17 +29,49 @@ public class PlayerAttack : MonoBehaviour
     /// <param name="dir">攻撃方向（上下左右）を示す Vector2Int</param>
     public void AttackForward(Vector2Int dir)
     {
-        Vector2Int origin = new Vector2Int(
-        Mathf.RoundToInt(transform.position.x),
-        Mathf.RoundToInt(transform.position.y)
-    );
+        //Vector2Int origin = new Vector2Int(
+        //Mathf.RoundToInt(transform.position.x),
+        //Mathf.RoundToInt(transform.position.y));
 
+        //int range = playerStatus.Range;
+
+        //GameObject target = CombatManager.GetObjectInLine(origin, dir, range);
+
+        //if (target != null)
+        //{
+        //    EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+        //    if (enemy != null)
+        //    {
+        //        bool isCritical;
+        //        int damage = CalculateDamage(out isCritical);
+
+        //        Debug.Log(
+        //            isCritical
+        //            ? $"【CRITICAL】{target.name} に {damage} ダメージ！"
+        //            : $"{target.name} に {damage} ダメージ"
+        //        );
+
+        //        enemy.TakeDamage(damage);
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("攻撃は空振りしました。");
+        //}
+
+        //HighlightManager.instance.Clear();
+        Vector2Int origin = Vector2Int.RoundToInt(transform.position);
         int range = playerStatus.Range;
 
-        GameObject target = CombatManager.GetObjectInLine(origin, dir, range);
+        bool hitAny = false;
 
-        if (target != null)
+        for (int i = 1; i <= range; i++)
         {
+            Vector2Int checkPos = origin + dir * i;
+            GameObject target = CombatManager.GetObjectAt(checkPos);
+
+            if (target == null) continue;
+
             EnemyStatus enemy = target.GetComponent<EnemyStatus>();
             if (enemy != null)
             {
@@ -48,14 +80,16 @@ public class PlayerAttack : MonoBehaviour
 
                 Debug.Log(
                     isCritical
-                    ? $"【CRITICAL】{target.name} に {damage} ダメージ！"
-                    : $"{target.name} に {damage} ダメージ"
+                        ? $"【CRITICAL】{target.name} に {damage} ダメージ！"
+                        : $"{target.name} に {damage} ダメージ"
                 );
 
                 enemy.TakeDamage(damage);
+                hitAny = true;
             }
         }
-        else
+
+        if (!hitAny)
         {
             Debug.Log("攻撃は空振りしました。");
         }

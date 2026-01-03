@@ -32,6 +32,9 @@ public class CardInventory : MonoBehaviour
 
     public CardSlotUI currentSelectedSlot;
 
+    // 追加
+    public Action OnSwapEnded;
+
     /// <summary>
     /// カード追加（上限チェック→追加 or 入替モード）
     /// </summary>
@@ -50,6 +53,9 @@ public class CardInventory : MonoBehaviour
         }
         else
         {
+            // ★ プレイヤー操作ロック
+            PlayerInputLock.Instance?.Lock();
+
             StartSwapMode(card, card.cardType);
         }
     }
@@ -71,6 +77,10 @@ public class CardInventory : MonoBehaviour
         PendingCard = card;
         PendingCardType = type;
         Debug.Log($"入れ替えモード開始: {card.cardName} ({type})");
+
+        // ★ プレイヤー操作ロック
+        PlayerInputLock.Instance?.Lock();
+
         // UIに通知
         OnSwapRequested?.Invoke(card, type);
     }
@@ -108,6 +118,12 @@ public class CardInventory : MonoBehaviour
         PendingCard = null;
         // PendingCardTypeは残しても良いが初期化しておく
         PendingCardType = default;
+
+        // ★ プレイヤー操作アンロック
+        PlayerInputLock.Instance?.Unlock();
+
+        // ★ 入れ替え終了通知
+        OnSwapEnded?.Invoke();
 
         // UIを閉じる
         cardInventoryUIController?.HideAllUI();
@@ -169,6 +185,9 @@ public class CardInventory : MonoBehaviour
         {
             SelectedConsumableIndex = index;
 
+            // ★ ここでロック
+            PlayerInputLock.Instance?.Lock();
+
             HighlightManager.instance.Clear();
 
             var executor = FindFirstObjectByType<PlayerSkillExecutor>();
@@ -181,6 +200,7 @@ public class CardInventory : MonoBehaviour
             UpdateSlotSelectionUI();
             return;
         }
+
 
         // 同じカードを再クリック → 使用
         ConsumeConsumableCard(index);
@@ -212,6 +232,9 @@ public class CardInventory : MonoBehaviour
         SelectedConsumableIndex = -1;
         HighlightManager.instance.Clear();
 
+        // ★ UIフェーズ終了
+        PlayerInputLock.Instance?.Unlock();
+
         OnInventoryChanged?.Invoke();
     }
 
@@ -226,14 +249,14 @@ public class CardInventory : MonoBehaviour
         // UI側は必要なら閉じる
     }
 
-    /// <summary>
-    /// カード選択を完全に解除する（UI中断時用）
-    /// </summary>
     public void ClearConsumableSelection()
     {
+        // ★ 入れ替え中は絶対に解除しない
+        if (IsSwapMode)
+            return;
+
         SelectedConsumableIndex = -1;
         HighlightManager.instance?.Clear();
-        // ★ UIの色を元に戻す
         UpdateSlotSelectionUI();
 
         Debug.Log("カード選択状態を解除");

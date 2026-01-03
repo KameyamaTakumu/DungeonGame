@@ -52,6 +52,9 @@ public class PlayerSkillExecutor : MonoBehaviour
                 break;
         }
 
+        // ★ UIフェーズ終了
+        PlayerInputLock.Instance.Unlock();
+
         // ★ カード使用 = 行動終了
         EndPlayerTurn();
     }

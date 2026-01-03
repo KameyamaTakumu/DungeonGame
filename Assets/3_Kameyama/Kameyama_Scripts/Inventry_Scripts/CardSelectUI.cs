@@ -36,12 +36,11 @@ public class CardSelectUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    // カード選択UIを閉じる
     public void Close()
     {
         gameObject.SetActive(false);
 
-        // ★ ロック解除
+        // ★ UIフェーズ終了
         PlayerInputLock.Instance?.Unlock();
 
         // ★ カード選択終了 → ターン再開
@@ -51,18 +50,15 @@ public class CardSelectUI : MonoBehaviour
         onClose?.Invoke();
     }
 
-    // ★ 追加：中断用
     public void Cancel()
     {
         gameObject.SetActive(false);
 
-        // ★ ロック解除
         PlayerInputLock.Instance?.Unlock();
 
-        // ★ カード選択終了 → ターン再開
         if (TurnManager.Instance != null)
             TurnManager.Instance.isWaitingCardSelect = false;
 
-        onClose = null; // ← 中断時は何もしない
+        onClose = null;
     }
 }
