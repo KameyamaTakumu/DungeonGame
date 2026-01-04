@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 /// <summary>
 /// CardInventory の UI 制御（固定スロット方式）
@@ -31,6 +33,8 @@ public class CardInventoryUIController : MonoBehaviour
     // 生成済みスロット管理
     public CardSlotUI[] consumableSlots;
     public CardSlotUI[] passiveSlots;
+
+    int currentIndex = 0;
 
     void Start()
     {
@@ -85,6 +89,60 @@ public class CardInventoryUIController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
             ShowRandomSelect(CardType.Buff);
+
+        if (!consumableUI.activeSelf && !passiveUI.activeSelf)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            MoveSelection(1);
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            MoveSelection(-1);
+
+        if (Input.GetKeyDown(KeyCode.Return))
+            PressSelected();
+    }
+
+    void MoveSelection(int dir)
+    {
+        var slots = consumableUI.activeSelf ? consumableSlots : passiveSlots;
+        if (slots == null || slots.Length == 0) return;
+
+        int next = currentIndex + dir;
+
+        // ★ 端ループ
+        if (next < 0)
+            next = slots.Length - 1;
+        else if (next >= slots.Length)
+            next = 0;
+
+        // ★ 空スロットをスキップ
+        int safety = 0;
+        while (slots[next] == null)
+        {
+            next += dir > 0 ? 1 : -1;
+
+            if (next < 0)
+                next = slots.Length - 1;
+            else if (next >= slots.Length)
+                next = 0;
+
+            // 無限ループ防止
+            if (++safety > slots.Length)
+                return;
+        }
+
+        currentIndex = next;
+        EventSystem.current.SetSelectedGameObject(slots[currentIndex].gameObject);
+    }
+
+    void PressSelected()
+    {
+        var go = EventSystem.current.currentSelectedGameObject;
+        if (go == null) return;
+
+        var btn = go.GetComponent<UnityEngine.UI.Button>();
+        btn?.onClick.Invoke();
     }
 
     // ================================
@@ -104,6 +162,10 @@ public class CardInventoryUIController : MonoBehaviour
 
         consumableUI?.SetActive(true);
         passiveUI?.SetActive(false);
+
+        currentIndex = 0;
+        if (consumableSlots.Length > 0 && consumableSlots[0] != null)
+            EventSystem.current.SetSelectedGameObject(consumableSlots[0].gameObject);
 
         // ★ ロック
         PlayerInputLock.Instance?.Lock();

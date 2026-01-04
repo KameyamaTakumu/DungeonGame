@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     public Image icon;
-    public Text nameText;
+
+    [SerializeField] Outline outline; // ★ 追加
 
     [HideInInspector] public int slotIndex;
     [HideInInspector] public bool isConsumable;
@@ -18,6 +20,7 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     void Awake()
     {
         rect = GetComponent<RectTransform>();
+        outline.enabled = false;
     }
 
     public void SetCard(CardData cardData)
@@ -32,7 +35,6 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
         icon.enabled = true;
         icon.sprite = card.icon;
-        nameText.text = card.cardName;
 
         btn.interactable = true;
         btn.onClick.RemoveAllListeners();
@@ -43,7 +45,6 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     {
         card = null;
         icon.enabled = false;
-        nameText.text = "";
         btn.interactable = false;
         btn.onClick.RemoveAllListeners();
     }
@@ -68,7 +69,27 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         icon.color = selected ? Color.yellow : Color.white;
     }
 
-    // ===== ★ここが追加 =====
+    // =========================
+    // ★ キーボード選択対応
+    // =========================
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        outline.enabled = true;
+
+        if (card != null)
+            CardTooltipUI.Instance?.Show(card, rect);
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        outline.enabled = false;
+        CardTooltipUI.Instance?.Hide();
+    }
+
+    // =========================
+    // マウス操作（既存）
+    // =========================
 
     public void OnPointerEnter(PointerEventData eventData)
     {

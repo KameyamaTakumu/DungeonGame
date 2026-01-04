@@ -13,7 +13,7 @@ public class PlayerMovement : BaseMovement
 
     [HideInInspector]
     bool isSelectingAttackDir    = false; // 攻撃方向選択中かどうか
-    bool isAttackmode            = false; // 攻撃モード中かどうか
+    //bool isAttackmode            = false; // 攻撃モード中かどうか
     private Vector2Int attackDir = Vector2Int.zero; // 選択中の攻撃方向
 
 
@@ -67,17 +67,17 @@ public class PlayerMovement : BaseMovement
         // Ctrl中：押しっぱなしで連続移動（GetKey）
         if (debugMove)
         {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) y = 1;
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) y = -1;
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) x = -1;
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) x = 1;
+            if (Input.GetKey(KeyCode.W)) y = 1;
+            if (Input.GetKey(KeyCode.S)) y = -1;
+            if (Input.GetKey(KeyCode.A)) x = -1;
+            if (Input.GetKey(KeyCode.D)) x = 1;
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) y = 1;
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) y = -1;
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) x = -1;
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) x = 1;
+            if (Input.GetKeyDown(KeyCode.W)) y = 1;
+            if (Input.GetKeyDown(KeyCode.S)) y = -1;
+            if (Input.GetKeyDown(KeyCode.A)) x = -1;
+            if (Input.GetKeyDown(KeyCode.D)) x = 1;
         }
 
         // 入力があれば移動処理を実行
@@ -139,7 +139,7 @@ public class PlayerMovement : BaseMovement
             
             isSelectingAttackDir = false;
             attackDir            = Vector2Int.zero;
-            isAttackmode         = false;
+            //isAttackmode         = false;
 
             tm.PlayerTurn();
         }
