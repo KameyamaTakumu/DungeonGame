@@ -16,6 +16,7 @@ public class PlayerMovement : BaseMovement
     //bool isAttackmode            = false; // 攻撃モード中かどうか
     private Vector2Int attackDir = Vector2Int.zero; // 選択中の攻撃方向
 
+    Animator anim;
 
     public PlayerAttack pa;
 
@@ -31,6 +32,8 @@ public class PlayerMovement : BaseMovement
         UnitManager.instance.RegisterPlayer(this.gameObject);
 
         pa = GetComponent<PlayerAttack>();
+
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -130,11 +133,16 @@ public class PlayerMovement : BaseMovement
         if (attackDir == Vector2Int.zero)
         {
             attackDir = inputDir;
+
+            SetFacingDirection(attackDir);   // ★ 向きを変更
+
             pa.ShowHighlight(attackDir);
         }
         // 同じ方向 → 攻撃確定
         else if (attackDir == inputDir)
         {
+            SetFacingDirection(attackDir);   // ★ 最終確認
+
             pa.AttackForward(attackDir);
             
             isSelectingAttackDir = false;
@@ -147,6 +155,9 @@ public class PlayerMovement : BaseMovement
         else if (attackDir != inputDir)
         {
             attackDir = inputDir;
+
+            SetFacingDirection(attackDir);   // ★ 向きを変更
+
             pa.ShowHighlight(attackDir);
         }
         // もう一度
@@ -160,6 +171,11 @@ public class PlayerMovement : BaseMovement
     {
         // 移動中は不可
         if (isMoving) return false;
+
+        // 向きだけ先に記録
+        anim.SetFloat("moveX", mx);
+        anim.SetFloat("moveY", my);
+        anim.SetBool("isMoving", true);
 
         Vector3 pos = transform.position;
         Vector2Int cur = Vector2Int.RoundToInt(pos);
@@ -183,16 +199,29 @@ public class PlayerMovement : BaseMovement
     }
 
     /// <summary>
+    /// 移動せずにプレイヤーの向きだけを変える
+    /// </summary>
+    private void SetFacingDirection(Vector2Int dir)
+    {
+        if (dir == Vector2Int.zero) return;
+
+        anim.SetFloat("moveX", dir.x);
+        anim.SetFloat("moveY", dir.y);
+        anim.SetBool("isMoving", false); // 念のため
+    }
+
+    /// <summary>
     /// 移動完了時のフックメソッド。
     /// debugMove でない場合、移動後に敵ターンへ移行。
     /// </summary>
     /// <param name="debugMove">デバッグモードかどうか</param>
     protected override void OnMoveFinished(bool debugMove)
     {
+        anim.SetBool("isMoving", false);
+
         // 移動完了 → 敵ターン開始
         if (!debugMove && tm != null)
         {
-            //tm.StartCoroutine(tm.EnemyTurn());
             tm.PlayerTurn();
         }
     }
