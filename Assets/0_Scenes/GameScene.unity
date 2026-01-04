@@ -347,6 +347,8 @@ MonoBehaviour:
   - {fileID: 309619185}
   database: {fileID: 11400000, guid: d09ce38656a826e4a8da8b57a9103e57, type: 2}
   selectUI: {fileID: 1045758029}
+  consumableSlots: []
+  passiveSlots: []
 --- !u!114 &119069063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +366,7 @@ MonoBehaviour:
   consumableCards: []
   passiveCards: []
   cardInventoryUIController: {fileID: 119069062}
+  currentSelectedSlot: {fileID: 0}
 --- !u!4 &119069064
 Transform:
   m_ObjectHideFlags: 0
@@ -2609,6 +2612,8 @@ GameObject:
   - component: {fileID: 1133840174}
   - component: {fileID: 1133840173}
   - component: {fileID: 1133840172}
+  - component: {fileID: 1133840176}
+  - component: {fileID: 1133840175}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -2655,6 +2660,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1133840175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133840171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55ae9c86ba302564dbe247f67e3ce529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HPBarController
+  hpSlider: {fileID: 1776077301}
+--- !u!114 &1133840176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133840171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a331a84f37bab6c46ba2d491776480dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropSystem
+  dropTable: {fileID: 11400000, guid: a0ca2db3d179f684e8d8abcc22f25def, type: 2}
+  cardDatabase: {fileID: 11400000, guid: d09ce38656a826e4a8da8b57a9103e57, type: 2}
+  guaranteedPassiveCount: 3
+  consumableDropChance: 0.5
 --- !u!1 &1153768789
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,6 +3539,7 @@ MonoBehaviour:
   minimapImage: {fileID: 1880920946}
   minimapRect: {fileID: 1880920945}
   playerIcon: {fileID: 1153768790}
+  enemyIconPrefab: {fileID: 7115478978516494685, guid: 1dce0521c3685ba448db1613f944c41d, type: 3}
 --- !u!4 &1488105447
 Transform:
   m_ObjectHideFlags: 0
@@ -4220,6 +4255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   isPlayerTurn: 0
+  isWaitingCardSelect: 0
   turnDelay: 0.1
   enemySpawnerController: {fileID: 2135480975}
 --- !u!4 &1933421685
@@ -4522,6 +4558,7 @@ MonoBehaviour:
   spawnSettings:
   - enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
     count: 10
+  bossPrefab: {fileID: 0}
 --- !u!114 &2135480976
 MonoBehaviour:
   m_ObjectHideFlags: 0
