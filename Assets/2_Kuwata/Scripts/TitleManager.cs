@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // 追加
+using UnityEngine.SceneManagement; 
 using TMPro;
 
 
@@ -9,6 +9,8 @@ public class TitleManager : MonoBehaviour
 {
     [SerializeField] GameObject optionPanel;
     [SerializeField] TextMeshProUGUI titleText;
+    [SerializeField] GameObject tutorial;
+    [SerializeField] GameObject titleRog;
 
     int colorIndex = 0;
     Color[] colors = new Color[]
@@ -21,8 +23,9 @@ public class TitleManager : MonoBehaviour
 
     public void OnStartButton()
     {
-        SceneManager.LoadScene("GameScene"); // "GameScene" の部分はシーンの名前に変更
+        SceneManager.LoadScene("1F_Scene"); // "GameScene" の部分はシーンの名前に変更
     }
+
     [SerializeField]GameObject GameObject;
 
     public void OnOptionButton()
@@ -35,6 +38,12 @@ public class TitleManager : MonoBehaviour
     public void OnBatuButton()
     {
         GameObject.SetActive(false);
+    }
+
+    public void OnTutorialButton()
+    {
+        tutorial.SetActive(true);
+        titleRog.SetActive(false);
     }
 
     void ChangeTitleColor()
