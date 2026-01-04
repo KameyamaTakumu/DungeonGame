@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using System.Collections;
 
 /// <summary>
 /// CardInventory の UI 制御（固定スロット方式）
@@ -103,6 +103,21 @@ public class CardInventoryUIController : MonoBehaviour
             PressSelected();
     }
 
+    void LateUpdate()
+    {
+        if (consumableUI.activeSelf &&
+            EventSystem.current.currentSelectedGameObject == null)
+        {
+            SelectFirstConsumable();
+        }
+
+        if (passiveUI.activeSelf &&
+            EventSystem.current.currentSelectedGameObject == null)
+        {
+            SelectFirstPassive();
+        }
+    }
+
     void MoveSelection(int dir)
     {
         var slots = consumableUI.activeSelf ? consumableSlots : passiveSlots;
@@ -141,6 +156,14 @@ public class CardInventoryUIController : MonoBehaviour
         var go = EventSystem.current.currentSelectedGameObject;
         if (go == null) return;
 
+        var slot = go.GetComponent<CardSlotUI>();
+        if (slot != null && slot.isConsumable)
+        {
+            inventory.OnConsumableCardClicked(slot.slotIndex, true); // ← キーボード
+            return;
+        }
+
+        // パッシブなどは通常クリック扱い
         var btn = go.GetComponent<UnityEngine.UI.Button>();
         btn?.onClick.Invoke();
     }
@@ -163,12 +186,35 @@ public class CardInventoryUIController : MonoBehaviour
         consumableUI?.SetActive(true);
         passiveUI?.SetActive(false);
 
-        currentIndex = 0;
-        if (consumableSlots.Length > 0 && consumableSlots[0] != null)
-            EventSystem.current.SetSelectedGameObject(consumableSlots[0].gameObject);
-
         // ★ ロック
         PlayerInputLock.Instance?.Lock();
+
+        StartCoroutine(SelectConsumableNextFrame());
+    }
+
+    IEnumerator SelectConsumableNextFrame()
+    {
+        yield return null;      // SetActive反映
+        yield return null;      // EventSystem安定待ち
+
+        SelectFirstConsumable();
+    }
+
+    void SelectFirstConsumable()
+    {
+        currentIndex = 0;
+
+        for (int i = 0; i < consumableSlots.Length; i++)
+        {
+            if (consumableSlots[i] != null)
+            {
+                currentIndex = i;
+                EventSystem.current.SetSelectedGameObject(consumableSlots[i].gameObject);
+                return;
+            }
+        }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void ShowPassiveUI()
@@ -180,16 +226,49 @@ public class CardInventoryUIController : MonoBehaviour
 
         // ★ ロック
         PlayerInputLock.Instance?.Lock();
+
+        StartCoroutine(SelectPassiveNextFrame());
     }
+
+    IEnumerator SelectPassiveNextFrame()
+    {
+        yield return null;      // SetActive反映
+        yield return null;      // EventSystem安定待ち
+
+        SelectFirstPassive();
+    }
+
+    void SelectFirstPassive()
+    {
+        currentIndex = 0;
+
+        for (int i = 0; i < passiveSlots.Length; i++)
+        {
+            if (passiveSlots[i] != null)
+            {
+                currentIndex = i;
+                EventSystem.current.SetSelectedGameObject(passiveSlots[i].gameObject);
+                return;
+            }
+        }
+
+        // カードが1枚も無い場合
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
 
     public void HideAllUI()
     {
+        // ★ 重要：先に選択を明示的に解除
+        EventSystem.current.SetSelectedGameObject(null);
+
+        // ★ 追加：カード選択解除（範囲も消える）
+        inventory?.ClearConsumableSelection();
+
         consumableUI?.SetActive(false);
         passiveUI?.SetActive(false);
 
         CardTooltipUI.Instance?.Hide();
-
-        inventory?.ClearConsumableSelection();
 
         // ★ ロック解除
         PlayerInputLock.Instance?.Unlock();

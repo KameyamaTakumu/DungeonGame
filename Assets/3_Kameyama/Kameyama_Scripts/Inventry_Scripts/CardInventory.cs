@@ -261,4 +261,46 @@ public class CardInventory : MonoBehaviour
 
         Debug.Log("カード選択状態を解除");
     }
+
+    public void OnConsumableCardClicked(int index, bool fromKeyboard)
+    {
+        if (index < 0 || index >= consumableCards.Count) return;
+        if (IsSwapMode) return;
+
+        var card = consumableCards[index];
+
+        // 回復は即使用（入力元問わず）
+        if (card.useEffectType == UseEffectType.Heal)
+        {
+            ConsumeConsumableCard(index);
+            return;
+        }
+
+        // ★ 未選択 → 選択（マウス / キーボード共通）
+        if (SelectedConsumableIndex != index)
+        {
+            SelectedConsumableIndex = index;
+
+            PlayerInputLock.Instance?.Lock();
+
+            HighlightManager.instance.Clear();
+
+            var executor = FindFirstObjectByType<PlayerSkillExecutor>();
+            if (executor != null)
+            {
+                var tiles = executor.GetCardRangeTiles(card);
+                HighlightManager.instance.ShowTiles(tiles);
+            }
+
+            UpdateSlotSelectionUI();
+            return;
+        }
+
+        // ★ 同じカードだが「キーボード1回目」は消費しない
+        if (fromKeyboard)
+            return;
+
+        // ★ マウス2クリック目 or キーボード2回目
+        ConsumeConsumableCard(index);
+    }
 }

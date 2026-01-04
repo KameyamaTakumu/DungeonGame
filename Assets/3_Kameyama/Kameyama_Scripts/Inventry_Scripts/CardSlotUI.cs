@@ -61,7 +61,9 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         }
 
         // ★ 判断はすべて Inventory に任せる
-        inv.OnConsumableCardClicked(slotIndex);
+        //inv.OnConsumableCardClicked(slotIndex);
+
+        inv.OnConsumableCardClicked(slotIndex, false); // ← マウス
     }
 
     public void SetSelected(bool selected)
