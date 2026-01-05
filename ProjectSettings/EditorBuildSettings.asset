@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/0_Scenes/3F_Scene.unity
     guid: da133cb8e9760164fa05b9c3ca4b95dc
+  - enabled: 1
+    path: Assets/2_Kuwata/ED.unity
+    guid: 6e01c9adf9b81f64f91d4eff89edf0ea
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
