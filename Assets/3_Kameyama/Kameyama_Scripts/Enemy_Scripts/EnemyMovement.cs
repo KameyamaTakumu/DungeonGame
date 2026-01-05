@@ -27,9 +27,13 @@ public class EnemyMovement : BaseMovement
     // 移動完了時のイベント
     public System.Action onMoveFinished;
 
+    Animator anim;
+
     protected override void Awake()
     {
         base.Awake();
+
+        anim = GetComponent<Animator>();
     }
 
     void Start()
@@ -54,6 +58,8 @@ public class EnemyMovement : BaseMovement
     /// <param name="debugMove">デバッグ用フラグ（派生先で使用可）</param>
     protected override void OnMoveFinished(bool debugMove)
     {
+        anim.SetBool("isMoving", false);   // ★ 歩行停止
+
         Vector2Int oldPos = gridPos;
 
         Vector2Int snapped = Vector2Int.RoundToInt(transform.position);
@@ -122,6 +128,9 @@ public class EnemyMovement : BaseMovement
 
         UnitManager.instance.Reserve(targetPos);
 
+        SetFacingDirection(dir);              // ★ 向きを先に合わせる
+        anim.SetBool("isMoving", true);       // ★ 歩行開始
+
         bool moved = TryMove(dir.x, dir.y);
 
         if (!moved)
@@ -163,5 +172,30 @@ public class EnemyMovement : BaseMovement
         }
 
         return bestDir;
+    }
+
+    /// <summary>
+    /// 移動せずに敵の向きだけを変える
+    /// </summary>
+    private void SetFacingDirection(Vector2Int dir)
+    {
+        if (dir == Vector2Int.zero) return;
+
+        anim.SetFloat("moveX", dir.x);
+        anim.SetFloat("moveY", dir.y);
+        anim.SetBool("isMoving", false);
+    }
+
+    public void FaceToTarget(Vector2Int targetPos)
+    {
+        Vector2Int dir = targetPos - gridPos;
+
+        // 斜めを除去
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+            dir = new Vector2Int((int)Mathf.Sign(dir.x), 0);
+        else
+            dir = new Vector2Int(0, (int)Mathf.Sign(dir.y));
+
+        SetFacingDirection(dir);
     }
 }
