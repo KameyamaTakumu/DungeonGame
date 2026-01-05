@@ -1437,6 +1437,14 @@ MonoBehaviour:
     seType: 0
   - button: {fileID: 2013840780}
     seType: 0
+  - button: {fileID: 2072689038}
+    seType: 0
+  - button: {fileID: 1413151777}
+    seType: 0
+  - button: {fileID: 79763759}
+    seType: 0
+  - button: {fileID: 386663151}
+    seType: 0
 --- !u!4 &958156567
 Transform:
   m_ObjectHideFlags: 0
