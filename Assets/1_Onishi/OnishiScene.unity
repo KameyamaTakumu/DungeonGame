@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   isPlayerTurn: 0
+  isWaitingCardSelect: 0
   turnDelay: 1
   enemySpawnerController: {fileID: 0}
 --- !u!4 &436545516
@@ -305,9 +306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090d7dec2e6a2224a9cfe3e99be82d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
-  attackRange: 1
-  attackPower: 10
-  hp: 10
 --- !u!1 &467678296
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +734,7 @@ MonoBehaviour:
   minimapImage: {fileID: 888672104}
   minimapRect: {fileID: 888672102}
   playerIcon: {fileID: 748439341}
+  enemyIconPrefab: {fileID: 0}
 --- !u!4 &1043071163
 Transform:
   m_ObjectHideFlags: 0
@@ -1221,6 +1220,7 @@ MonoBehaviour:
   consumableCards: []
   passiveCards: []
   cardInventoryUIController: {fileID: 0}
+  currentSelectedSlot: {fileID: 0}
 --- !u!114 &1461356999
 MonoBehaviour:
   m_ObjectHideFlags: 0
