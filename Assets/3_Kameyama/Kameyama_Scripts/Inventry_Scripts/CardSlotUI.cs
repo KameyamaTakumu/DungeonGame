@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
@@ -59,9 +58,6 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
             inv.ReplaceCardAt(slotIndex);
             return;
         }
-
-        // ★ 判断はすべて Inventory に任せる
-        //inv.OnConsumableCardClicked(slotIndex);
 
         inv.OnConsumableCardClicked(slotIndex, false); // ← マウス
     }

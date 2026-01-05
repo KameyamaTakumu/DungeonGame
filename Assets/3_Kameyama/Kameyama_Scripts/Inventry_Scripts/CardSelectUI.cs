@@ -64,7 +64,6 @@ public class CardSelectUI : MonoBehaviour
 
         // ★ UIフェーズ終了
         PlayerInputLock.Instance?.Unlock();
-        //TurnManager.Instance.isWaitingCardSelect = false;
 
         // ★ カード選択終了 → ターン再開
         if (TurnManager.Instance != null)
@@ -113,5 +112,4 @@ public class CardSelectUI : MonoBehaviour
             current.navigation = nav;
         }
     }
-
 }

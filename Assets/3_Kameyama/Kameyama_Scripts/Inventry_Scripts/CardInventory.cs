@@ -233,7 +233,7 @@ public class CardInventory : MonoBehaviour
         HighlightManager.instance.Clear();
 
         // ★ UIフェーズ終了
-        PlayerInputLock.Instance?.Unlock();
+        //PlayerInputLock.Instance?.Unlock();
 
         OnInventoryChanged?.Invoke();
     }
