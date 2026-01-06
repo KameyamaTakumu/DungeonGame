@@ -163,9 +163,19 @@ public class CardInventoryUIController : MonoBehaviour
             return;
         }
 
-        // パッシブなどは通常クリック扱い
-        var btn = go.GetComponent<UnityEngine.UI.Button>();
-        btn?.onClick.Invoke();
+        // ★ 消費カードのみキーボード操作を許可
+        if (slot.isConsumable)
+        {
+            inventory.OnConsumableCardClicked(slot.slotIndex, true);
+            return;
+        }
+
+        // ★ バフカードは Enter で「何もしない」
+        Debug.Log("バフカードはEnterで使用できません");
+
+        //// パッシブなどは通常クリック扱い
+        //var btn = go.GetComponent<UnityEngine.UI.Button>();
+        //btn?.onClick.Invoke();
     }
 
     // ================================

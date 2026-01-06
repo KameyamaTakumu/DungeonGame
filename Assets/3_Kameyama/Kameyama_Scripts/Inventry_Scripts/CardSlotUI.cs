@@ -134,7 +134,15 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
             return;
         }
 
-        inv.OnConsumableCardClicked(slotIndex, false); // ← マウス
+        // ★ 消費カードのみ使用処理へ
+        if (isConsumable)
+        {
+            inv.OnConsumableCardClicked(slotIndex, false);
+            return;
+        }
+
+        // ★ バフカードはクリックしても「使用」しない
+        Debug.Log("バフカードは使用できません");
     }
 
     public void SetSelected(bool selected)

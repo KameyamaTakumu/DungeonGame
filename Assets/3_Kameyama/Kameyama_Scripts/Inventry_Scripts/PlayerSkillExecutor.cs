@@ -20,8 +20,8 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     public void ExecuteCardSkill(CardData card)
     {
-        if (card.cardType != CardType.Use)
-            return;
+        //if (card.cardType != CardType.Use)
+        //    return;
 
         HighlightManager.instance.Clear();
 
@@ -35,6 +35,19 @@ public class PlayerSkillExecutor : MonoBehaviour
 
         // UIを閉じる
         cardInventoryUIController?.HideAllUI();
+
+        // =========================
+        // ★ バフカード
+        // =========================
+        if (card.cardType == CardType.Buff)
+        {
+            playerStatus.ApplyBuff(card);
+            Debug.Log($"バフカード適用: {card.buffType}");
+
+            PlayerInputLock.Instance.Unlock();
+            EndPlayerTurn();
+            return;
+        }
 
         // ★ ここで効果タイプ判定
         switch (card.useEffectType)
@@ -145,6 +158,8 @@ public class PlayerSkillExecutor : MonoBehaviour
 
         int hitCount = 0;
 
+        int damage = CalculateDamage(card); // ★ ここで1回計算
+
         for (int x = -range; x <= range; x++)
         {
             for (int y = -range; y <= range; y++)
@@ -159,7 +174,7 @@ public class PlayerSkillExecutor : MonoBehaviour
                 EnemyStatus enemy = target.GetComponent<EnemyStatus>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(card.damage);
+                    enemy.TakeDamage(damage);
                     hitCount++;
                 }
             }
@@ -175,6 +190,8 @@ public class PlayerSkillExecutor : MonoBehaviour
         int hitCount = 0;
         Vector2Int dir = playerStatus.facingDir;
 
+        int damage = CalculateDamage(card); // ★ ここで1回計算
+
         for (int i = 1; i <= range; i++)
         {
             Vector2Int checkPos = origin + dir * i;
@@ -185,7 +202,7 @@ public class PlayerSkillExecutor : MonoBehaviour
             EnemyStatus enemy = target.GetComponent<EnemyStatus>();
             if (enemy != null)
             {
-                enemy.TakeDamage(card.damage);
+                enemy.TakeDamage(damage);
                 hitCount++;
             }
         }
@@ -193,21 +210,33 @@ public class PlayerSkillExecutor : MonoBehaviour
         return hitCount;
     }
 
+    //int CalculateDamage(CardData card)
+    //{
+    //    int baseDamage = card.damage;
+
+    //    // 消費攻撃UP
+    //    baseDamage = Mathf.RoundToInt(baseDamage * playerStatus.UseAttackBoost);
+
+    //    // クリティカル
+    //    if (UnityEngine.Random.value < playerStatus.CritChance)
+    //    {
+    //        baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
+    //        Debug.Log("クリティカル！");
+    //    }
+
+    //    return baseDamage;
+    //}
     int CalculateDamage(CardData card)
     {
-        int baseDamage = card.damage;
+        int damage = playerStatus.GetUseCardDamage(card.damage);
 
-        // 消費攻撃UP
-        baseDamage = Mathf.RoundToInt(baseDamage * playerStatus.UseAttackBoost);
-
-        // クリティカル
         if (UnityEngine.Random.value < playerStatus.CritChance)
         {
-            baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
+            damage = Mathf.RoundToInt(damage * 1.5f);
             Debug.Log("クリティカル！");
         }
 
-        return baseDamage;
+        return damage;
     }
 
     /// <summary>
@@ -247,6 +276,6 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     int GetEffectiveRange(CardData card)
     {
-        return card.range + playerStatus.Range;
+        return card.range;
     }
 }

@@ -29,37 +29,6 @@ public class PlayerAttack : MonoBehaviour
     /// <param name="dir">攻撃方向（上下左右）を示す Vector2Int</param>
     public void AttackForward(Vector2Int dir)
     {
-        //Vector2Int origin = new Vector2Int(
-        //Mathf.RoundToInt(transform.position.x),
-        //Mathf.RoundToInt(transform.position.y));
-
-        //int range = playerStatus.Range;
-
-        //GameObject target = CombatManager.GetObjectInLine(origin, dir, range);
-
-        //if (target != null)
-        //{
-        //    EnemyStatus enemy = target.GetComponent<EnemyStatus>();
-        //    if (enemy != null)
-        //    {
-        //        bool isCritical;
-        //        int damage = CalculateDamage(out isCritical);
-
-        //        Debug.Log(
-        //            isCritical
-        //            ? $"【CRITICAL】{target.name} に {damage} ダメージ！"
-        //            : $"{target.name} に {damage} ダメージ"
-        //        );
-
-        //        enemy.TakeDamage(damage);
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("攻撃は空振りしました。");
-        //}
-
-        //HighlightManager.instance.Clear();
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
         int range = playerStatus.Range;
 

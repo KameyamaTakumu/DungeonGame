@@ -168,6 +168,11 @@ public class CardInventory : MonoBehaviour
 
     public void OnConsumableCardClicked(int index)
     {
+        // ★ UIが消費カード表示中でなければ拒否
+        if (cardInventoryUIController != null &&
+            !cardInventoryUIController.consumableUI.activeSelf)
+            return;
+
         if (index < 0 || index >= consumableCards.Count) return;
         if (IsSwapMode) return;
 

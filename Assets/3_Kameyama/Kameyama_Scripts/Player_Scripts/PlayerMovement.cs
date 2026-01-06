@@ -19,6 +19,7 @@ public class PlayerMovement : BaseMovement
     Animator anim;
 
     public PlayerAttack pa;
+    PlayerStatus playerStatus;
 
     protected override void Awake()
     {
@@ -34,6 +35,7 @@ public class PlayerMovement : BaseMovement
         pa = GetComponent<PlayerAttack>();
 
         anim = GetComponent<Animator>();
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     private void Update()
@@ -172,6 +174,14 @@ public class PlayerMovement : BaseMovement
         // 移動中は不可
         if (isMoving) return false;
 
+        Vector2Int moveDir = new Vector2Int(mx, my);
+
+        // ★ 向きの確定（移動開始時）
+        if (moveDir != Vector2Int.zero && playerStatus != null)
+        {
+            playerStatus.facingDir = moveDir;
+        }
+
         // 向きだけ先に記録
         anim.SetFloat("moveX", mx);
         anim.SetFloat("moveY", my);
@@ -208,6 +218,13 @@ public class PlayerMovement : BaseMovement
         anim.SetFloat("moveX", dir.x);
         anim.SetFloat("moveY", dir.y);
         anim.SetBool("isMoving", false); // 念のため
+
+        // ★ ロジック用（超重要）
+        PlayerStatus status = GetComponent<PlayerStatus>();
+        if (status != null)
+        {
+            status.facingDir = dir;
+        }
     }
 
     /// <summary>
