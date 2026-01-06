@@ -31,19 +31,28 @@ public class CardSelectButton : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         if (iconImage != null && card.icon != null)
             iconImage.sprite = card.icon;
 
-        // ===== ï\é¶ =====
         nameText.text = card.cardName;
 
-        if (card.useEffectType == UseEffectType.Heal)
+        // =========================
+        // Use / Buff ï™äÚ
+        // =========================
+        if (card.cardType == CardType.Use)
         {
-            rangeText.gameObject.SetActive(false);
-            valueText.text = $"âÒïú : {card.healAmount}";
+            if (card.useEffectType == UseEffectType.Heal)
+            {
+                rangeText.gameObject.SetActive(false);
+                valueText.text = $"âÒïú : {card.healAmount}";
+            }
+            else
+            {
+                rangeText.gameObject.SetActive(true);
+                rangeText.text = $"îÕàÕ : {card.range}";
+                valueText.text = $"à–óÕ : {card.damage}";
+            }
         }
-        else
+        else // Buff
         {
-            rangeText.gameObject.SetActive(true);
-            rangeText.text = $"îÕàÕ : {card.range}";
-            valueText.text = $"à–óÕ : {card.damage}";
+            SetBuffDisplay(card);
         }
 
         var btn = GetComponent<Button>();
@@ -54,6 +63,50 @@ public class CardSelectButton : MonoBehaviour,IPointerEnterHandler,IPointerExitH
             CardTooltipUI.Instance?.Hide(); // ÅöëIëämíËéûÇÕè¡Ç∑
         });
     }
+
+    void SetBuffDisplay(CardData card)
+    {
+        rangeText.gameObject.SetActive(true);
+
+        switch (card.buffType)
+        {
+            case BuffType.Attack:
+                rangeText.text = "çUåÇóÕUP";
+                valueText.text = $"+{card.buffValue}";
+                break;
+
+            case BuffType.HP:
+                rangeText.text = "ç≈ëÂHPUP";
+                valueText.text = $"+{card.buffValue}";
+                break;
+
+            case BuffType.Range:
+                rangeText.text = "çUåÇîÕàÕUP";
+                valueText.text = $"+{card.buffValue}";
+                break;
+
+            case BuffType.CritChance:
+                rangeText.text = "CRTämó¶UP";
+                valueText.text = $"+{card.buffValue}%";
+                break;
+
+            case BuffType.PassiveMultiplier:
+                rangeText.text = "î{ó¶UP";
+                valueText.text = $"Å~{card.buffMultiplier}";
+                break;
+
+            case BuffType.UseAttackBoost:
+                rangeText.text = "î{ó¶UP";
+                valueText.text = $"Å~{card.buffValue}";
+                break;
+
+            default:
+                rangeText.text = "";
+                valueText.text = "";
+                break;
+        }
+    }
+
 
     public void OnSelect(BaseEventData eventData)
     {
