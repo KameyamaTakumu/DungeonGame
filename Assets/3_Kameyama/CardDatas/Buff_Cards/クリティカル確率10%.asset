@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1246f0d5b90f204b830f91e521f0661, type: 3}
   m_Name: "\u30AF\u30EA\u30C6\u30A3\u30AB\u30EB\u78BA\u738710%"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: "\u30AF\u30EA\u30C6\u30A3\u30AB\u30EB\u78BA\u738710%"
-  icon: {fileID: 21300000, guid: fb4d655620a74494da8b5946395cb588, type: 3}
+  cardName: "\u30AF\u30EA\u30C6\u30A3\u30AB\u30EB\u78BA\u7387UP"
+  icon: {fileID: 21300000, guid: b3593fbeab5eebf48b7c1aeefaf0b60f, type: 3}
   cardType: 1
   description: 
   useEffectType: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u5468\u56F2\u30AB\u30FC\u30C9LV4"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "\u5468\u56F2\u30AB\u30FC\u30C9LV4"
-  icon: {fileID: 21300000, guid: 0e4e93fa29f3e9f49af4cb5e854b26ae, type: 3}
+  icon: {fileID: 21300000, guid: 2767e9d235b092c42b4356139cde4fa1, type: 3}
   cardType: 0
   description: 
   useEffectType: 0
@@ -23,3 +23,5 @@ MonoBehaviour:
   rangeType: 0
   buffType: 0
   buffValue: 0
+  stunTurn: 0
+  buffMultiplier: 1

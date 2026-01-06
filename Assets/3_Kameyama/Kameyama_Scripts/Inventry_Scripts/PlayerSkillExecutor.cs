@@ -99,20 +99,26 @@ public class PlayerSkillExecutor : MonoBehaviour
             Debug.Log($"合計 {hitCount} 体の敵にヒット！");
     }
 
+    //void ExecuteHeal(CardData card)
+    //{
+    //    int beforeHP = playerStatus.status.HP;
+
+    //    playerStatus.status.HP = Mathf.Min(
+    //        playerStatus.status.HP + card.healAmount,
+    //        playerStatus.MaxHP
+    //    );
+
+    //    playerStatus.OnHPChanged?.Invoke();
+
+    //    int healed = playerStatus.status.HP - beforeHP;
+
+    //    Debug.Log($"HP回復: +{healed}");
+    //}
+
     void ExecuteHeal(CardData card)
     {
-        int beforeHP = playerStatus.status.HP;
-
-        playerStatus.status.HP = Mathf.Min(
-            playerStatus.status.HP + card.healAmount,
-            playerStatus.MaxHP
-        );
-
-        playerStatus.OnHPChanged?.Invoke();
-
-        int healed = playerStatus.status.HP - beforeHP;
-
-        Debug.Log($"HP回復: +{healed}");
+        playerStatus.Heal(card.healAmount);
+        Debug.Log($"HP回復: +{card.healAmount}");
     }
 
     void ExecuteStunAttack(CardData card)
