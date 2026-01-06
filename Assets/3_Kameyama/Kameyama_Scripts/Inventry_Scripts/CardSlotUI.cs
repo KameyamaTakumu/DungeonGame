@@ -39,28 +39,28 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         icon.enabled = true;
         icon.sprite = card.icon;
 
-        // ===== 表示 =====
         nameText.text = card.cardName;
 
-        // 範囲（回復は非表示）
-        if (card.useEffectType == UseEffectType.Heal)
+        // =========================
+        // Use / Buff 分岐
+        // =========================
+        if (card.cardType == CardType.Use)
         {
-            rangeText.gameObject.SetActive(false);
+            if (card.useEffectType == UseEffectType.Heal)
+            {
+                rangeText.gameObject.SetActive(false);
+                valueText.text = $"回復 : {card.healAmount}";
+            }
+            else
+            {
+                rangeText.gameObject.SetActive(true);
+                rangeText.text = $"範囲 : {card.range}";
+                valueText.text = $"威力 : {card.damage}";
+            }
         }
-        else
+        else // Buff
         {
-            rangeText.gameObject.SetActive(true);
-            rangeText.text = $"範囲 : {card.range}";
-        }
-
-        // 攻撃 or 回復
-        if (card.useEffectType == UseEffectType.Heal)
-        {
-            valueText.text = $"回復 : {card.healAmount}";
-        }
-        else
-        {
-            valueText.text = $"威力 : {card.damage}";
+            SetBuffDisplay(card);
         }
 
         btn.interactable = true;
@@ -78,6 +78,50 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         btn.interactable = false;
         btn.onClick.RemoveAllListeners();
     }
+
+    void SetBuffDisplay(CardData card)
+    {
+        rangeText.gameObject.SetActive(true);
+
+        switch (card.buffType)
+        {
+            case BuffType.Attack:
+                rangeText.text = "攻撃力UP";
+                valueText.text = $"+{card.buffValue}";
+                break;
+
+            case BuffType.HP:
+                rangeText.text = "最大HPUP";
+                valueText.text = $"+{card.buffValue}";
+                break;
+
+            case BuffType.Range:
+                rangeText.text = "攻撃範囲UP";
+                valueText.text = $"+{card.buffValue}";
+                break;
+
+            case BuffType.CritChance:
+                rangeText.text = "CRT確率UP";
+                valueText.text = $"+{card.buffValue}%";
+                break;
+
+            case BuffType.PassiveMultiplier:
+                rangeText.text = "倍率UP";
+                valueText.text = $"×{card.buffMultiplier}";
+                break;
+
+            case BuffType.UseAttackBoost:
+                rangeText.text = "倍率UP";
+                valueText.text = $"×{card.buffValue}";
+                break;
+
+            default:
+                rangeText.text = "";
+                valueText.text = "";
+                break;
+        }
+    }
+
 
     void OnClick()
     {
