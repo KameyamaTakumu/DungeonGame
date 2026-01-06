@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class CardSelectButton : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     public Image iconImage;
+    [SerializeField] TMP_Text nameText;
+    [SerializeField] TMP_Text rangeText;
+    [SerializeField] TMP_Text valueText;
 
     [SerializeField] Outline outline; // Åö í«â¡
 
@@ -27,6 +30,21 @@ public class CardSelectButton : MonoBehaviour,IPointerEnterHandler,IPointerExitH
 
         if (iconImage != null && card.icon != null)
             iconImage.sprite = card.icon;
+
+        // ===== ï\é¶ =====
+        nameText.text = card.cardName;
+
+        if (card.useEffectType == UseEffectType.Heal)
+        {
+            rangeText.gameObject.SetActive(false);
+            valueText.text = $"âÒïú : {card.healAmount}";
+        }
+        else
+        {
+            rangeText.gameObject.SetActive(true);
+            rangeText.text = $"îÕàÕ : {card.range}";
+            valueText.text = $"à–óÕ : {card.damage}";
+        }
 
         var btn = GetComponent<Button>();
         btn.onClick.RemoveAllListeners();
