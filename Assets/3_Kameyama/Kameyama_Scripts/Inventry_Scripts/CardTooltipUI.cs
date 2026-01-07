@@ -61,24 +61,17 @@ public class CardTooltipUI : MonoBehaviour
         {
             if (card.useEffectType == UseEffectType.Heal)
             {
-                return $"HP回復\n回復量：{card.healAmount}";
+                return "HP回復";
             }
             if (card.useEffectType == UseEffectType.StunAttack)
             {
-                return
-                    $"硬直攻撃\n" +
-                    $"ダメージ：{card.damage}\n" +
-                    $"硬直：{card.stunTurn}ターン\n" +
-                    $"範囲：{card.range}";
+                return "スタン攻撃";
             }
 
             string rangeText =
                 card.rangeType == CardRangeType.Around ? "周囲攻撃" : "直線攻撃";
 
-            return
-                $"{rangeText}\n" +
-                $"ダメージ：{card.damage}\n" +
-                $"範囲：{card.range}";
+            return $"{rangeText}";
         }
         else
         {
@@ -86,8 +79,16 @@ public class CardTooltipUI : MonoBehaviour
                 return $"攻撃力 +{card.buffValue}";
             if (card.buffType == BuffType.HP)
                 return $"HP +{card.buffValue}";
+            if (card.buffType == BuffType.CritChance)
+                return $"クリティカル率 +{card.buffValue}%";
+            if (card.buffType == BuffType.Range)
+                return $"通常攻撃範囲 +{card.buffValue}";
+            if (card.buffType == BuffType.PassiveMultiplier)
+                return $"バフ効果倍率 x{card.buffMultiplier}";
+            if (card.buffType == BuffType.UseAttackBoost)
+                return $"消費カード攻撃力 +{card.buffValue}";
 
-            return "効果なし";
+            return "";
         }
     }
 }

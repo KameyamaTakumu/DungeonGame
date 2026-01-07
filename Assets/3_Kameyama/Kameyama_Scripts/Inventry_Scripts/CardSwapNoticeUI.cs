@@ -36,6 +36,8 @@ public class CardSwapNoticeUI : MonoBehaviour
 
     void OnDestroy()
     {
+        if (inventory == null) return;
+
         inventory.OnSwapRequested -= OnSwapStart;
         inventory.OnSwapEnded -= OnSwapEnd;
     }
