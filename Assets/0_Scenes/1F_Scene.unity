@@ -821,9 +821,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerController
   enemyPrefabs:
-  - {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  - {fileID: 2657344967390109580, guid: 927837bdaa6a33b4685412f6305ddff4, type: 3}
   spawnSettings:
-  - enemyPrefab: {fileID: 2657344967390109580, guid: 4b648a301e493754d8083c1fe11944f4, type: 3}
+  - enemyPrefab: {fileID: 2657344967390109580, guid: 927837bdaa6a33b4685412f6305ddff4, type: 3}
     count: 20
   bossPrefab: {fileID: 0}
 --- !u!114 &346483866

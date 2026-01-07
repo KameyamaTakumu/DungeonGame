@@ -9,6 +9,8 @@ using System.Collections.Generic;
 /// </summary>
 public class CardInventory : MonoBehaviour
 {
+    public static CardInventory Instance { get; private set; }
+
     public int consumableLimit = 2;
     public int passiveLimit = 2;
 
@@ -34,6 +36,18 @@ public class CardInventory : MonoBehaviour
 
     // 追加
     public Action OnSwapEnded;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     /// <summary>
     /// カード追加（上限チェック→追加 or 入替モード）
@@ -307,5 +321,18 @@ public class CardInventory : MonoBehaviour
 
         // ★ マウス2クリック目 or キーボード2回目
         ConsumeConsumableCard(index);
+    }
+
+    public void ReapplyAllPassiveEffects()
+    {
+        var player = FindFirstObjectByType<PlayerStatus>();
+        if (player == null) return;
+
+        foreach (var card in passiveCards)
+        {
+            player.ApplyBuff(card);
+        }
+
+        Debug.Log("全バフを再適用しました");
     }
 }

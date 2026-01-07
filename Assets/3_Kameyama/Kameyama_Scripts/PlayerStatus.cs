@@ -35,6 +35,11 @@ public class PlayerStatus : MonoBehaviour
 
     public Vector2Int facingDir = Vector2Int.down;
 
+    private void Start()
+    {
+        CardInventory.Instance?.ReapplyAllPassiveEffects();
+    }
+
     // ======================
     // ★ 消費カード用最終攻撃力
     // ======================
