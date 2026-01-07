@@ -40,6 +40,10 @@ public class PlayerMovement : BaseMovement
 
     private void Update()
     {
+        // ボス撃破後移動ロック
+        if (TurnManager.Instance.isInputLocked)
+            return;
+
         // 移動中は入力を受け付けない
         if (isMoving) return;
 

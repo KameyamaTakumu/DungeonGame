@@ -19,6 +19,9 @@ public class EnemyStatus : MonoBehaviour
 
     private CardInventory cardInventory;
 
+    public bool isBoss = false;
+
+
     private void Start()
     {
         // ※ シーン内にDropSystemは1つだけ付いている前提
@@ -110,6 +113,12 @@ public class EnemyStatus : MonoBehaviour
     {
         Debug.Log($"{name} は倒れた！");
 
+        if (isBoss)
+        {
+            HandleBossDefeated();
+            return;
+        }
+
         EnemyMovement mv = GetComponent<EnemyMovement>();
         if (mv != null)
         {
@@ -144,6 +153,29 @@ public class EnemyStatus : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    void HandleBossDefeated()
+    {
+        // プレイヤー操作をロック
+        TurnManager.Instance.isInputLocked = true;
+
+        // ボスAI停止（念のため）
+        var bossController = GetComponent<BossController>();
+        if (bossController != null)
+            bossController.enabled = false;
+
+        // フェードアウト開始
+        BossFadeOut fade = GetComponent<BossFadeOut>();
+        if (fade != null)
+        {
+            fade.StartFadeOut();
+        }
+        else
+        {
+            Debug.LogError("BossFadeOut がアタッチされていません");
+        }
+    }
+
 
     bool IsInventoryFull(CardType type)
     {

@@ -20,6 +20,9 @@ public class TurnManager : MonoBehaviour
     // ターン遅延の秒数
     public float turnDelay = 1f;
 
+    // ★ 追加：入力ロックフラグ
+    public bool isInputLocked = false;
+
     private void Awake()
     {
         Instance = this;
