@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static EnemyStatus;
 
 /// <summary>
 /// ボス専用の行動制御クラス。
@@ -14,15 +15,9 @@ using UnityEngine;
 /// </summary>
 public class BossController : MonoBehaviour
 {
-    [Header("ボスステータス")]
-    [CustomLabel("通常攻撃のダメージ量")]
-    public int normalDamage = 15;
-
-    [CustomLabel("正面範囲攻撃のダメージ量")]
-    public int wideDamage = 20;
-
-    [CustomLabel("ボスの最大HP")]
-    public int maxHP = 200;
+    [Header("ボスの攻撃")]
+    [CustomLabel("ノックバック攻撃")] public EnemyAttackData frontWideAttack;
+    [CustomLabel("範囲攻撃１×５")]   public EnemyAttackData frontLineAttack;
 
     /// <summary>
     /// ボスの行動開始。
@@ -52,20 +47,14 @@ public class BossController : MonoBehaviour
     /// </summary>
     void ExecuteFrontWideAttack()
     {
-        List<Vector2Int> area = GetFrontWideArea();
-
-        // 攻撃予兆を表示
+        var area = GetFrontWideArea();
         HighlightManager.instance.ShowTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
 
         if (area.Contains(playerPos))
         {
-            PlayerStatus player = GetPlayerStatus();
-            player.TakeDamage(wideDamage);
-
-            // ノックバック（下方向に2マス）
-            player.transform.position += new Vector3(0, -2, 0);
+            ApplyAttackToPlayer(frontWideAttack);
         }
     }
 
@@ -75,16 +64,29 @@ public class BossController : MonoBehaviour
     /// </summary>
     void ExecuteFrontLineAttack()
     {
-        List<Vector2Int> area = GetFrontLineArea();
-
-        // 攻撃予兆を表示
+        var area = GetFrontLineArea();
         HighlightManager.instance.ShowTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
 
         if (area.Contains(playerPos))
         {
-            GetPlayerStatus().TakeDamage(normalDamage);
+            ApplyAttackToPlayer(frontLineAttack);
+        }
+    }
+
+    // ======================
+    // プレイヤーに攻撃適用
+    // ======================
+    void ApplyAttackToPlayer(EnemyStatus.EnemyAttackData attack)
+    {
+        PlayerStatus player = GetPlayerStatus();
+
+        player.TakeDamage(attack.damage);
+
+        if (attack.knockbackY != 0)
+        {
+            player.transform.position += new Vector3(0, attack.knockbackY, 0);
         }
     }
 

@@ -2,6 +2,15 @@ using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour
 {
+    [System.Serializable]
+    public class EnemyAttackData
+    {
+        public string attackName;
+        public int damage;
+        public int knockbackY;   // 0ならノックバックなし
+        public int stunTurn;     // 0ならスタンなし
+    }
+
     [Header("Enemy Base Status")]
     private DropSystem dropSystem;
     private PlayerInventory playerInventory;
@@ -43,6 +52,26 @@ public class EnemyStatus : MonoBehaviour
             UnitManager.instance.enemies.Remove(gameObject);
 
             Die();
+        }
+    }
+
+    /// <summary>
+    /// 攻撃データを受け取り、効果を適用する
+    /// </summary>
+    public void ApplyAttackEffect(EnemyAttackData attack)
+    {
+        Debug.Log($"攻撃受信: {attack.attackName}");
+
+        TakeDamage(attack.damage);
+
+        if (attack.stunTurn > 0)
+        {
+            ApplyStun(attack.stunTurn);
+        }
+
+        if (attack.knockbackY != 0)
+        {
+            transform.position += new Vector3(0, attack.knockbackY, 0);
         }
     }
 

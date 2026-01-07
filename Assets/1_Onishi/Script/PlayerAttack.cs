@@ -34,27 +34,43 @@ public class PlayerAttack : MonoBehaviour
 
         bool hitAny = false;
 
+        // シーン内のボスヒットボックスを取得（1体想定）
+        BossHitbox bossHitbox = FindObjectOfType<BossHitbox>();
+        EnemyStatus bossStatus = null;
+
+        if (bossHitbox != null)
+        {
+            bossStatus = bossHitbox.GetComponent<EnemyStatus>();
+        }
+
         for (int i = 1; i <= range; i++)
         {
             Vector2Int checkPos = origin + dir * i;
+
+            // =========================
+            // ① 通常敵の判定
+            // =========================
             GameObject target = CombatManager.GetObjectAt(checkPos);
-
-            if (target == null) continue;
-
-            EnemyStatus enemy = target.GetComponent<EnemyStatus>();
-            if (enemy != null)
+            if (target != null)
             {
-                bool isCritical;
-                int damage = CalculateDamage(out isCritical);
+                EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+                if (enemy != null)
+                {
+                    DealDamage(enemy);
+                    hitAny = true;
+                }
+            }
 
-                Debug.Log(
-                    isCritical
-                        ? $"【CRITICAL】{target.name} に {damage} ダメージ！"
-                        : $"{target.name} に {damage} ダメージ"
-                );
-
-                enemy.TakeDamage(damage);
-                hitAny = true;
+            // =========================
+            // ② ボスの判定（3×3）
+            // =========================
+            if (bossHitbox != null && bossStatus != null)
+            {
+                if (bossHitbox.GetOccupiedTiles().Contains(checkPos))
+                {
+                    DealDamage(bossStatus);
+                    hitAny = true;
+                }
             }
         }
 
@@ -65,6 +81,21 @@ public class PlayerAttack : MonoBehaviour
 
         HighlightManager.instance.Clear();
     }
+
+    void DealDamage(EnemyStatus enemy)
+    {
+        bool isCritical;
+        int damage = CalculateDamage(out isCritical);
+
+        Debug.Log(
+            isCritical
+                ? $"【CRITICAL】{enemy.name} に {damage} ダメージ！"
+                : $"{enemy.name} に {damage} ダメージ"
+        );
+
+        enemy.TakeDamage(damage);
+    }
+
 
     int CalculateDamage(out bool isCritical)
     {

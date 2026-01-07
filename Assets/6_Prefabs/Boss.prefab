@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8504163634495126247}
   - component: {fileID: -732435714317519963}
   - component: {fileID: 5218088653283035781}
+  - component: {fileID: 5237548465824401904}
+  - component: {fileID: 5411305734703389564}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -105,9 +107,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d51eba643e9644ab51323be6726804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
-  normalDamage: 15
-  wideDamage: 20
-  maxHP: 200
+  frontWideAttack:
+    attackName: "\u7A81\u304D\u3068\u3070\u3059"
+    damage: 5
+    knockbackY: 2
+    stunTurn: 0
+  frontLineAttack:
+    attackName: "\u30B0\u30EC\u30FC\u30C8\u30B7\u30B6\u30FC"
+    damage: 10
+    knockbackY: 0
+    stunTurn: 0
 --- !u!61 &-732435714317519963
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -176,3 +185,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5237548465824401904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2688545153726980253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a41a8bcd67337c45a44e139277a8814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHitbox
+--- !u!114 &5411305734703389564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2688545153726980253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3537233a4a300eb41b0901be4f0be65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
+  status:
+    HP: 10
+    MAX_HP: 10
+    ATK: 5
+    RANGE: 1
