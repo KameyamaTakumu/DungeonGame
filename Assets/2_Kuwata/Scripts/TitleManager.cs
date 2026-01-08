@@ -24,6 +24,9 @@ public class TitleManager : MonoBehaviour
 
     public void OnStartButton()
     {
+        // ★ フロア番号リセット
+        DungeonGenerator.instance?.ResetFloorNumber();
+
         // ★ 抽選回数リセット
         DropSystem.ResetCardDropCount();
 
