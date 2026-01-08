@@ -120,6 +120,8 @@ public class DungeonGenerator : MonoBehaviour
         instance = this;
 
         Generate();
+
+        SoundManager.Instance.PlayBGM(BGM.Dungeon);
     }
 
     private void Update()

@@ -179,6 +179,7 @@ MonoBehaviour:
   seSource: {fileID: 7432638725534081714}
   bgmList:
   - {fileID: 8300000, guid: b347e3ddf768e494489731b3d751aa22, type: 3}
+  - {fileID: 8300000, guid: 52a89c49321745a4889606dd8adb7e83, type: 3}
   seList:
   - {fileID: 8300000, guid: 9796758ee77170f4180bfc75330b691d, type: 3}
   - {fileID: 8300000, guid: 44b99cf606c9d0043bc5c2c882d99882, type: 3}

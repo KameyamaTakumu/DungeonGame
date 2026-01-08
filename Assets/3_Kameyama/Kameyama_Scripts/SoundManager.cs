@@ -19,6 +19,7 @@ using System.Collections;
 public enum BGM
 {
     Test_BGM,
+    Dungeon,
 }
 
 public enum SE
