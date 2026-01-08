@@ -156,6 +156,7 @@ public class PlayerStatus : MonoBehaviour
     // ======================
     public void Heal(int baseAmount)
     {
+        SoundManager.Instance.PlaySE(SE.Heal);
         int heal = Mathf.RoundToInt(baseAmount * passiveMultiplier);
         status.HP = Mathf.Min(status.HP + heal, MaxHP);
         OnHPChanged?.Invoke();

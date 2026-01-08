@@ -34,6 +34,8 @@ public class BaseStatus
     /// </summary>
     public void TakeDamage(int amount)
     {
+        SoundManager.Instance.PlaySE(SE.Attack);
+
         HP -= amount;
         if (HP < 0) HP = 0;
     }

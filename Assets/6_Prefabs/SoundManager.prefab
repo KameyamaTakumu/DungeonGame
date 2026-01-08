@@ -181,6 +181,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b347e3ddf768e494489731b3d751aa22, type: 3}
   seList:
   - {fileID: 8300000, guid: 9796758ee77170f4180bfc75330b691d, type: 3}
+  - {fileID: 8300000, guid: 44b99cf606c9d0043bc5c2c882d99882, type: 3}
+  - {fileID: 8300000, guid: e40e51c3ec64d2a4396cbe6f0a9f90af, type: 3}
+  - {fileID: 8300000, guid: fbeb3e0d3b72d3e4cbf7373e332980ad, type: 3}
+  - {fileID: 8300000, guid: b0f8fc47393129c4e90d88bfc87d7a54, type: 3}
   fadeTime: 1
 --- !u!1 &9059843346372115702
 GameObject:

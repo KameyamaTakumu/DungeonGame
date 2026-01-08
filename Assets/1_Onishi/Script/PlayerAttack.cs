@@ -71,7 +71,7 @@ public class PlayerAttack : MonoBehaviour
                     DealDamage(bossStatus);
                     hitAny = true;
                 }
-            }
+            } 
         }
 
         if (!hitAny)
@@ -110,6 +110,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (isCritical)
         {
+            SoundManager.Instance.PlaySE(SE.critical);
             baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
             Debug.Log("クリティカル!!");
         }

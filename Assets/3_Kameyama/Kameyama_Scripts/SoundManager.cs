@@ -23,7 +23,11 @@ public enum BGM
 
 public enum SE
 {
-    Test_SE
+    Test_SE,
+    Attack,
+    critical,
+    Heal,
+    Death,
 }
 public class SoundManager : MonoBehaviour
 {
