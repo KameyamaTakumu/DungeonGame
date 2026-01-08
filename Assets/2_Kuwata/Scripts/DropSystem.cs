@@ -2,6 +2,8 @@
 
 public class DropSystem : MonoBehaviour
 {
+    public static DropSystem Instance { get; private set; }
+
     [Header("通常ドロップ")]
     public DropTableSO dropTable;
 
@@ -17,11 +19,26 @@ public class DropSystem : MonoBehaviour
     [Range(0f, 1f)]
     public float consumableDropChance = 0.5f;
 
-    int cardDropCount = 0;
+    static int cardDropCount = 0;
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            cardDropCount = 0;
+        }
     }
 
     /// <summary>
@@ -79,5 +96,12 @@ public class DropSystem : MonoBehaviour
 
         // 出ない
         return null;
+    }
+
+    // ★ 追加
+    public static void ResetCardDropCount()
+    {
+        cardDropCount = 0;
+        Debug.Log("カード抽選回数をリセット");
     }
 }

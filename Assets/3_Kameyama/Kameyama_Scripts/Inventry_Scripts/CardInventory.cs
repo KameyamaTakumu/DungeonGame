@@ -335,4 +335,18 @@ public class CardInventory : MonoBehaviour
 
         //Debug.Log("全バフを再適用しました");
     }
+
+    public void ResetInventory()
+    {
+        consumableCards.Clear();
+        passiveCards.Clear();
+
+        SelectedConsumableIndex = -1;
+        IsSwapMode = false;
+        PendingCard = null;
+
+        OnInventoryChanged?.Invoke();
+
+        Debug.Log("カードインベントリをリセット");
+    }
 }

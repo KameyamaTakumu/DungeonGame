@@ -180,4 +180,25 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("プレイヤー死亡！");
         }
     }
+
+    public void ResetStatusForNewGame()
+    {
+        // 保存HPを無効化
+        SavedHP = -1;
+
+        // バフ全解除
+        bonusATK = 0;
+        bonusHP = 0;
+        bonusRange = 0;
+        critChance = 0f;
+        passiveMultiplier = 1f;
+        useAttackBoost = 1f;
+        RangeBonus = 0;
+
+        // HPを最大に戻す
+        status.HP = MaxHP;
+        OnHPChanged?.Invoke();
+
+        Debug.Log("プレイヤーステータスをリセット");
+    }
 }
