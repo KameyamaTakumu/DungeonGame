@@ -89,11 +89,11 @@ public class EnemyStatus : MonoBehaviour
         return stunRemain > 0;
     }
 
-    public void OnTurnStart()
-    {
-        if (stunRemain > 0)
-            stunRemain--;
-    }
+    //public void OnTurnStart()
+    //{
+    //    if (stunRemain > 0)
+    //        stunRemain--;
+    //}
 
     // ★ ターン開始時に呼ぶ
     public bool ConsumeStun()
@@ -101,7 +101,7 @@ public class EnemyStatus : MonoBehaviour
         if (stunRemain > 0)
         {
             stunRemain--;
-            return true; // スタン中
+            return true; // このターンは行動不能
         }
         return false;
     }

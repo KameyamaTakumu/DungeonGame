@@ -195,6 +195,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StepsDownUI
   panel: {fileID: 214163392476777919}
+  yesButton: {fileID: 6474862602672871334}
+  noButton: {fileID: 2570111610075569693}
 --- !u!114 &8916872646969994777
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -96,6 +96,16 @@ public class EnemyAttack : MonoBehaviour
     /// </summary>
     private IEnumerator AttackSequence(Vector2Int dir)
     {
+        EnemyMovement mv = GetComponent<EnemyMovement>();
+
+        // š UŒ‚•ûŒü‚ğŒü‚©‚¹‚é
+        if (mv != null)
+        {
+            mv.FaceToTarget(
+                Vector2Int.RoundToInt(transform.position) + dir
+            );
+        }
+
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
 
         // UŒ‚”ÍˆÍ‚ğŒvZ

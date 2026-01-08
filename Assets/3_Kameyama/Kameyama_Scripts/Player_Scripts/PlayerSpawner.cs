@@ -23,22 +23,42 @@ public class PlayerSpawner : MonoBehaviour
     /// <param name="pos">生成位置（グリッド座標）</param>
     public void SpawnPlayer(Vector2Int pos)
     {
+        //// プレイヤー未生成時は生成
+        //if (playerInstance == null)
+        //{
+        //    playerInstance = Instantiate(playerPrefab);
+        //}
+
+        //// 生成または既存プレイヤーを指定位置へ配置
+        //playerInstance.transform.position = new Vector3(pos.x, pos.y, 0);
+
+        //// カメラ追従スクリプトがシーン内にある場合は追従対象を設定
+        //if (cameraFollow == null)            
+        //{ 
+        //    cameraFollow = FindAnyObjectByType<CameraFollow>();
+        //    cameraFollow.SetTarget(playerInstance.transform);
+        //}
+
         // プレイヤー未生成時は生成
         if (playerInstance == null)
         {
-            playerInstance = Instantiate(playerPrefab);
+            playerInstance = FindFirstObjectByType<PlayerStatus>()?.gameObject;
+
+            if (playerInstance == null)
+            {
+                playerInstance = Instantiate(playerPrefab);
+            }
         }
 
         // 生成または既存プレイヤーを指定位置へ配置
         playerInstance.transform.position = new Vector3(pos.x, pos.y, 0);
 
         // カメラ追従スクリプトがシーン内にある場合は追従対象を設定
-        if (cameraFollow == null)            
-        { 
+        if (cameraFollow == null)
+        {
             cameraFollow = FindAnyObjectByType<CameraFollow>();
             cameraFollow.SetTarget(playerInstance.transform);
         }
-            
     }
 
     /// <summary>

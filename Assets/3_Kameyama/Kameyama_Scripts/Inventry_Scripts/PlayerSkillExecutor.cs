@@ -112,22 +112,6 @@ public class PlayerSkillExecutor : MonoBehaviour
             Debug.Log($"合計 {hitCount} 体の敵にヒット！");
     }
 
-    //void ExecuteHeal(CardData card)
-    //{
-    //    int beforeHP = playerStatus.status.HP;
-
-    //    playerStatus.status.HP = Mathf.Min(
-    //        playerStatus.status.HP + card.healAmount,
-    //        playerStatus.MaxHP
-    //    );
-
-    //    playerStatus.OnHPChanged?.Invoke();
-
-    //    int healed = playerStatus.status.HP - beforeHP;
-
-    //    Debug.Log($"HP回復: +{healed}");
-    //}
-
     void ExecuteHeal(CardData card)
     {
         playerStatus.Heal(card.healAmount);
@@ -210,22 +194,6 @@ public class PlayerSkillExecutor : MonoBehaviour
         return hitCount;
     }
 
-    //int CalculateDamage(CardData card)
-    //{
-    //    int baseDamage = card.damage;
-
-    //    // 消費攻撃UP
-    //    baseDamage = Mathf.RoundToInt(baseDamage * playerStatus.UseAttackBoost);
-
-    //    // クリティカル
-    //    if (UnityEngine.Random.value < playerStatus.CritChance)
-    //    {
-    //        baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
-    //        Debug.Log("クリティカル！");
-    //    }
-
-    //    return baseDamage;
-    //}
     int CalculateDamage(CardData card)
     {
         int damage = playerStatus.GetUseCardDamage(card.damage);

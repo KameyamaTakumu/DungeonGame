@@ -110,6 +110,8 @@ public class TurnManager : MonoBehaviour
             EnemyAttack atk = e.GetComponent<EnemyAttack>();
             EnemyStatus status = e.GetComponent<EnemyStatus>();
 
+            //status?.OnTurnStart();   // ★ ここで減らす
+
             // 移動完了コールバック
             mv.onMoveFinished = () =>
             {
@@ -122,7 +124,9 @@ public class TurnManager : MonoBehaviour
             if (status != null && status.ConsumeStun())
             {
                 Debug.Log($"{e.name} はスタン中で行動不能");
-                finishedCount++;   // ★ 何もしないがターン消費
+
+                mv.onMoveFinished = null;   // ★ 追加
+                finishedCount++;
                 continue;
             }
 

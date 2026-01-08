@@ -64,7 +64,7 @@ public class PlayerStatus : MonoBehaviour
 
             case BuffType.HP:
                 bonusHP += card.buffValue;
-                status.HP += card.buffValue; // 即時回復（倍率なし）
+                //status.HP += card.buffValue; // 即時回復（倍率なし）
                 OnHPChanged?.Invoke();
                 break;
 

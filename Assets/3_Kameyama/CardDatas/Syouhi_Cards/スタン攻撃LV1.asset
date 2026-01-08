@@ -23,5 +23,5 @@ MonoBehaviour:
   rangeType: 0
   buffType: 0
   buffValue: 0
-  stunTurn: 1
+  stunTurn: 2
   buffMultiplier: 1
