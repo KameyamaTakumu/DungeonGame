@@ -90,6 +90,7 @@ public class DungeonGenerator : MonoBehaviour
     public static int CurrentFloor = 1;
 
 
+
     // マップデータ（TileType の 2 次元配列）
     // ここを基準に Tilemap やミニマップ描画を行う
     public TileType[,] map;
@@ -386,8 +387,9 @@ public class DungeonGenerator : MonoBehaviour
             return;
         }
 
-        // ▼今回は右端の部屋（最終ルーム）に階段を置く
-        Room lastRoom = rooms[rooms.Count - 1];
+        // ▼ランダムな部屋に階段を置く
+        Room lastRoom = rooms[Random.Range(0, rooms.Count)];
+        //Room lastRoom = rooms[rooms.Count - 1];
 
         // 部屋の中のランダムな床座標
         int x = Random.Range(lastRoom.x + 1, lastRoom.x + lastRoom.w - 1);
@@ -399,7 +401,7 @@ public class DungeonGenerator : MonoBehaviour
         // Tilemap 描画
         floorTilemap.SetTile(new Vector3Int(x, y, 0), stepsDownTile);
 
-        Debug.Log($"下り階段を配置: {x},{y}");
+        //Debug.Log($"下り階段を配置: {x},{y}");
 
         // ▼トリガー用オブジェクトを生成
         GameObject trigger = new GameObject("StepsDownTrigger");

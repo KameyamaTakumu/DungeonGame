@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
+    // シングルトンインスタンス
+    public static PlayerStatus instance;
+
     public BaseStatus status = new BaseStatus(20, 10, 1);
 
     int bonusATK = 0;
@@ -34,6 +37,11 @@ public class PlayerStatus : MonoBehaviour
     public Action OnHPChanged;
 
     public Vector2Int facingDir = Vector2Int.down;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {

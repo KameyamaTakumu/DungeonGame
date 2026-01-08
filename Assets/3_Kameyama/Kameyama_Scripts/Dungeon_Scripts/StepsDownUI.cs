@@ -78,6 +78,8 @@ public class StepsDownUI : MonoBehaviour
 
     public void Close()
     {
+        if (panel == null) return;
+
         panel.SetActive(false);
 
         // š ƒƒbƒN‰ğœ
@@ -122,6 +124,7 @@ public class StepsDownUI : MonoBehaviour
     public void OnYes()
     {
         DungeonGenerator.CurrentFloor += 1;
+        // æ‚ÉUI‚ğˆÀ‘S‚É•Â‚¶‚é
         Close();
         onYes?.Invoke();
     }

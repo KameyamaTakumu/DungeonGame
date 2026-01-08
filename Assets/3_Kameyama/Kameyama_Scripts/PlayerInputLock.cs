@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// UI操作などでプレイヤー入力をロックするための管理クラス
@@ -20,6 +21,15 @@ public class PlayerInputLock : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject); // ★ 必須
+
+        // ★ シーン遷移時に必ず解除
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Unlock();
     }
 
     public void Lock()

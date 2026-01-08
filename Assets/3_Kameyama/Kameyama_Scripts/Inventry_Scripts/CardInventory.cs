@@ -278,7 +278,7 @@ public class CardInventory : MonoBehaviour
         HighlightManager.instance?.Clear();
         UpdateSlotSelectionUI();
 
-        Debug.Log("カード選択状態を解除");
+        //Debug.Log("カード選択状態を解除");
     }
 
     public void OnConsumableCardClicked(int index, bool fromKeyboard)
@@ -333,6 +333,6 @@ public class CardInventory : MonoBehaviour
             player.ApplyBuff(card);
         }
 
-        Debug.Log("全バフを再適用しました");
+        //Debug.Log("全バフを再適用しました");
     }
 }

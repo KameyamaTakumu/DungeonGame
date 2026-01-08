@@ -23,9 +23,14 @@ public class PlayerMovement : BaseMovement
 
     protected override void Awake()
     {
-        base.Awake();
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         instance = this;
+        base.Awake();
     }
 
     void Start()
@@ -61,6 +66,15 @@ public class PlayerMovement : BaseMovement
         HandleMovementInput(debugMove);
         HandleAttackInput();
     }
+
+    void OnDestroy()
+    {
+        if (UnitManager.instance != null)
+        {
+            UnitManager.instance.UnregisterPlayer(gameObject);
+        }
+    }
+
 
     /// <summary>
     /// ˆÚ“®“ü—Íˆ—

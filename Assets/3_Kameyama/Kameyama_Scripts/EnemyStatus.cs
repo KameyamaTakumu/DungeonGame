@@ -29,7 +29,8 @@ public class EnemyStatus : MonoBehaviour
         playerInventory = FindFirstObjectByType<PlayerInventory>();
         // ※ プレイヤーがシーンに1人いる前提
 
-        cardInventory = FindFirstObjectByType<CardInventory>();
+        //cardInventory = FindFirstObjectByType<CardInventory>();
+        cardInventory = CardInventory.Instance;
 
         if (dropSystem == null)
             Debug.LogError($"{name}: DropSystem が付いていません");

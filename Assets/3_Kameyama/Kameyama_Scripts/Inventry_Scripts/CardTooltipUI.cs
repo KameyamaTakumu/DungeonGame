@@ -25,7 +25,7 @@ public class CardTooltipUI : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         rect = GetComponent<RectTransform>();
         Hide();

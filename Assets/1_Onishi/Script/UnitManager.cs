@@ -34,7 +34,14 @@ public class UnitManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -49,6 +56,12 @@ public class UnitManager : MonoBehaviour
             players.Add(p);
         }
     }
+
+    public void UnregisterPlayer(GameObject p)
+    {
+        players.Remove(p);
+    }
+
 
     /// <summary>
     /// “G‚ğƒŠƒXƒg‚É“o˜^‚·‚éB
@@ -127,5 +140,13 @@ public class UnitManager : MonoBehaviour
             enemyMap.Remove(oldPos);
 
         enemyMap[newPos] = enemy;
+    }
+
+    public void ClearAllUnits()
+    {
+        players.Clear();
+        enemies.Clear();
+        enemyMap.Clear();
+        reservedTiles.Clear();
     }
 }

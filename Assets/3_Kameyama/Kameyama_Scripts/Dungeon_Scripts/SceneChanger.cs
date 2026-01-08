@@ -14,6 +14,8 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadNextFloor()
     {
+        UnitManager.instance.ClearAllUnits();
+
         // Ÿ‚ÌƒV[ƒ“–¼‚É•ÏX‚·‚é
         SceneManager.LoadScene(sceneObject);
     }

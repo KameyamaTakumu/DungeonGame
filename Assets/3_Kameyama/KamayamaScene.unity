@@ -155,9 +155,7 @@ MonoBehaviour:
   - {fileID: 2657344967390109580, guid: 1ba6e2f5dfa1dc0448075c80309a76de, type: 3}
   - {fileID: 2657344967390109580, guid: 1cfda98e858dc3144889fae1f3178a7d, type: 3}
   - {fileID: 2657344967390109580, guid: 48f5c9d1adf37b8439fda9d12c6024f7, type: 3}
-  spawnSettings:
-  - enemyPrefab: {fileID: 2657344967390109580, guid: c80244d46144e3f489e83b4ce8802a48, type: 3}
-    count: 10
+  spawnSettings: []
   bossPrefab: {fileID: 0}
 --- !u!114 &40810341
 MonoBehaviour:
@@ -670,6 +668,7 @@ MonoBehaviour:
   isPlayerTurn: 0
   isWaitingCardSelect: 0
   turnDelay: 0.1
+  isInputLocked: 0
   enemySpawnerController: {fileID: 40810340}
 --- !u!4 &690075808
 Transform:
@@ -933,6 +932,18 @@ PrefabInstance:
     - target: {fileID: 6656987374891762163, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: roomCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: roomMaxSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: roomMinSize
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallPadding

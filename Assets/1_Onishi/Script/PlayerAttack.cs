@@ -111,11 +111,7 @@ public class PlayerAttack : MonoBehaviour
         if (isCritical)
         {
             baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
-            Debug.Log($"【CRITICAL HIT!!】 クリ率:{playerStatus.CritChance * 100f:F1}%");
-        }
-        else
-        {
-            Debug.Log($"通常攻撃 判定値:{roll:F2}");
+            Debug.Log("クリティカル!!");
         }
 
         return baseDamage;

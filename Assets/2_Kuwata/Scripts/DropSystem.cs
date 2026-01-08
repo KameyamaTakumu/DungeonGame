@@ -19,6 +19,11 @@ public class DropSystem : MonoBehaviour
 
     int cardDropCount = 0;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     /// <summary>
     /// 通常アイテムの抽選（既存）
     /// </summary>
