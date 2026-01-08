@@ -155,7 +155,9 @@ MonoBehaviour:
   - {fileID: 2657344967390109580, guid: 1ba6e2f5dfa1dc0448075c80309a76de, type: 3}
   - {fileID: 2657344967390109580, guid: 1cfda98e858dc3144889fae1f3178a7d, type: 3}
   - {fileID: 2657344967390109580, guid: 48f5c9d1adf37b8439fda9d12c6024f7, type: 3}
-  spawnSettings: []
+  spawnSettings:
+  - enemyPrefab: {fileID: 2657344967390109580, guid: 927837bdaa6a33b4685412f6305ddff4, type: 3}
+    count: 1
   bossPrefab: {fileID: 0}
 --- !u!114 &40810341
 MonoBehaviour:

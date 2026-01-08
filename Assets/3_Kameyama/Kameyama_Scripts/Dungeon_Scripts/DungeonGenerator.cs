@@ -43,22 +43,25 @@ public enum TileType
 /// </summary>
 public class DungeonGenerator : MonoBehaviour
 {
+    // インスタンス
+    public static DungeonGenerator instance;
+
     // ================================
     // 生成パラメータ
     // ================================
 
     [Header("マップサイズ")]
     // ここは public にして外部から参照できるようにする
-    [CustomLabel("横幅（タイル数）"),SerializeField]
-    public int width  = 64;
+    [CustomLabel("横幅（タイル数）"), SerializeField]
+    public int width = 64;
     [CustomLabel("縦幅（タイル数）"), SerializeField]
     public int height = 64;
 
     [Header("部屋パラメータ")]
     [CustomLabel("生成する部屋の最大数"), SerializeField]
-    private int roomCount   = 8;
+    private int roomCount = 8;
     [CustomLabel("部屋の最小サイズ"), SerializeField]
-    private int roomMinSize = 4;    
+    private int roomMinSize = 4;
     [CustomLabel("部屋の最大サイズ"), SerializeField]
     private int roomMaxSize = 10;
 
@@ -89,8 +92,6 @@ public class DungeonGenerator : MonoBehaviour
     [CustomLabel("現在のフロア番号"), SerializeField]
     public static int CurrentFloor = 1;
 
-
-
     // マップデータ（TileType の 2 次元配列）
     // ここを基準に Tilemap やミニマップ描画を行う
     public TileType[,] map;
@@ -116,6 +117,8 @@ public class DungeonGenerator : MonoBehaviour
 
     void Awake()
     {
+        instance = this;
+
         Generate();
     }
 
@@ -153,7 +156,7 @@ public class DungeonGenerator : MonoBehaviour
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
-            { 
+            {
                 map[x, y] = TileType.Wall;
             }
         }
@@ -176,7 +179,7 @@ public class DungeonGenerator : MonoBehaviour
         // (4) ミニマップ描画
         if (miniMapRenderer != null)
         {
-            miniMapRenderer.DrawMiniMap(map); 
+            miniMapRenderer.DrawMiniMap(map);
         }
 
         // (5) プレイヤー
@@ -203,7 +206,7 @@ public class DungeonGenerator : MonoBehaviour
     /// </summary>
     private void GenerateBossFloor()
     {
-        width  = 18;
+        width = 18;
         height = 10;
 
         map = new TileType[width, height];
@@ -332,17 +335,17 @@ public class DungeonGenerator : MonoBehaviour
         int x = x1; int y = y1;
 
         // X方向に掘る
-        while (x != x2) 
-        { 
+        while (x != x2)
+        {
             map[x, y] = TileType.Floor;
             x += (x2 > x) ? 1 : -1;
-        } 
+        }
         // Y方向に掘る
-        while (y != y2) 
-        { 
+        while (y != y2)
+        {
             map[x, y] = TileType.Floor;
-            y += (y2 > y) ? 1 : -1; 
-        } 
+            y += (y2 > y) ? 1 : -1;
+        }
         // 最終地点も床に
         map[x, y] = TileType.Floor;
     }
@@ -471,5 +474,10 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         return floors[Random.Range(0, floors.Count)];
+    }
+
+    public void ResetFloorNumber()
+    {
+        CurrentFloor = 1;
     }
 }
