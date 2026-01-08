@@ -179,6 +179,7 @@ public class PlayerStatus : MonoBehaviour
         if (status.IsDead())
         {
             Debug.Log("プレイヤー死亡！");
+            DungeonGenerator.CurrentFloor = 1;
         }
     }
 }

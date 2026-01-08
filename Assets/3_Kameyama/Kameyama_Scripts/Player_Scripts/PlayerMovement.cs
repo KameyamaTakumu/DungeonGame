@@ -212,7 +212,6 @@ public class PlayerMovement : BaseMovement
         // ★ 敵がいるなら移動不可（入力を無視）
         if (UnitManager.instance.IsEnemyAt(next))
         {
-            // 必要ならSEやログ
             // Debug.Log("敵がいて移動できない");
             return false;
         }

@@ -9,7 +9,6 @@ public class BossFadeOut : MonoBehaviour
 {
     [Header("フェード設定")]
     public float fadeDuration = 2.0f;
-    public string edSceneName = "EDScene";
 
     SpriteRenderer[] renderers;
 
@@ -44,6 +43,6 @@ public class BossFadeOut : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadScene(edSceneName);
+        SceneManager.LoadScene("ED");
     }
 }

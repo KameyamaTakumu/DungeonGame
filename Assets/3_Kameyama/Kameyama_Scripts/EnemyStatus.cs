@@ -175,6 +175,8 @@ public class EnemyStatus : MonoBehaviour
         {
             Debug.LogError("BossFadeOut がアタッチされていません");
         }
+
+        DungeonGenerator.CurrentFloor = 1; 
     }
 
 

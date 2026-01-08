@@ -28,6 +28,8 @@ public enum SE
     critical,
     Heal,
     Death,
+    CardUse,
+    CardGet,
 }
 public class SoundManager : MonoBehaviour
 {
