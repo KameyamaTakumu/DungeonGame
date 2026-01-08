@@ -59,6 +59,8 @@ public class CardInventory : MonoBehaviour
 
         if (list.Count < limit)
         {
+            SoundManager.Instance.PlaySE(SE.CardGet);
+
             list.Add(card);
             if (card.cardType == CardType.Buff)
                 ApplyPassiveEffect(card);
@@ -170,6 +172,8 @@ public class CardInventory : MonoBehaviour
         }
 
         var card = consumableCards[index];
+
+        SoundManager.Instance.PlaySE(SE.CardUse);
 
         // 技発動（プレイヤーに通知）
         FindFirstObjectByType<PlayerSkillExecutor>()?.ExecuteCardSkill(card);
