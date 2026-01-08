@@ -8,6 +8,9 @@ public class PlayerStatus : MonoBehaviour
 
     public BaseStatus status = new BaseStatus(20, 10, 1);
 
+    // ★ 追加：シーンを跨いで保持するHP
+    public static int SavedHP = -1;
+
     int bonusATK = 0;
     int bonusHP = 0;
     int bonusRange = 0;
@@ -41,11 +44,24 @@ public class PlayerStatus : MonoBehaviour
     void Awake()
     {
         instance = this;
+
+        // ★ シーン遷移後なら復元
+        if (SavedHP >= 0)
+        {
+            status.HP = Mathf.Min(SavedHP, MaxHP);
+        }
     }
 
     private void Start()
     {
         CardInventory.Instance?.ReapplyAllPassiveEffects();
+
+        // ★ その「あと」で HP を復元する
+        if (SavedHP >= 0)
+        {
+            status.HP = Mathf.Min(SavedHP, MaxHP);
+            OnHPChanged?.Invoke();
+        }
     }
 
     // ======================

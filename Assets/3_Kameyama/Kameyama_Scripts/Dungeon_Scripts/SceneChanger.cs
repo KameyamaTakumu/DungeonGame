@@ -14,6 +14,12 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadNextFloor()
     {
+        // š Œ»İHP‚ğ•Û‘¶
+        if (PlayerStatus.instance != null)
+        {
+            PlayerStatus.SavedHP = PlayerStatus.instance.status.HP;
+        }
+
         UnitManager.instance.ClearAllUnits();
 
         // Ÿ‚ÌƒV[ƒ“–¼‚É•ÏX‚·‚é
