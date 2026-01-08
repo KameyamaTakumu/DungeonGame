@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -179,7 +180,9 @@ public class PlayerStatus : MonoBehaviour
         if (status.IsDead())
         {
             Debug.Log("プレイヤー死亡！");
+            ResetStatusForNewGame();
             DungeonGenerator.CurrentFloor = 1;
+            SceneManager.LoadScene("Title");
         }
     }
 

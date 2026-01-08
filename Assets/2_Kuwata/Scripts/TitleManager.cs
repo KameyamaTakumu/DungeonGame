@@ -34,7 +34,7 @@ public class TitleManager : MonoBehaviour
         CardInventory.Instance?.ResetInventory();
 
         // ★ プレイヤーステータス初期化
-        PlayerStatus.instance?.ResetStatusForNewGame();
+        //PlayerStatus.instance?.ResetStatusForNewGame();
 
         SceneManager.LoadScene("1F_Scene"); // "GameScene" の部分はシーンの名前に変更
     }
