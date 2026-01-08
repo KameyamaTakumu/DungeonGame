@@ -15,6 +15,7 @@ public class BossFadeOut : MonoBehaviour
 
     void Awake()
     {
+        // SpriteRenderer‚ðŽæ“¾
         renderers = GetComponentsInChildren<SpriteRenderer>();
     }
 

@@ -25,7 +25,7 @@ public class BossController : MonoBehaviour
     /// </summary>
     public void BossAction()
     {
-        // ランダムで行動を選択（将来的にHP条件などで分岐可能）
+        // ランダムで行動を選択
         int action = Random.Range(0, 2);
 
         switch (action)
@@ -75,9 +75,10 @@ public class BossController : MonoBehaviour
         }
     }
 
-    // ======================
-    // プレイヤーに攻撃適用
-    // ======================
+    /// <summary>
+    /// プレイヤーに攻撃を適用する
+    /// </summary>
+    /// <param name="attack"></param>
     void ApplyAttackToPlayer(EnemyStatus.EnemyAttackData attack)
     {
         PlayerStatus player = GetPlayerStatus();

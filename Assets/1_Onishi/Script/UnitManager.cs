@@ -13,10 +13,6 @@ using UnityEngine;
 /// </summary>
 public class UnitManager : MonoBehaviour
 {
-    /// <summary>
-    /// シングルトンインスタンス。
-    /// 他のクラスから UnitManager に簡易アクセスするために使用。
-    /// </summary>
     public static UnitManager instance;
 
     private Dictionary<Vector2Int, EnemyMovement> enemyMap
@@ -32,13 +28,12 @@ public class UnitManager : MonoBehaviour
     [Tooltip("シーン内の敵ユニット一覧")]
     public List<GameObject> enemies = new List<GameObject>();
 
-    // ★ 追加：このターン中に予約されたマス
+    // このターン中に予約されたマス
     private HashSet<Vector2Int> reservedTiles = new();
 
 
     private void Awake()
     {
-        // シングルトンとして自身を登録
         instance = this;
     }
 
@@ -78,7 +73,7 @@ public class UnitManager : MonoBehaviour
         return enemyMap.ContainsKey(pos);
     }
 
-    // ★ 予約済みか
+    // 予約済みか
     public bool IsReserved(Vector2Int pos)
     {
         return reservedPositions.Contains(pos);

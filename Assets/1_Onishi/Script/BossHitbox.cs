@@ -15,7 +15,7 @@ public class BossHitbox : MonoBehaviour
         List<Vector2Int> tiles = new List<Vector2Int>();
         Vector2Int center = Vector2Int.RoundToInt(transform.position);
 
-        Debug.Log($"[BOSS] center = {center}");
+        //Debug.Log($"[BOSS] center = {center}");
 
         for (int y = -1; y <= 1; y++)
         {

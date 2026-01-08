@@ -75,7 +75,7 @@ public class EnemyAttack : MonoBehaviour
                 {
                     attackDir = dir;
 
-                    // š ‘¦UŒ‚‚¹‚¸A—\’›•t‚«UŒ‚‚ğŠJn
+                    // ‚·‚®‚ÉUŒ‚‚¹‚¸A—\’›•t‚«UŒ‚‚ğŠJn
                     StartCoroutine(AttackSequence(dir));
 
                     if (mv != null)
@@ -98,7 +98,7 @@ public class EnemyAttack : MonoBehaviour
     {
         EnemyMovement mv = GetComponent<EnemyMovement>();
 
-        // š UŒ‚•ûŒü‚ğŒü‚©‚¹‚é
+        // UŒ‚•ûŒü‚ğŒü‚©‚¹‚é
         if (mv != null)
         {
             mv.FaceToTarget(

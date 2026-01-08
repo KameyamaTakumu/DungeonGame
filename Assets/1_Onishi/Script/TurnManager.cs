@@ -14,14 +14,16 @@ public class TurnManager : MonoBehaviour
     [HideInInspector]
     public bool isPlayerTurn;
 
-    // ★ 追加：カード選択待ち
+    // カード選択待ち
     public bool isWaitingCardSelect = false;
 
     // ターン遅延の秒数
     public float turnDelay = 1f;
 
-    // ★ 追加：入力ロックフラグ
+    // 入力ロックフラグ
     public bool isInputLocked = false;
+
+    [SerializeField] private EnemySpawnerController enemySpawnerController;
 
     private void Awake()
     {
@@ -63,15 +65,11 @@ public class TurnManager : MonoBehaviour
     /// 敵の行動処理を行うコルーチン。
     /// 敵の移動完了まで待機し、移動後にプレイヤーターンへ戻る。
     /// </summary>
-
-    [SerializeField] private EnemySpawnerController enemySpawnerController;
-
-
     public IEnumerator EnemyTurn()
     {
         isPlayerTurn = false;
 
-        // ★ カード選択が終わるまで待つ
+        // カード選択が終わるまで待つ
         while (isWaitingCardSelect)
             yield return null;
 
@@ -110,7 +108,7 @@ public class TurnManager : MonoBehaviour
             EnemyAttack atk = e.GetComponent<EnemyAttack>();
             EnemyStatus status = e.GetComponent<EnemyStatus>();
 
-            //status?.OnTurnStart();   // ★ ここで減らす
+            //status?.OnTurnStart();   // ここで減らす
 
             // 移動完了コールバック
             mv.onMoveFinished = () =>
@@ -119,13 +117,13 @@ public class TurnManager : MonoBehaviour
             };
 
             // =========================
-            // ★ スタン判定（最優先）
+            // スタン判定（最優先）
             // =========================
             if (status != null && status.ConsumeStun())
             {
                 Debug.Log($"{e.name} はスタン中で行動不能");
 
-                mv.onMoveFinished = null;   // ★ 追加
+                mv.onMoveFinished = null;   // 追加
                 finishedCount++;
                 continue;
             }
@@ -189,7 +187,6 @@ public class TurnManager : MonoBehaviour
 
         if (boss != null)
         {
-            // ボスの行動を実行
             boss.BossAction();
         }
         else
@@ -200,10 +197,8 @@ public class TurnManager : MonoBehaviour
         // 攻撃演出・予兆表示を見せる時間
         yield return new WaitForSeconds(1.0f);
 
-        // ハイライト消去
         HighlightManager.instance.Clear();
 
-        // ターン終了 → プレイヤーへ
         isPlayerTurn = true;
 
         Debug.Log("ボスターン終了 > プレイヤーのターンへ");

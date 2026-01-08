@@ -48,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
             Vector2Int checkPos = origin + dir * i;
 
             // =========================
-            // ‡@ ’Êí“G‚Ì”»’è
+            // ’Êí“G‚Ì”»’è
             // =========================
             GameObject target = CombatManager.GetObjectAt(checkPos);
             if (target != null)
@@ -62,7 +62,7 @@ public class PlayerAttack : MonoBehaviour
             }
 
             // =========================
-            // ‡A ƒ{ƒX‚Ì”»’èi3~3j
+            // ƒ{ƒX‚Ì”»’èi3~3j
             // =========================
             if (bossHitbox != null && bossStatus != null)
             {

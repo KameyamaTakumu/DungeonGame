@@ -48,7 +48,7 @@ public class EnemySpawnerController : MonoBehaviour
             return;
         }
 
-        // ▼ボス階層なら雑魚を出さない
+        // ボス階層なら雑魚を出さない
         if (DungeonGenerator.CurrentFloor == 3)
         {
             SpawnBoss();
@@ -58,7 +58,7 @@ public class EnemySpawnerController : MonoBehaviour
             SpawnAllEnemies();// 起動時に全ての敵をまとめて生成
         }
 
-        // ★ 敵生成が終わったあとに通知
+        // 敵生成が終わったあとに通知
         if (miniMap != null)
             miniMap.SetEnemies(spawnedEnemies);
     }
@@ -122,7 +122,7 @@ public class EnemySpawnerController : MonoBehaviour
         }
 
         // 部屋中央に配置
-        Vector2Int bossPos = new Vector2Int(6, 6);
+        Vector2Int bossPos = new Vector2Int(9, 7);
 
         GameObject boss = Instantiate(bossPrefab);
         boss.transform.position = new Vector3(bossPos.x, bossPos.y, 0);

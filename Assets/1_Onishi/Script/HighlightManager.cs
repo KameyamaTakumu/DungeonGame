@@ -8,10 +8,6 @@ using UnityEngine;
 /// </summary>
 public class HighlightManager : MonoBehaviour
 {
-    /// <summary>
-    /// シングルトンインスタンス。
-    /// 他スクリプトから簡易アクセスするために使用。
-    /// </summary>
     public static HighlightManager instance;
 
     [Header("Highlight Settings")]
@@ -27,7 +23,6 @@ public class HighlightManager : MonoBehaviour
 
     private void Awake()
     {
-        // シングルトンとして自身を登録
         instance = this;
     }
 
