@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyStatus;
-
 /// <summary>
 /// ボス専用の行動制御クラス。
 /// 雑魚敵とは異なり「移動せず、範囲攻撃でプレイヤーを制圧する」
@@ -18,6 +17,25 @@ public class BossController : MonoBehaviour
     [Header("ボスの攻撃")]
     [CustomLabel("ノックバック攻撃")] public EnemyAttackData frontWideAttack;
     [CustomLabel("範囲攻撃１×５")]   public EnemyAttackData frontLineAttack;
+    [CustomLabel("必中攻撃")] public EnemyAttackData directAttack;
+    [CustomLabel("左右３×３攻撃")] public EnemyAttackData sideWideAttack;
+
+    public enum BossActionType
+    {
+        FrontWide,
+        FrontLine,
+        PlayerTarget,
+        SideWide,
+    }
+
+    [SerializeField]
+    List<BossActionType> actionPatterns = new List<BossActionType>()
+    {
+        BossActionType.FrontWide,
+        BossActionType.FrontLine,
+        BossActionType.PlayerTarget,
+        BossActionType.SideWide
+    };
 
     /// <summary>
     /// ボスの行動開始。
@@ -25,18 +43,27 @@ public class BossController : MonoBehaviour
     /// </summary>
     public void BossAction()
     {
-        // ランダムで行動を選択
-        int action = Random.Range(0, 2);
+        BossActionType action =
+       actionPatterns[Random.Range(0, actionPatterns.Count)];
 
         switch (action)
         {
-            case 0:
+            case BossActionType.FrontWide:
                 ExecuteFrontWideAttack();
                 break;
 
-            case 1:
+            case BossActionType.FrontLine:
                 ExecuteFrontLineAttack();
                 break;
+
+            case BossActionType.PlayerTarget:
+                ExecutePlayerTargetAttack();
+                break;
+
+            case BossActionType.SideWide:
+                ExecuteSideWideAttack();
+                break;
+
         }
     }
 
@@ -74,6 +101,44 @@ public class BossController : MonoBehaviour
             ApplyAttackToPlayer(frontLineAttack);
         }
     }
+
+    void ExecutePlayerTargetAttack()
+    {
+        Debug.Log("ボスの必中攻撃！");
+
+        PlayerStatus player = GetPlayerStatus();
+
+        // ハイライト不要 or プレイヤー位置だけ表示してもOK
+        HighlightManager.instance.ShowTiles(
+            new List<Vector2Int> { GetPlayerGridPos() }
+        );
+
+        player.TakeDamage(directAttack.damage);
+
+        if (directAttack.knockbackY != 0)
+        {
+            player.transform.position += new Vector3(0, directAttack.knockbackY, 0);
+        }
+    }
+
+    /// <summary>
+    /// ボスの左右に対する3×3範囲攻撃。
+    /// 左右それぞれに判定を持つ。
+    /// </summary>
+    void ExecuteSideWideAttack()
+    {
+        var area = GetSideWideArea();
+        HighlightManager.instance.ShowTiles(area);
+
+        Vector2Int playerPos = GetPlayerGridPos();
+
+        if (area.Contains(playerPos))
+        {
+            ApplyAttackToPlayer(sideWideAttack);
+        }
+    }
+
+
 
     /// <summary>
     /// プレイヤーに攻撃を適用する
@@ -129,6 +194,37 @@ public class BossController : MonoBehaviour
 
         return tiles;
     }
+
+    /// <summary>
+    /// ボス左右の3×3範囲を生成する。
+    /// ボスは3×3サイズを想定。
+    /// </summary>
+    List<Vector2Int> GetSideWideArea()
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        Vector2Int center = Vector2Int.RoundToInt(transform.position);
+
+        // 左側 3×3
+        for (int y = -1; y <= 1; y++)
+        {
+            for (int x = -3; x <= -1; x++)
+            {
+                tiles.Add(new Vector2Int(center.x + x, center.y + y));
+            }
+        }
+
+        // 右側 3×3
+        for (int y = -1; y <= 1; y++)
+        {
+            for (int x = 1; x <= 3; x++)
+            {
+                tiles.Add(new Vector2Int(center.x + x, center.y + y));
+            }
+        }
+
+        return tiles;
+    }
+
 
     /// <summary>
     /// プレイヤーの現在のグリッド座標を取得する。
