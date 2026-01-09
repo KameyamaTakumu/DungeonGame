@@ -1349,6 +1349,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeUp
+      value: 
+      objectReference: {fileID: 11400000, guid: 4881183dbc8b91346828ce77016168fc, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerBL
+      value: 
+      objectReference: {fileID: 11400000, guid: a76320eb7142c2c40a5b7285b28322af, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerBR
+      value: 
+      objectReference: {fileID: 11400000, guid: 779583fe138414142835400c36faa919, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerTL
+      value: 
+      objectReference: {fileID: 11400000, guid: 873e767c744bd5341a9aa948b3ebcffe, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerTR
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a5a726b3d99d0f44b06050d75f7d176, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeDown
+      value: 
+      objectReference: {fileID: 11400000, guid: cb5271b83d34b6645a73a00fd39f634b, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeLeft
+      value: 
+      objectReference: {fileID: 11400000, guid: 400de3c90f1dd194b8b478e903f850a1, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeRight
+      value: 
+      objectReference: {fileID: 11400000, guid: 09dd0331ec63f3e408f30658b25c67cc, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: floorTilemap
+      value: 
+      objectReference: {fileID: 268405777}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallPadding
       value: 0
@@ -1646,7 +1686,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1765416123}
-  - component: {fileID: 1765416125}
   - component: {fileID: 1765416126}
   m_Layer: 0
   m_Name: GameObject
@@ -1670,22 +1709,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1765416125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765416120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a331a84f37bab6c46ba2d491776480dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropSystem
-  dropTable: {fileID: 11400000, guid: a0ca2db3d179f684e8d8abcc22f25def, type: 2}
-  cardDatabase: {fileID: 11400000, guid: d09ce38656a826e4a8da8b57a9103e57, type: 2}
-  guaranteedPassiveCount: 3
-  consumableDropChance: 0.5
 --- !u!114 &1765416126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2205,6 +2228,14 @@ PrefabInstance:
     - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618661609649984052, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00008583069
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618661609649984052, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.0000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 8474848318797076300, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_Pivot.x

@@ -1227,6 +1227,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 370727416553385139, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 370727416553385139, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1030933436468522069, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1257,6 +1265,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592498767586808602, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948166463342168572, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948166463342168572, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8474848318797076300, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
@@ -1628,6 +1660,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: floorTilemap
+      value: 
+      objectReference: {fileID: 268405777}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: floorTile
       value: 
@@ -1929,7 +1965,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1765416123}
-  - component: {fileID: 1765416125}
   - component: {fileID: 1765416126}
   m_Layer: 0
   m_Name: GameObject
@@ -1953,22 +1988,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1765416125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765416120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a331a84f37bab6c46ba2d491776480dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropSystem
-  dropTable: {fileID: 11400000, guid: a0ca2db3d179f684e8d8abcc22f25def, type: 2}
-  cardDatabase: {fileID: 11400000, guid: d09ce38656a826e4a8da8b57a9103e57, type: 2}
-  guaranteedPassiveCount: 3
-  consumableDropChance: 0.5
 --- !u!114 &1765416126
 MonoBehaviour:
   m_ObjectHideFlags: 0
