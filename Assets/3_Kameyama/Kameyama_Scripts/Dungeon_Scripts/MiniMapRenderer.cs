@@ -66,6 +66,10 @@ public class MiniMapRenderer : MonoBehaviour
     [CustomLabel("プレイヤーの視界半径（円形）")]
     private int viewRadius = 8;
 
+    [Header("壁表示")]
+    [SerializeField]
+    private Color wallLineColor = Color.black;
+
     // ======================
     // 内部状態
     // ======================
@@ -297,6 +301,14 @@ public class MiniMapRenderer : MonoBehaviour
         tex.Apply();
     }
 
+    private bool IsWall(int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= mapW || y >= mapH)
+            return true;
+
+        return map[x, y] == TileType.Wall;
+    }
+
     /// <summary>
     /// プレイヤー位置を基準に FOV を再計算し、
     /// ミニマップ全体を再描画する
@@ -380,6 +392,42 @@ public class MiniMapRenderer : MonoBehaviour
                         tex.SetPixel(baseX + px, baseY + py, c);
                     }
                 }
+            }
+        }
+
+        // =============================
+        // 壁アウトライン描画（★ 正しい場所）
+        // =============================
+        for (int x = 0; x < mapW; x++)
+        {
+            for (int y = 0; y < mapH; y++)
+            {
+                if (!discovered[x, y]) continue;
+                if (map[x, y] != TileType.Floor) continue;
+
+                bool N = IsWall(x, y + 1);
+                bool S = IsWall(x, y - 1);
+                bool E = IsWall(x + 1, y);
+                bool W = IsWall(x - 1, y);
+
+                int baseX = x * pixelScale;
+                int baseY = y * pixelScale;
+
+                if (N)
+                    for (int px = 0; px < pixelScale; px++)
+                        tex.SetPixel(baseX + px, baseY + pixelScale - 1, wallLineColor);
+
+                if (S)
+                    for (int px = 0; px < pixelScale; px++)
+                        tex.SetPixel(baseX + px, baseY, wallLineColor);
+
+                if (E)
+                    for (int py = 0; py < pixelScale; py++)
+                        tex.SetPixel(baseX + pixelScale - 1, baseY + py, wallLineColor);
+
+                if (W)
+                    for (int py = 0; py < pixelScale; py++)
+                        tex.SetPixel(baseX, baseY + py, wallLineColor);
             }
         }
 

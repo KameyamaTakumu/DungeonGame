@@ -242,6 +242,10 @@ public class DungeonGenerator : MonoBehaviour
         // 壁オートタイル
         FindAnyObjectByType<WallAutoTilePainter>()
             ?.ApplyAutoTiles(map);
+
+        // 床オートタイル
+        FindAnyObjectByType<FloorAutoTilePainter>()
+            ?.Apply(map);
     }
 
 
