@@ -311,6 +311,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &217127258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5880948252305193662, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+  m_PrefabInstance: {fileID: 1313319282}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &270214818
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,12 +874,34 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
   m_PrefabInstance: {fileID: 1313319282}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 217127258}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3704d31e69bf34146bd1f7418f430d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
+--- !u!114 &932836213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217127258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f68b476a3dbef4592abb265c1627f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloorAutoTilePainter
+  floorTilemap: {fileID: 1456610532}
+  center: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
+  edgeUp: {fileID: 11400000, guid: 4881183dbc8b91346828ce77016168fc, type: 2}
+  edgeDown: {fileID: 11400000, guid: cb5271b83d34b6645a73a00fd39f634b, type: 2}
+  edgeLeft: {fileID: 11400000, guid: 400de3c90f1dd194b8b478e903f850a1, type: 2}
+  edgeRight: {fileID: 11400000, guid: 09dd0331ec63f3e408f30658b25c67cc, type: 2}
+  cornerTL: {fileID: 11400000, guid: 873e767c744bd5341a9aa948b3ebcffe, type: 2}
+  cornerTR: {fileID: 11400000, guid: 4a5a726b3d99d0f44b06050d75f7d176, type: 2}
+  cornerBL: {fileID: 11400000, guid: a76320eb7142c2c40a5b7285b28322af, type: 2}
+  cornerBR: {fileID: 11400000, guid: 779583fe138414142835400c36faa919, type: 2}
 --- !u!1001 &1313319282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -937,15 +964,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: roomCount
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: roomMaxSize
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: roomMinSize
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallPadding
@@ -970,7 +997,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5880948252305193662, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 932836213}
   m_SourcePrefab: {fileID: 100100000, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
 --- !u!1 &1456610529
 GameObject:

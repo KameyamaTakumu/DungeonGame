@@ -193,6 +193,8 @@ public class DungeonGenerator : MonoBehaviour
         // (7) 壁タイルの自動タイル適用
         FindAnyObjectByType<WallAutoTilePainter>()?.ApplyAutoTiles(map);
 
+        FindAnyObjectByType<FloorAutoTilePainter>()?.Apply(map);
+
         // (8) 階段設置（設定次第）
         if (generateStepsDown)
         {

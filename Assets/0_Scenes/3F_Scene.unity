@@ -1578,7 +1578,7 @@ PrefabInstance:
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: tUp
       value: 
-      objectReference: {fileID: 11400000, guid: 32c991a861c1f624c8c2d04ded847a9a, type: 2}
+      objectReference: {fileID: 11400000, guid: 64165227c9a54c44a844d558c7304d84, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: cross
       value: 
@@ -1586,15 +1586,15 @@ PrefabInstance:
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: tDown
       value: 
-      objectReference: {fileID: 11400000, guid: d88d263dfc9cf7f4893b0cdd07251875, type: 2}
+      objectReference: {fileID: 11400000, guid: 930fcdcf0df85ab4ba418cb6287752f1, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: tLeft
       value: 
-      objectReference: {fileID: 11400000, guid: 38e38ba4d0498c8499e51874056a40a8, type: 2}
+      objectReference: {fileID: 11400000, guid: abd5e041e25939c438fc6256781155ea, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: tRight
       value: 
-      objectReference: {fileID: 11400000, guid: 45f1b710788292049afbe029e2c61be3, type: 2}
+      objectReference: {fileID: 11400000, guid: d1cb32f596d9b9440a0d76b9293a1662, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: innerBL
       value: 
@@ -1675,6 +1675,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 11400000, guid: 390a0f23cd89ed444bd674b15cd7c725, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeUp
+      value: 
+      objectReference: {fileID: 11400000, guid: 499f9d290bf950b43a5869377d523ca1, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerBL
+      value: 
+      objectReference: {fileID: 11400000, guid: 41f0cc1dc1f701543a39e54450da4e0a, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerBR
+      value: 
+      objectReference: {fileID: 11400000, guid: 8686c5d63eb79534981413fa5a68f7d3, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerTL
+      value: 
+      objectReference: {fileID: 11400000, guid: 40f4c0d5ded1d1445b873dd12f141a45, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerTR
+      value: 
+      objectReference: {fileID: 11400000, guid: 0427b0b481f2e3941829ac261d8bd151, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeDown
+      value: 
+      objectReference: {fileID: 11400000, guid: bc37356029793ca489a1dcd248a07614, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeLeft
+      value: 
+      objectReference: {fileID: 11400000, guid: ee0a9b621d41ef441a484d86c6f43661, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: edgeRight
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f9897fe0b6d5344c95b5d13777334f7, type: 2}
+    - target: {fileID: 8177876711083642824, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: floorTilemap
+      value: 
+      objectReference: {fileID: 268405777}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: floorTile
       value: 
@@ -1835,7 +1875,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1765416123}
-  - component: {fileID: 1765416125}
   - component: {fileID: 1765416126}
   m_Layer: 0
   m_Name: GameObject
@@ -1859,22 +1898,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1765416125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765416120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a331a84f37bab6c46ba2d491776480dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropSystem
-  dropTable: {fileID: 11400000, guid: a0ca2db3d179f684e8d8abcc22f25def, type: 2}
-  cardDatabase: {fileID: 11400000, guid: d09ce38656a826e4a8da8b57a9103e57, type: 2}
-  guaranteedPassiveCount: 3
-  consumableDropChance: 0.5
 --- !u!114 &1765416126
 MonoBehaviour:
   m_ObjectHideFlags: 0

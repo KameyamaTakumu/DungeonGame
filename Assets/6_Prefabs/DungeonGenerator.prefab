@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6656987374891762163}
   - component: {fileID: 8184004258957010693}
   - component: {fileID: 699077126088926893}
+  - component: {fileID: 8177876711083642824}
   - component: {fileID: -2113248624612626189}
   m_Layer: 0
   m_Name: DungeonGenerator
@@ -84,6 +85,28 @@ MonoBehaviour:
   tDown: {fileID: 11400000, guid: 198e3f41c9de2f2449adc1b797ed53b3, type: 2}
   tLeft: {fileID: 11400000, guid: 07b689fdd9cbace489134f78e37cb0e2, type: 2}
   cross: {fileID: 11400000, guid: 6739a1453fd5f664ba0ab895127d2e4d, type: 2}
+--- !u!114 &8177876711083642824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5880948252305193662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f68b476a3dbef4592abb265c1627f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloorAutoTilePainter
+  floorTilemap: {fileID: 0}
+  center: {fileID: 11400000, guid: 2a12988dca296de43b8dd770c0d02030, type: 2}
+  edgeUp: {fileID: 11400000, guid: 64e32710d59b2774d8e86ae7a5efb615, type: 2}
+  edgeDown: {fileID: 11400000, guid: 6f1a370ab73a32e449fed17d682501a2, type: 2}
+  edgeLeft: {fileID: 11400000, guid: 148ab385001b71f4fb2d14d9c2dc7e76, type: 2}
+  edgeRight: {fileID: 11400000, guid: 4c0e380fa24077043a4d412543ffbe76, type: 2}
+  cornerTL: {fileID: 11400000, guid: ba33c686fd676ee4b86df41f57abc5a9, type: 2}
+  cornerTR: {fileID: 11400000, guid: 63841c3b615bf8b4f8ab17d8664db056, type: 2}
+  cornerBL: {fileID: 11400000, guid: 805286304e40f124bb5c438102815943, type: 2}
+  cornerBR: {fileID: 11400000, guid: 82bdb1f03dfa9ce44a216d98ce807bb8, type: 2}
 --- !u!114 &-2113248624612626189
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,8 +8,7 @@ public class ScrollViewManager:MonoBehaviour
     {
         if(GameObject != null)
         {
-        GameObject.SetActive(!GameObject.activeSelf);
-        }
-          
+            GameObject.SetActive(!GameObject.activeSelf);
+        }          
     }
 }
