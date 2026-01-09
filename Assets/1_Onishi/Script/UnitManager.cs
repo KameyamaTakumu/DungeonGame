@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -148,5 +149,10 @@ public class UnitManager : MonoBehaviour
         enemies.Clear();
         enemyMap.Clear();
         reservedTiles.Clear();
+    }
+
+    public void ResetUnitManagerForNewGame()
+    {
+        ClearAllUnits();
     }
 }

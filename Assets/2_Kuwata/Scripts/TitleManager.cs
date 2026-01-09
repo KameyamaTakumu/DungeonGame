@@ -36,6 +36,9 @@ public class TitleManager : MonoBehaviour
         // ★ プレイヤーステータス初期化
         //PlayerStatus.instance?.ResetStatusForNewGame();
 
+        // Unitmanager初期化
+        UnitManager.instance?.ResetUnitManagerForNewGame();
+
         SceneManager.LoadScene("1F_Scene"); // "GameScene" の部分はシーンの名前に変更
     }
 
