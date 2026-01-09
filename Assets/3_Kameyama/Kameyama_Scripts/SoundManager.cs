@@ -54,6 +54,8 @@ public class SoundManager : MonoBehaviour
     private Coroutine fadeCoroutine;
     private int? currentBGMIndex = null;
 
+    private float bgmMaxVolume = 1f; // ユーザー設定音量
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -106,15 +108,26 @@ public class SoundManager : MonoBehaviour
             yield break;
         }
 
-        // --- フェードイン ---
+        //// --- フェードイン ---
+        //t = 0f;
+        //while (t < fadeTime)
+        //{
+        //    bgmSource.volume = Mathf.Lerp(0f, 1f, t / fadeTime);
+        //    t += Time.unscaledDeltaTime;
+        //    yield return null;
+        //}
+
+        //bgmSource.volume = 1f; // 最終音量を固定
+        // フェードイン（★ 最大は bgmMaxVolume）
         t = 0f;
         while (t < fadeTime)
         {
-            bgmSource.volume = Mathf.Lerp(0f, 1f, t / fadeTime);
+            bgmSource.volume = Mathf.Lerp(0f, bgmMaxVolume, t / fadeTime);
             t += Time.unscaledDeltaTime;
             yield return null;
         }
-        bgmSource.volume = 1f; // 最終音量を固定
+
+        bgmSource.volume = bgmMaxVolume;
         fadeCoroutine = null;
     }
 
@@ -158,7 +171,13 @@ public class SoundManager : MonoBehaviour
     // 音量設定
     public void SetBGMVolume(float volume)
     {
-        bgmSource.volume = Mathf.Clamp01(volume);
+        //bgmSource.volume = Mathf.Clamp01(volume);
+
+        bgmMaxVolume = Mathf.Clamp01(volume);
+
+        // 再生中なら即反映
+        if (bgmSource.isPlaying)
+            bgmSource.volume = bgmMaxVolume;
     }
 
     public void SetSEVolume(float volume)

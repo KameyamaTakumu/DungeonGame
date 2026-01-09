@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 1178906861736964911}
   - component: {fileID: 4195730794681926164}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SEVolumeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -799,6 +799,8 @@ MonoBehaviour:
   volumePanel: {fileID: 8750882623231950929}
   bgmSlider: {fileID: 2295561738997804507}
   seSlider: {fileID: 6382537055877671726}
+  bgmValueText: {fileID: 803439921430891735}
+  seValueText: {fileID: 4195730794681926164}
   tutorialPanel1: {fileID: 4221175234294328398}
   tutorialPanel2: {fileID: 4071080271140004945}
 --- !u!1 &1137503868371910791
@@ -2027,7 +2029,7 @@ GameObject:
   - component: {fileID: 6705175073586515368}
   - component: {fileID: 39066130086364578}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2276,7 +2278,7 @@ GameObject:
   - component: {fileID: 1789585510716479838}
   - component: {fileID: 803439921430891735}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: BGMVolumeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

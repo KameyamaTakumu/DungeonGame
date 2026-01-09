@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 // <summary>
 /// 音量設定・チュートリアル・タイトル戻りを管理するUI
@@ -16,6 +17,9 @@ public class OptionMenuUI : MonoBehaviour
     [Header("音量スライダー")]
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider seSlider;
+
+    [SerializeField] private TextMeshProUGUI bgmValueText;
+    [SerializeField] private TextMeshProUGUI seValueText;
 
     [Header("チュートリアルパネル（2枚）")]
     [SerializeField] private GameObject tutorialPanel1;
@@ -33,9 +37,17 @@ public class OptionMenuUI : MonoBehaviour
             return;
         }
 
-        // 初期値をSoundManagerから取得
-        bgmSlider.value = soundManager.GetBGMVolume();
-        seSlider.value = soundManager.GetSEVolume();
+        // スライダーの初期化
+        bgmSlider.onValueChanged.AddListener(value => bgmValueText.text = (value * 100).ToString("0"));
+        seSlider.onValueChanged.AddListener(value => seValueText.text = (value * 100).ToString("0"));
+
+        // 初期値設定
+        bgmSlider.value = SoundManager.Instance.GetBGMVolume();
+        seSlider.value = SoundManager.Instance.GetSEVolume();
+
+        // リスナーを追加（Inspectorからは外す）
+        bgmSlider.onValueChanged.AddListener(SoundManager.Instance.SetBGMVolume);
+        seSlider.onValueChanged.AddListener(SoundManager.Instance.SetSEVolume);
 
         tutorialPanel1.SetActive(false);
         tutorialPanel2.SetActive(false);
@@ -75,7 +87,6 @@ public class OptionMenuUI : MonoBehaviour
         if (soundManager == null) return;
 
         soundManager.SetBGMVolume(value);
-        soundManager.PlaySE(SE.Test_SE);
     }
 
     public void OnChangeSEVolume(float value)
@@ -99,7 +110,7 @@ public class OptionMenuUI : MonoBehaviour
     public void NextTutorial()
     {
         if (soundManager != null)
-            soundManager.PlaySE(SE.CardUse);
+            soundManager.PlaySE(SE.Test_SE);
 
         tutorialPanel1.SetActive(false);
         tutorialPanel2.SetActive(true);
@@ -108,7 +119,7 @@ public class OptionMenuUI : MonoBehaviour
     public void CloseTutorial()
     {
         if (soundManager != null)
-            soundManager.PlaySE(SE.CardUse);
+            soundManager.PlaySE(SE.Test_SE);
 
         tutorialPanel1.SetActive(false);
         tutorialPanel2.SetActive(false);
@@ -119,7 +130,7 @@ public class OptionMenuUI : MonoBehaviour
     {
         if (soundManager != null)
         {
-            soundManager.PlaySE(SE.CardUse);
+            soundManager.PlaySE(SE.Test_SE);
             soundManager.StopBGM(true);
         }
 
