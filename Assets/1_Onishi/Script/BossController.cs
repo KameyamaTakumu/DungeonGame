@@ -171,7 +171,7 @@ public class BossController : MonoBehaviour
             // 横3マス
             for (int x = -1; x <= 1; x++)
             {
-                tiles.Add(new Vector2Int(center.x + x, center.y - 2 - y));
+                tiles.Add(new Vector2Int(center.x + x, center.y - 1 - y));
             }
         }
 
@@ -189,7 +189,7 @@ public class BossController : MonoBehaviour
         // 横5マス
         for (int x = -2; x <= 2; x++)
         {
-            tiles.Add(new Vector2Int(center.x + x, center.y - 3));
+            tiles.Add(new Vector2Int(center.x + x, center.y - 2));
         }
 
         return tiles;
@@ -207,7 +207,7 @@ public class BossController : MonoBehaviour
         // 左側 3×3
         for (int y = -1; y <= 1; y++)
         {
-            for (int x = -3; x <= -1; x++)
+            for (int x = -4; x <= -2; x++)
             {
                 tiles.Add(new Vector2Int(center.x + x, center.y + y));
             }
@@ -216,7 +216,7 @@ public class BossController : MonoBehaviour
         // 右側 3×3
         for (int y = -1; y <= 1; y++)
         {
-            for (int x = 1; x <= 3; x++)
+            for (int x = 2; x <= 4; x++)
             {
                 tiles.Add(new Vector2Int(center.x + x, center.y + y));
             }

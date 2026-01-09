@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   status:
-    HP: 15
-    MAX_HP: 15
+    HP: 18
+    MAX_HP: 18
     ATK: 4
     RANGE: 2
   isBoss: 0

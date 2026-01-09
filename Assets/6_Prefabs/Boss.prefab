@@ -120,12 +120,12 @@ MonoBehaviour:
     stunTurn: 0
   directAttack:
     attackName: "\u30B4\u30C3\u30C9\u30D5\u30A3\u30F3\u30AC\u30FC"
-    damage: 2
+    damage: 7
     knockbackY: 0
     stunTurn: 0
   sideWideAttack:
     attackName: "\u30C0\u30D6\u30EB\u30AF\u30ED\u30FC"
-    damage: 8
+    damage: 15
     knockbackY: 0
     stunTurn: 0
   actionPatterns: 00000000010000000200000003000000
@@ -224,7 +224,7 @@ MonoBehaviour:
   status:
     HP: 100
     MAX_HP: 100
-    ATK: 11
+    ATK: 10
     RANGE: 1
   isBoss: 1
 --- !u!114 &-859480107501862199
