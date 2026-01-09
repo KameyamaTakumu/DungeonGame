@@ -84,10 +84,10 @@ public class CardInventoryUIController : MonoBehaviour
             else ShowPassiveUI();
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && Input.GetKeyDown(KeyCode.LeftShift))
             ShowRandomSelect(CardType.Use);
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftShift))
             ShowRandomSelect(CardType.Buff);
 
         if (!consumableUI.activeSelf && !passiveUI.activeSelf)

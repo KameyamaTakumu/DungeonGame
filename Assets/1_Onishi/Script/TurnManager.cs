@@ -170,7 +170,6 @@ public class TurnManager : MonoBehaviour
         // ターン終了
         // ==============================
         isPlayerTurn = true;
-        Debug.Log("敵ターン終了 > プレイヤーのターンへ");
     }
 
     /// <summary>
