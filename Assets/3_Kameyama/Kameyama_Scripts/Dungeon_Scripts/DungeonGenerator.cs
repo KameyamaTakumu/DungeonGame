@@ -178,28 +178,29 @@ public class DungeonGenerator : MonoBehaviour
         // (3) Tilemap へ反映
         RenderMap();
 
-        // (4) ミニマップ描画
+        // (4) プレイヤー
+        FindAnyObjectByType<PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
+
+        // (5) 壁タイルの自動タイル適用
+        FindAnyObjectByType<WallAutoTilePainter>()?.ApplyAutoTiles(map);
+
+        // (6) 床タイルの自動タイル適用
+        FindAnyObjectByType<FloorAutoTilePainter>()?.Apply(map);
+
+        // (7) 階段設置（設定次第）
+        if (generateStepsDown)
+        {
+            PlaceStepDown();
+        }
+
+        // (8) ミニマップ描画
         if (miniMapRenderer != null)
         {
             miniMapRenderer.DrawMiniMap(map);
         }
 
-        // (5) プレイヤー
-        FindAnyObjectByType<PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
-
-        // (6) ミニマップの敵アイコン更新
+        // (9) ミニマップの敵アイコン更新
         miniMapRenderer.ForceRefreshEnemies();
-
-        // (7) 壁タイルの自動タイル適用
-        FindAnyObjectByType<WallAutoTilePainter>()?.ApplyAutoTiles(map);
-
-        FindAnyObjectByType<FloorAutoTilePainter>()?.Apply(map);
-
-        // (8) 階段設置（設定次第）
-        if (generateStepsDown)
-        {
-            PlaceStepDown();
-        }
     }
 
     /// <summary>

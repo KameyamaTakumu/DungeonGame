@@ -32,7 +32,7 @@ public class PlayerStatus : MonoBehaviour
     public int Range
         => status.RANGE + bonusRange + RangeBonus;
 
-    public float CritChance => critChance;
+    public float CritChance => critChance * passiveMultiplier;
     public float PassiveMultiplier => passiveMultiplier;
     public float UseAttackBoost => useAttackBoost;
 

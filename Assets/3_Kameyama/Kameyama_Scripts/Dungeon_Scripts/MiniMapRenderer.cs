@@ -41,6 +41,17 @@ public class MiniMapRenderer : MonoBehaviour
     private List<GameObject>    enemies    = new List<GameObject>();
 
     // ======================
+    // 階段アイコン
+    // ======================
+
+    [Header("階段アイコン")]
+    [CustomLabel("下り階段を示す UI アイコン")]
+    [SerializeField] private RectTransform stepsDownIconPrefab;
+
+    private List<RectTransform> stepsDownIcons = new List<RectTransform>();
+    private List<Vector2Int> stepsDownTiles = new List<Vector2Int>();
+
+    // ======================
     // 描画設定
     // ======================
 
@@ -134,6 +145,8 @@ public class MiniMapRenderer : MonoBehaviour
 
         // 敵アイコン更新
         UpdateEnemyIcons();
+
+        UpdateStepsDownIcons();
     }
 
     /// <summary>
@@ -173,20 +186,71 @@ public class MiniMapRenderer : MonoBehaviour
             minimapRect = minimapImage.rectTransform; 
         }
 
-        // 発見済み／視界情報配列初期化
+        //// 発見済み／視界情報配列初期化
+        //discovered = new bool[mapW, mapH];
+        //visibleNow = new bool[mapW, mapH];
+
+        //// 未探索は完全透明の状態で初期化
+        //ClearTextureTransparent();
+
+        //player = GameObject.FindGameObjectWithTag("Player");
+
+        //// 初回描画
+        //ForceRecalculateFOVAndDraw();
+
+        //// ★ これを追加
+        //ForceRefreshEnemies();
+
+        //// 階段タイル座標を収集
+        //CollectStepsDownTiles();
+        //InitStepsDownIcons();
+        // 発見済み配列初期化後すぐ
         discovered = new bool[mapW, mapH];
         visibleNow = new bool[mapW, mapH];
 
-        // 未探索は完全透明の状態で初期化
+        // 先に階段座標を取得してアイコン生成
+        CollectStepsDownTiles();
+        InitStepsDownIcons();
+
+        // テクスチャ初期化
         ClearTextureTransparent();
 
         player = GameObject.FindGameObjectWithTag("Player");
 
-        // 初回描画
+        // ここで初回FOV
         ForceRecalculateFOVAndDraw();
 
-        // ★ これを追加
+        // 敵アイコン
         ForceRefreshEnemies();
+    }
+
+    private void UpdateStepsDownIcons()
+    {
+        for (int i = 0; i < stepsDownTiles.Count; i++)
+        {
+            var tile = stepsDownTiles[i];
+            var icon = stepsDownIcons[i];
+
+            // まだ一度も発見していなければ非表示
+            if (!discovered[tile.x, tile.y])
+            {
+                icon.gameObject.SetActive(false);
+                continue;
+            }
+
+            // ★ 発見済みなら常に表示
+            icon.gameObject.SetActive(true);
+
+            // ミニマップ座標へ変換
+            float u = (tile.x + 0.5f) / mapW;
+            float v = (tile.y + 0.5f) / mapH;
+
+            Vector2 size = minimapRect.sizeDelta;
+            float px = (u - 0.5f) * size.x;
+            float py = (v - 0.5f) * size.y;
+
+            icon.anchoredPosition = new Vector2(px, py);
+        }
     }
 
     /// <summary>
@@ -200,6 +264,40 @@ public class MiniMapRenderer : MonoBehaviour
 
         enemies.AddRange(found);
         InitEnemyIcons();
+    }
+
+    /// <summary>
+    /// map から StepsDown タイル座標を収集
+    /// </summary>
+    private void CollectStepsDownTiles()
+    {
+        stepsDownTiles.Clear();
+
+        for (int x = 0; x < mapW; x++)
+        {
+            for (int y = 0; y < mapH; y++)
+            {
+                if (map[x, y] == TileType.StepsDown)
+                {
+                    stepsDownTiles.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+    }
+
+    private void InitStepsDownIcons()
+    {
+        foreach (var icon in stepsDownIcons)
+            Destroy(icon.gameObject);
+
+        stepsDownIcons.Clear();
+
+        foreach (var pos in stepsDownTiles)
+        {
+            var icon = Instantiate(stepsDownIconPrefab, minimapRect);
+            icon.gameObject.SetActive(true);
+            stepsDownIcons.Add(icon);
+        }
     }
 
     /// <summary>
@@ -403,7 +501,7 @@ public class MiniMapRenderer : MonoBehaviour
             for (int y = 0; y < mapH; y++)
             {
                 if (!discovered[x, y]) continue;
-                if (map[x, y] != TileType.Floor) continue;
+                if (map[x, y] == TileType.Wall) continue;
 
                 bool N = IsWall(x, y + 1);
                 bool S = IsWall(x, y - 1);
