@@ -10,7 +10,8 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject optionPanel;
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] GameObject tutorial;
-    [SerializeField] GameObject tutorial2;
+    [SerializeField] GameObject tutorial2; 
+    [SerializeField] GameObject tutorial3;
     [SerializeField] GameObject titleRog;
 
     int colorIndex = 0;
@@ -68,15 +69,31 @@ public class TitleManager : MonoBehaviour
 
     }
 
+    public void OnRightButton2()
+    {
+        tutorial2.SetActive(false);
+        tutorial3.SetActive(true);
+
+    }
+
+
     public void OnLeftButton()
     {
         tutorial.SetActive(true);
         tutorial2.SetActive(false);
     }
 
+    public void OnLeftButton2()
+    {
+        tutorial2.SetActive(true);
+        tutorial3.SetActive(false);
+    }
+
+
+
     public void OnBatu2Bottun()
     {
-        tutorial2.SetActive(false);
+        tutorial3.SetActive(false);
     }
 
     void ChangeTitleColor()
