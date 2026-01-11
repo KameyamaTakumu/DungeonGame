@@ -32,6 +32,13 @@ public enum TileType
     StepsDown
 }
 
+public enum ChestCardMode
+{
+    RandomBoth, // バフ or 消費をランダム
+    BuffOnly,   // バフのみ
+    UseOnly     // 消費のみ
+}
+
 /// <summary>
 /// ダンジョン生成を担当するクラス
 /// ・ランダムな部屋の生成
@@ -70,11 +77,19 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField]
     private bool generateStepsDown = true;
 
+    [Header("宝箱設定")]
+    [SerializeField] private bool generateChest = true;
+    [SerializeField] private int chestCount = 3;   // ← 追加：出現数
+    [SerializeField] private TileBase chestTile;
+    [SerializeField] private ChestCardMode chestMode = ChestCardMode.RandomBoth;
+
     [Header("タイルマップ関連")]
     [CustomLabel("床タイルを描画するタイルマップ"), SerializeField]
     private Tilemap floorTilemap;
     [CustomLabel("壁タイルを描画するタイルマップ"), SerializeField]
     private Tilemap wallTilemap;
+    [CustomLabel("宝箱タイルを描画するタイルマップ"), SerializeField]
+    private Tilemap chestTilemap;
 
     [Header("タイル関連")]
     [CustomLabel("床として使用するタイルチップ"), SerializeField]
@@ -193,13 +208,20 @@ public class DungeonGenerator : MonoBehaviour
             PlaceStepDown();
         }
 
-        // (8) ミニマップ描画
+        // (8) 宝箱設置
+        if (generateChest)
+        {
+            for (int i = 0; i < chestCount; i++)
+                PlaceChest();
+        }
+
+        // (9) ミニマップ描画
         if (miniMapRenderer != null)
         {
             miniMapRenderer.DrawMiniMap(map);
         }
 
-        // (9) ミニマップの敵アイコン更新
+        // (10) ミニマップの敵アイコン更新
         miniMapRenderer.ForceRefreshEnemies();
     }
 
@@ -489,4 +511,42 @@ public class DungeonGenerator : MonoBehaviour
     {
         CurrentFloor = 1;
     }
+
+    private void PlaceChest()
+    {
+        if (rooms.Count == 0) return;
+
+        Room room = rooms[Random.Range(0, rooms.Count)];
+
+        int x = Random.Range(room.x + 1, room.x + room.w - 1);
+        int y = Random.Range(room.y + 1, room.y + room.h - 1);
+
+        // 宝箱は専用Tilemapへ描画
+        chestTilemap.SetTile(new Vector3Int(x, y, 0), chestTile);
+
+        // トリガー生成
+        GameObject chest = new GameObject("ChestTrigger");
+        chest.transform.position = new Vector3(x, y, 0);
+
+        var col = chest.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+
+        var trig = chest.AddComponent<ChestTrigger>();
+        trig.mode = chestMode;
+    }
+
+    // === 宝箱タイル削除用 ===
+
+    // ワールド座標 → タイル座標変換用
+    public Vector3Int GetChestTilePosition(Vector3 worldPos)
+    {
+        return chestTilemap.WorldToCell(worldPos);
+    }
+
+    // 宝箱タイルを消す
+    public void ClearChestTile(Vector3Int pos)
+    {
+        chestTilemap.SetTile(pos, null);
+    }
+
 }

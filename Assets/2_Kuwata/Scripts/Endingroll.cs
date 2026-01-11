@@ -12,6 +12,9 @@ public class Endingroll : MonoBehaviour
     public string returnSceneName = "Title"; // –ß‚è‚½‚¢ƒV[ƒ“–¼
     private bool isFinished = false;         // 1‰ñ‚¾‚¯Às‚·‚é‚½‚ß
 
+    public float scrollSpeed = 80f; // 1•b‚ ‚½‚è‚ÌˆÚ“®—Ê
+
+
     void Start()
     {
         Staffrollposition = rectTransform.anchoredPosition;
@@ -21,9 +24,9 @@ public class Endingroll : MonoBehaviour
     {
         if (isFinished) return;
 
-        if (rectTransform.anchoredPosition.y < Endpos)
+        if (Staffrollposition.y < Endpos)
         {
-            Staffrollposition.y += 1f;
+            Staffrollposition.y += scrollSpeed * Time.deltaTime;
             rectTransform.anchoredPosition = Staffrollposition;
         }
         else

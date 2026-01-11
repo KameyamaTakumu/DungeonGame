@@ -53,6 +53,9 @@ MonoBehaviour:
   roomMinSize: 2
   roomMaxSize: 8
   generateStepsDown: 1
+  generateChest: 1
+  chestTile: {fileID: 11400000, guid: b223a2d9c7560e54792b7b3799415ee6, type: 2}
+  chestMode: 0
   floorTilemap: {fileID: 0}
   wallTilemap: {fileID: 0}
   floorTile: {fileID: 11400000, guid: db3c13b9465841041a3f381f7649af1e, type: 2}
