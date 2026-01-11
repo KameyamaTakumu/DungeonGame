@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 
 // <summary>
 /// 音量設定・チュートリアル・タイトル戻りを管理するUI
@@ -21,9 +22,10 @@ public class OptionMenuUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bgmValueText;
     [SerializeField] private TextMeshProUGUI seValueText;
 
-    [Header("チュートリアルパネル（2枚）")]
-    [SerializeField] private GameObject tutorialPanel1;
-    [SerializeField] private GameObject tutorialPanel2;
+    [Header("チュートリアルパネル一覧")]
+    [SerializeField] private List<GameObject> tutorialPanels;
+
+    private int currentTutorialIndex = 0;
 
     private SoundManager soundManager;
 
@@ -49,8 +51,11 @@ public class OptionMenuUI : MonoBehaviour
         bgmSlider.onValueChanged.AddListener(SoundManager.Instance.SetBGMVolume);
         seSlider.onValueChanged.AddListener(SoundManager.Instance.SetSEVolume);
 
-        tutorialPanel1.SetActive(false);
-        tutorialPanel2.SetActive(false);
+        // チュートリアルは最初すべて非表示
+        foreach (var panel in tutorialPanels)
+        {
+            panel.SetActive(false);
+        }
     }
 
     public void OpenPanel()
@@ -103,8 +108,8 @@ public class OptionMenuUI : MonoBehaviour
         if (soundManager != null)
             soundManager.PlaySE(SE.CardUse);
 
-        tutorialPanel1.SetActive(true);
-        tutorialPanel2.SetActive(false);
+        currentTutorialIndex = 0;
+        ShowTutorialPanel();
     }
 
     public void NextTutorial()
@@ -112,8 +117,28 @@ public class OptionMenuUI : MonoBehaviour
         if (soundManager != null)
             soundManager.PlaySE(SE.Test_SE);
 
-        tutorialPanel1.SetActive(false);
-        tutorialPanel2.SetActive(true);
+        currentTutorialIndex++;
+
+        // 最後まで行ったら閉じる
+        if (currentTutorialIndex >= tutorialPanels.Count)
+        {
+            CloseTutorial();
+            return;
+        }
+
+        ShowTutorialPanel();
+    }
+
+    public void PrevTutorial()   // ← 戻るボタンを付けたい場合
+    {
+        if (soundManager != null)
+            soundManager.PlaySE(SE.Test_SE);
+
+        currentTutorialIndex--;
+        if (currentTutorialIndex < 0)
+            currentTutorialIndex = 0;
+
+        ShowTutorialPanel();
     }
 
     public void CloseTutorial()
@@ -121,8 +146,16 @@ public class OptionMenuUI : MonoBehaviour
         if (soundManager != null)
             soundManager.PlaySE(SE.Test_SE);
 
-        tutorialPanel1.SetActive(false);
-        tutorialPanel2.SetActive(false);
+        foreach (var panel in tutorialPanels)
+            panel.SetActive(false);
+    }
+
+    private void ShowTutorialPanel()
+    {
+        for (int i = 0; i < tutorialPanels.Count; i++)
+        {
+            tutorialPanels[i].SetActive(i == currentTutorialIndex);
+        }
     }
 
     // ===== タイトルに戻る =====

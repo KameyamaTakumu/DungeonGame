@@ -2073,6 +2073,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1884297888100330818, guid: d8dec2660322cb540bab775804ac391d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -855298285791758126, guid: d93ae20fd77690349aeaaa841e159b8e, type: 3}
+    - target: {fileID: 4221175234294328398, guid: d8dec2660322cb540bab775804ac391d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5058320690613943938, guid: d8dec2660322cb540bab775804ac391d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6937817954938267909, guid: 6bbb40ce73a1f7144bcfc486a6266846, type: 3}
+    - target: {fileID: 5890618216470664739, guid: d8dec2660322cb540bab775804ac391d, type: 3}
+      propertyPath: tutorialPanels.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7731991423851427663, guid: d8dec2660322cb540bab775804ac391d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
