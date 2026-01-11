@@ -25,19 +25,29 @@ public class ChestTrigger : MonoBehaviour
         opened = true;
 
         CardInventory inventory = CardInventory.Instance;
-        CardSelectUI selectUI = FindFirstObjectByType<CardSelectUI>();
-        CardDataBase database = FindFirstObjectByType<CardInventoryUIController>().database;
+
+        CardSelectUI selectUI = FindFirstObjectByType<CardSelectUI>(FindObjectsInactive.Include);
+        if (selectUI == null)
+        {
+            Debug.LogError("CardSelectUI がシーンに存在しません");
+            return;
+        }
+
+        CardInventoryUIController uiCtrl = FindFirstObjectByType<CardInventoryUIController>();
+        if (uiCtrl == null)
+        {
+            Debug.LogError("CardInventoryUIController がシーンに存在しません");
+            return;
+        }
+
+        CardDataBase database = uiCtrl.database;
 
         // 抽選
         CardData[] options = ChestCardLottery(database, mode);
 
-        // UIを開く
         selectUI.Open(inventory, options, () =>
         {
-            // ★ 宝箱タイルを消す
             DungeonGenerator.instance.ClearChestTile(tilePos);
-
-            // ★ トリガー削除
             Destroy(gameObject);
         });
     }
