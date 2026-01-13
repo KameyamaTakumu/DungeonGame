@@ -80,7 +80,7 @@ public class DropSystem : MonoBehaviour
     /// </returns>
     public CardType? GetCardRewardType()
     {
-        cardDropCount++;
+        //cardDropCount++;
 
         // 1〜3回目：確定でバフ
         if (cardDropCount <= guaranteedPassiveCount)
@@ -103,5 +103,10 @@ public class DropSystem : MonoBehaviour
     {
         cardDropCount = 0;
         Debug.Log("カード抽選回数をリセット");
+    }
+
+    public static void ResetCardDropCountIncrement()
+    {
+        cardDropCount++;
     }
 }

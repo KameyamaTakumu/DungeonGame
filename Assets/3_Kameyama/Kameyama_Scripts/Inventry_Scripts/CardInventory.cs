@@ -65,6 +65,9 @@ public class CardInventory : MonoBehaviour
             if (card.cardType == CardType.Buff)
                 ApplyPassiveEffect(card);
 
+            // ★ ここで「実際に取得できた時だけ」カウントを進める
+            DropSystem.ResetCardDropCountIncrement();
+
             OnInventoryChanged?.Invoke();
         }
         else
