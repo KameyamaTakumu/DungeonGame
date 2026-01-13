@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1542714770711410195}
   - component: {fileID: 2187083208882418907}
   m_Layer: 0
-  m_Name: Enemy5
+  m_Name: Snake
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: -1252378914, guid: 2f3dd70120c0a8645ae33650330f8e66, type: 3}
+  m_Sprite: {fileID: 1186715682, guid: e838160a41766e34b9fced447df05166, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +133,7 @@ Animator:
   m_GameObject: {fileID: 2657344967390109580}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6b04a6fd76a80db41bc6948d935aa970, type: 2}
+  m_Controller: {fileID: 9100000, guid: 16542627df841854fad3625d3a83f5fb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -204,10 +204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   status:
-    HP: 50
-    MAX_HP: 50
-    ATK: 10
-    RANGE: 1
+    HP: 20
+    MAX_HP: 20
+    ATK: 6
+    RANGE: 3
   isBoss: 0
 --- !u!114 &1542714770711410195
 MonoBehaviour:

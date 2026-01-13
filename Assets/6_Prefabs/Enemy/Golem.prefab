@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1542714770711410195}
   - component: {fileID: 2187083208882418907}
   m_Layer: 0
-  m_Name: Enemy2
+  m_Name: Golem
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

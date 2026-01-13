@@ -32,6 +32,9 @@ public class EnemySpawnerController : MonoBehaviour
     /// </summary>
     private List<GameObject> spawnedEnemies = new List<GameObject>();
 
+    // 敵種類ごとの生成数カウント
+    private Dictionary<string, int> enemyNameCounter = new Dictionary<string, int>();
+
     private DungeonGenerator dungeon;
 
     private MiniMapRenderer miniMap;
@@ -94,6 +97,21 @@ public class EnemySpawnerController : MonoBehaviour
 
         // プレハブから生成
         GameObject enemy = Instantiate(prefab);
+
+        // 元のプレハブ名
+        string baseName = prefab.name;
+
+        // カウント管理
+        if (!enemyNameCounter.ContainsKey(baseName))
+            enemyNameCounter[baseName] = 0;
+
+        enemyNameCounter[baseName]++;
+
+        // SlimeA, SlimeB, SlimeC ...
+        char suffix = (char)('A' + enemyNameCounter[baseName] - 1);
+
+        // 名前設定
+        enemy.name = baseName + suffix;
 
         // ワールド座標に変換して配置
         enemy.transform.position = new Vector3(pos.x, pos.y, 0);
