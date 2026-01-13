@@ -380,15 +380,15 @@ MonoBehaviour:
   - {fileID: 2657344967390109580, guid: 48f5c9d1adf37b8439fda9d12c6024f7, type: 3}
   spawnSettings:
   - enemyPrefab: {fileID: 2657344967390109580, guid: 927837bdaa6a33b4685412f6305ddff4, type: 3}
-    count: 5
+    count: 6
   - enemyPrefab: {fileID: 2657344967390109580, guid: c80244d46144e3f489e83b4ce8802a48, type: 3}
-    count: 7
+    count: 4
   - enemyPrefab: {fileID: 2657344967390109580, guid: 1ba6e2f5dfa1dc0448075c80309a76de, type: 3}
-    count: 8
-  - enemyPrefab: {fileID: 2657344967390109580, guid: 1cfda98e858dc3144889fae1f3178a7d, type: 3}
-    count: 7
-  - enemyPrefab: {fileID: 2657344967390109580, guid: 48f5c9d1adf37b8439fda9d12c6024f7, type: 3}
     count: 5
+  - enemyPrefab: {fileID: 2657344967390109580, guid: 1cfda98e858dc3144889fae1f3178a7d, type: 3}
+    count: 3
+  - enemyPrefab: {fileID: 2657344967390109580, guid: 48f5c9d1adf37b8439fda9d12c6024f7, type: 3}
+    count: 2
   bossPrefab: {fileID: 2688545153726980253, guid: 27e68eb40ef5e204f90c7ae2d2a2e9a5, type: 3}
 --- !u!114 &346483866
 MonoBehaviour:
