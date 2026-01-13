@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5237548465824401904}
   - component: {fileID: 5411305734703389564}
   - component: {fileID: -859480107501862199}
+  - component: {fileID: -7782881721196174779}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -240,3 +241,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFadeOut
   fadeDuration: 2
+--- !u!114 &-7782881721196174779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2688545153726980253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1417f1eb8ca31142bdf72b9ce0ce274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossGridRegister

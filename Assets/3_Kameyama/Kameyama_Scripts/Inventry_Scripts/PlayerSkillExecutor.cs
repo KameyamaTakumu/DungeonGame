@@ -127,7 +127,8 @@ public class PlayerSkillExecutor : MonoBehaviour
             var target = CombatManager.GetObjectAt(pos);
             if (target == null) continue;
 
-            EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            //EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            EnemyStatus enemy = target.GetComponentInParent<EnemyStatus>();
             if (enemy != null)
             {
                 enemy.TakeDamage(CalculateDamage(card));
@@ -155,7 +156,8 @@ public class PlayerSkillExecutor : MonoBehaviour
 
                 if (target == null) continue;
 
-                EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+                //EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+                EnemyStatus enemy = target.GetComponentInParent<EnemyStatus>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage);
@@ -183,7 +185,8 @@ public class PlayerSkillExecutor : MonoBehaviour
 
             if (target == null) continue;
 
-            EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            //EnemyStatus enemy = target.GetComponent<EnemyStatus>();
+            EnemyStatus enemy = target.GetComponentInParent<EnemyStatus>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
