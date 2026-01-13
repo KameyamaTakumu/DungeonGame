@@ -8,6 +8,8 @@ public class CardSelectUI : MonoBehaviour
     public GameObject optionPrefab;
     public Transform optionParent;
 
+    public GameObject cancelPrefab;   // ★追加
+
     private CardInventory inventory;
 
     private System.Action onClose;
@@ -35,6 +37,14 @@ public class CardSelectUI : MonoBehaviour
                 Close();
             });
         }
+
+        // ★ キャンセルボタンを最後に追加
+        var cancelObj = Instantiate(cancelPrefab, optionParent);
+        var cancelButton = cancelObj.GetComponent<Button>();
+        cancelButton.onClick.AddListener(() =>
+        {
+            Cancel();
+        });
 
         gameObject.SetActive(true);
 

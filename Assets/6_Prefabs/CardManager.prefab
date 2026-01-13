@@ -608,6 +608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardSelectUI
   optionPrefab: {fileID: 6245840790351740845, guid: 923541321ad4da74d8efcbdd1c77fe04, type: 3}
   optionParent: {fileID: 5312830086491333375}
+  cancelPrefab: {fileID: 925394104565610868, guid: 389b2b522e996cd4495067e9b40edd2e, type: 3}
 --- !u!114 &1658284962420896870
 MonoBehaviour:
   m_ObjectHideFlags: 0
