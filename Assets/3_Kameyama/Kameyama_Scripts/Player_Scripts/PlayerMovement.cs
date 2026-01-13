@@ -63,6 +63,7 @@ public class PlayerMovement : BaseMovement
         if (!debugMove && tm != null && !tm.isPlayerTurn)
             return;
 
+        HandleLookInput();   // ← ★ これを追加
         HandleMovementInput(debugMove);
         HandleAttackInput();
     }
@@ -191,6 +192,24 @@ public class PlayerMovement : BaseMovement
         {
 
         }
+    }
+
+    private void HandleLookInput()
+    {
+        // 攻撃方向選択中は矢印キーを使わない
+        if (isSelectingAttackDir) return;
+
+        Vector2Int dir = Vector2Int.zero;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) dir = Vector2Int.up;
+        if (Input.GetKeyDown(KeyCode.DownArrow)) dir = Vector2Int.down;
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) dir = Vector2Int.left;
+        if (Input.GetKeyDown(KeyCode.RightArrow)) dir = Vector2Int.right;
+
+        if (dir == Vector2Int.zero) return;
+
+        // ★ 向きだけ変更
+        SetFacingDirection(dir);
     }
 
     public override bool TryMove(int mx, int my, bool debugMove = false)
