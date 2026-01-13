@@ -97,10 +97,10 @@ public class PlayerMovement : BaseMovement
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.W)) y = 1;
-            if (Input.GetKeyDown(KeyCode.S)) y = -1;
-            if (Input.GetKeyDown(KeyCode.A)) x = -1;
-            if (Input.GetKeyDown(KeyCode.D)) x = 1;
+            if (Input.GetKey(KeyCode.W)) y = 1;
+            if (Input.GetKey(KeyCode.S)) y = -1;
+            if (Input.GetKey(KeyCode.A)) x = -1;
+            if (Input.GetKey(KeyCode.D)) x = 1;
         }
 
         // “ü—Í‚ª‚ ‚ê‚ÎˆÚ“®ˆ—‚ğÀs
