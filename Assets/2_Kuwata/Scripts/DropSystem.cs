@@ -80,7 +80,7 @@ public class DropSystem : MonoBehaviour
     /// </returns>
     public CardType? GetCardRewardType()
     {
-        //cardDropCount++;
+        cardDropCount++;
 
         // 1〜3回目：確定でバフ
         if (cardDropCount <= guaranteedPassiveCount)

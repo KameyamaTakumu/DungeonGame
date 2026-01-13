@@ -66,7 +66,7 @@ public class CardInventory : MonoBehaviour
                 ApplyPassiveEffect(card);
 
             // ★ ここで「実際に取得できた時だけ」カウントを進める
-            DropSystem.ResetCardDropCountIncrement();
+            //DropSystem.ResetCardDropCountIncrement();
 
             OnInventoryChanged?.Invoke();
         }
