@@ -94,11 +94,26 @@ public class CardInventoryUIController : MonoBehaviour
         if (!consumableUI.activeSelf && !passiveUI.activeSelf)
             return;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            MoveSelection(1);
+        //if (Input.GetKeyDown(KeyCode.RightArrow))
+        //    MoveSelection(1);
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            MoveSelection(-1);
+        //if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //    MoveSelection(-1);
+
+        // 横移動（既存）
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            MoveHorizontal(1);
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            MoveHorizontal(-1);
+
+        // ★ 新規：上下移動
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            MoveVertical(1);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            MoveVertical(-1);
+
 
         if (Input.GetKeyDown(KeyCode.Return))
             PressSelected();
@@ -117,39 +132,72 @@ public class CardInventoryUIController : MonoBehaviour
         {
             SelectFirstPassive();
         }
+
+        if ((consumableUI.activeSelf || passiveUI.activeSelf) &&
+        EventSystem.current.currentSelectedGameObject == null)
+        {
+            // ★ UI外に飛んだら強制的に最初へ戻す
+            if (consumableUI.activeSelf) SelectFirstConsumable();
+            else SelectFirstPassive();
+        }
     }
 
-    void MoveSelection(int dir)
+    void MoveHorizontal(int dir)
     {
         var slots = consumableUI.activeSelf ? consumableSlots : passiveSlots;
         if (slots == null || slots.Length == 0) return;
 
         int next = currentIndex + dir;
 
-        // ★ 端ループ
-        if (next < 0)
-            next = slots.Length - 1;
-        else if (next >= slots.Length)
-            next = 0;
+        // 横は通常のループ移動
+        if (next < 0) next = slots.Length - 1;
+        else if (next >= slots.Length) next = 0;
 
-        // ★ 空スロットをスキップ
-        int safety = 0;
-        while (slots[next] == null)
+        if (!inventory.IsSwapMode)
         {
-            next += dir > 0 ? 1 : -1;
-
-            if (next < 0)
-                next = slots.Length - 1;
-            else if (next >= slots.Length)
-                next = 0;
-
-            // 無限ループ防止
-            if (++safety > slots.Length)
-                return;
+            int safety = 0;
+            while (slots[next] == null)
+            {
+                next += dir > 0 ? 1 : -1;
+                if (next < 0) next = slots.Length - 1;
+                else if (next >= slots.Length) next = 0;
+                if (++safety > slots.Length) return;
+            }
         }
 
+        SetSelection(slots, next);
+    }
+
+    void MoveVertical(int dir)
+    {
+        var slots = consumableUI.activeSelf ? consumableSlots : passiveSlots;
+        if (slots == null || slots.Length == 0) return;
+
+        int columns = 2; // ← 今回は 2列固定
+        int next = currentIndex + (columns * dir);
+
+        // はみ出したらループ
+        if (next < 0) next += slots.Length;
+        else if (next >= slots.Length) next -= slots.Length;
+
+        // nullスロット回避（通常モード）
+        if (!inventory.IsSwapMode)
+        {
+            if (slots[next] == null)
+                return; // その方向は無効として止める
+        }
+
+        SetSelection(slots, next);
+    }
+
+    void SetSelection(CardSlotUI[] slots, int next)
+    {
         currentIndex = next;
-        EventSystem.current.SetSelectedGameObject(slots[currentIndex].gameObject);
+
+        if (slots[currentIndex] != null)
+            EventSystem.current.SetSelectedGameObject(slots[currentIndex].gameObject);
+        else
+            EventSystem.current.SetSelectedGameObject(null);
     }
 
     void PressSelected()

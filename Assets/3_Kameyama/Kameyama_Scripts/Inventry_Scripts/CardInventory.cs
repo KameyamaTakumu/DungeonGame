@@ -136,7 +136,7 @@ public class CardInventory : MonoBehaviour
         PendingCardType = default;
 
         // ★ プレイヤー操作アンロック
-        PlayerInputLock.Instance?.Unlock();
+        //PlayerInputLock.Instance?.Unlock();
 
         // ★ 入れ替え終了通知
         OnSwapEnded?.Invoke();

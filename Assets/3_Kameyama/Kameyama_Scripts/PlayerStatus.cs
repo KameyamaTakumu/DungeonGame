@@ -88,8 +88,19 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.HP:
+                int beforeMax = MaxHP;   // 変更前の最大HPを保存
+
                 bonusHP += card.buffValue;
-                //status.HP += card.buffValue; // 即時回復（倍率なし）
+
+                int afterMax = MaxHP;    // 変更後の最大HP
+
+                // ★ 増えた差分だけ現在HPも回復
+                int diff = afterMax - beforeMax;
+                status.HP += diff;
+
+                // 念のため上限クランプ
+                status.HP = Mathf.Min(status.HP, afterMax);
+
                 OnHPChanged?.Invoke();
                 break;
 

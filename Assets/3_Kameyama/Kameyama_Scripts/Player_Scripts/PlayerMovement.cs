@@ -124,6 +124,7 @@ public class PlayerMovement : BaseMovement
 
             HighlightManager.instance.Clear();
             Debug.Log("攻撃方向を選択してください（IJKL）");
+            ActionStateUI.Instance?.ShowMessage("攻撃方向を選択してください (I J K L)\n移動するにはもう一度Spaceを押してください");
             Debug.Log("移動するにはもう一度Spaceを押してください");
             return;
         }
@@ -135,6 +136,9 @@ public class PlayerMovement : BaseMovement
             attackDir = Vector2Int.zero;
 
             HighlightManager.instance.Clear();
+
+            ActionStateUI.Instance?.Hide();
+
             Debug.Log("移動モードに戻りました");
         }
 
@@ -168,6 +172,8 @@ public class PlayerMovement : BaseMovement
             isSelectingAttackDir = false;
             attackDir            = Vector2Int.zero;
             //isAttackmode         = false;
+
+            ActionStateUI.Instance?.Hide(); // ★ 消す
 
             tm.PlayerTurn();
         }

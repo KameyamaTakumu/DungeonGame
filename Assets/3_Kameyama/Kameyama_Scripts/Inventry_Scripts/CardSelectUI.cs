@@ -62,8 +62,11 @@ public class CardSelectUI : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        // ★ UIフェーズ終了
-        PlayerInputLock.Instance?.Unlock();
+        // ★ 入れ替えモードに入らなかった場合だけ Unlock
+        if (!inventory.IsSwapMode)
+        {
+            PlayerInputLock.Instance?.Unlock();
+        }
 
         // ★ カード選択終了 → ターン再開
         if (TurnManager.Instance != null)
@@ -76,7 +79,11 @@ public class CardSelectUI : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        PlayerInputLock.Instance?.Unlock();
+        // ★ 入れ替えモードに入らなかった場合だけ Unlock
+        if (!inventory.IsSwapMode)
+        {
+            PlayerInputLock.Instance?.Unlock();
+        }
 
         if (TurnManager.Instance != null)
             TurnManager.Instance.isWaitingCardSelect = false;
