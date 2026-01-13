@@ -158,7 +158,7 @@ public class EnemyStatus : MonoBehaviour
     void HandleBossDefeated()
     {
         // プレイヤー操作をロック
-        TurnManager.Instance.isInputLocked = true;
+        PlayerInputLock.Instance.Lock();
 
         // ボスAI停止（念のため）
         var bossController = GetComponent<BossController>();

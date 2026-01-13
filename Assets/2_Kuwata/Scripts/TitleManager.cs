@@ -40,6 +40,9 @@ public class TitleManager : MonoBehaviour
         // Unitmanager初期化
         UnitManager.instance?.ResetUnitManagerForNewGame();
 
+        // ロック解除
+        PlayerInputLock.Instance?.Unlock();
+
         SceneManager.LoadScene("1F_Scene"); // "GameScene" の部分はシーンの名前に変更
     }
 

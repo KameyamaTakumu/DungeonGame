@@ -435,7 +435,7 @@ public class DungeonGenerator : MonoBehaviour
         // Tilemap 描画
         floorTilemap.SetTile(new Vector3Int(x, y, 0), stepsDownTile);
 
-        //Debug.Log($"下り階段を配置: {x},{y}");
+        Debug.Log($"下り階段を配置: {x},{y}");
 
         // ▼トリガー用オブジェクトを生成
         GameObject trigger = new GameObject("StepsDownTrigger");
