@@ -20,6 +20,12 @@ public class PlayerStatus : MonoBehaviour
     float passiveMultiplier = 1f;
     float useAttackBoost = 1f;
 
+    // float → int に変更
+    int critChancePercent = 0;
+
+    // 表示・計算用
+    public float CritChance => critChancePercent * 0.01f;
+
     // ======================
     // ステータス取得
     // ======================
@@ -32,7 +38,7 @@ public class PlayerStatus : MonoBehaviour
     public int Range
         => status.RANGE + bonusRange + RangeBonus;
 
-    public float CritChance => critChance * passiveMultiplier;
+    //public float CritChance => critChance * passiveMultiplier;
     public float PassiveMultiplier => passiveMultiplier;
     public float UseAttackBoost => useAttackBoost;
 
@@ -109,7 +115,8 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.CritChance:
-                critChance += card.buffValue * 0.01f;
+                //critChance += card.buffValue * 0.01f;
+                critChancePercent += card.buffValue;
                 break;
 
             case BuffType.PassiveMultiplier:
@@ -147,7 +154,8 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.CritChance:
-                critChance -= card.buffValue * 0.01f;
+                //critChance -= card.buffValue * 0.01f;
+                critChancePercent -= card.buffValue;
                 break;
 
             case BuffType.PassiveMultiplier:

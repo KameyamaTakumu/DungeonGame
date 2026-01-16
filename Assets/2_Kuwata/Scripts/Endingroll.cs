@@ -14,6 +14,7 @@ public class Endingroll : MonoBehaviour
 
     public float scrollSpeed = 80f; // 1•b‚ ‚½‚è‚ÌˆÚ“®—Ê
 
+    public SceneObject sceneObject;
 
     void Start()
     {
@@ -34,5 +35,10 @@ public class Endingroll : MonoBehaviour
             isFinished = true;
             SceneManager.LoadScene(returnSceneName);
         }
+    }
+
+    public void OnclickToTitle()
+    {
+        SceneManager.LoadScene(sceneObject);
     }
 }
