@@ -206,7 +206,7 @@ MonoBehaviour:
   status:
     HP: 20
     MAX_HP: 20
-    ATK: 6
+    ATK: 4
     RANGE: 3
   isBoss: 0
 --- !u!114 &1542714770711410195

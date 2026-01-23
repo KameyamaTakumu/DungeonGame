@@ -17,7 +17,7 @@ MonoBehaviour:
   cardType: 0
   description: 
   useEffectType: 0
-  damage: 12
+  damage: 15
   healAmount: 0
   range: 2
   rangeType: 1
