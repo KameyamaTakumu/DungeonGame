@@ -23,6 +23,7 @@ public class HPBarController : MonoBehaviour
 
     public void UpdateHPBar()
     {
+        
         hpSlider.maxValue = playerStatus.MaxHP;
         hpSlider.value = playerStatus.status.HP;
 
