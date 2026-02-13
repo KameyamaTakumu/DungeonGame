@@ -48,6 +48,8 @@ public class PlayerStatus : MonoBehaviour
 
     public Vector2Int facingDir = Vector2Int.down;
 
+    public GameObject playerDamagePopupPrefab;
+
     void Awake()
     {
         instance = this;
@@ -179,6 +181,8 @@ public class PlayerStatus : MonoBehaviour
         SoundManager.Instance.PlaySE(SE.Heal);
         int heal = Mathf.RoundToInt(baseAmount * passiveMultiplier);
         status.HP = Mathf.Min(status.HP + heal, MaxHP);
+
+        ShowDamagePopup(heal);
         OnHPChanged?.Invoke();
     }
 
@@ -194,6 +198,7 @@ public class PlayerStatus : MonoBehaviour
     public void TakeDamage(int amount)
     {
         status.TakeDamage(amount);
+        ShowDamagePopup(amount);
         OnHPChanged?.Invoke();
 
         if (status.IsDead())
@@ -203,6 +208,19 @@ public class PlayerStatus : MonoBehaviour
             DungeonGenerator.CurrentFloor = 1;
             SceneManager.LoadScene("Title");
         }
+    }
+
+    void ShowDamagePopup(int damage)
+    {
+        if (playerDamagePopupPrefab == null) return;
+
+        GameObject popup = Instantiate(
+            playerDamagePopupPrefab,
+            transform.position + Vector3.up,
+            Quaternion.identity
+        );
+
+        popup.GetComponent<DamagePopup>().Setup(damage);
     }
 
     public void ResetStatusForNewGame()

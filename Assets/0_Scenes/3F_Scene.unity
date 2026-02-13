@@ -1677,6 +1677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightManager
   highlightPrefab: {fileID: 4494438289972106967, guid: 3403fa448ba28274f902c0f1704a318d, type: 3}
+  enemyHighlightPrefab: {fileID: 4494438289972106967, guid: 020675521422ca8419646be19d761ed7, type: 3}
 --- !u!4 &1792186619
 Transform:
   m_ObjectHideFlags: 0

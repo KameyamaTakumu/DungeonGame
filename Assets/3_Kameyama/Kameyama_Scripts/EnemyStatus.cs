@@ -17,6 +17,8 @@ public class EnemyStatus : MonoBehaviour
     public BaseStatus status = new BaseStatus(10, 5, 1);
     int stunRemain = 0;
 
+    public GameObject damagePopupPrefab;
+
     private CardInventory cardInventory;
 
     public bool isBoss = false;
@@ -46,6 +48,9 @@ public class EnemyStatus : MonoBehaviour
     public void TakeDamage(int amount)
     {
         status.TakeDamage(amount);
+
+        ShowDamagePopup(amount);
+
         Debug.Log($"“GHP: {status.HP}");
 
         if (status.IsDead())
@@ -57,6 +62,19 @@ public class EnemyStatus : MonoBehaviour
 
             Die();
         }
+    }
+
+    void ShowDamagePopup(int damage)
+    {
+        if (damagePopupPrefab == null) return;
+
+        GameObject popup = Instantiate(
+            damagePopupPrefab,
+            transform.position + Vector3.up,
+            Quaternion.identity
+        );
+
+        popup.GetComponent<DamagePopup>().Setup(damage);
     }
 
     /// <summary>

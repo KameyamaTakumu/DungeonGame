@@ -386,6 +386,7 @@ MonoBehaviour:
     MAX_HP: 100
     ATK: 10
     RANGE: 1
+  damagePopupPrefab: {fileID: 5890891075372344379, guid: 4dd73b11cb8deef489c6a8d7503a7904, type: 3}
   isBoss: 1
 --- !u!114 &-859480107501862199
 MonoBehaviour:
