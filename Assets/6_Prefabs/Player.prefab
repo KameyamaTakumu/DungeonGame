@@ -210,6 +210,7 @@ MonoBehaviour:
     ATK: 5
     RANGE: 1
   facingDir: {x: 0, y: -1}
+  playerDamagePopupPrefab: {fileID: 5890891075372344379, guid: 4dd73b11cb8deef489c6a8d7503a7904, type: 3}
 --- !u!114 &2849125875187777135
 MonoBehaviour:
   m_ObjectHideFlags: 0

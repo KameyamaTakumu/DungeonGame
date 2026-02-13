@@ -13,6 +13,7 @@ public class HighlightManager : MonoBehaviour
     [Header("Highlight Settings")]
     [Tooltip("ハイライト表示に使用するタイルオブジェクト（薄い黄色の四角スプライト）")]
     public GameObject highlightPrefab;
+    public GameObject enemyHighlightPrefab;
 
     /// <summary>
     /// 現在シーン上に生成されているハイライトの一覧。
@@ -43,6 +44,19 @@ public class HighlightManager : MonoBehaviour
             GameObject obj = Instantiate(highlightPrefab);
             obj.transform.position = new Vector3(t.x, t.y, 0);
 
+            highlights.Add(obj);
+        }
+    }
+
+    public void ShowEnemyTiles(List<Vector2Int> tiles)
+    {
+        // 既存のハイライトはすべて削除
+        Clear();
+        foreach (var t in tiles)
+        {
+            // ハイライトタイル生成
+            GameObject obj = Instantiate(enemyHighlightPrefab);
+            obj.transform.position = new Vector3(t.x, t.y, 0);
             highlights.Add(obj);
         }
     }

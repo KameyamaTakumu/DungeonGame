@@ -115,7 +115,7 @@ public class EnemyAttack : MonoBehaviour
         List<Vector2Int> area = GetAttackArea(origin, dir);
 
         // UŒ‚—\’›•\¦
-        HighlightManager.instance.ShowTiles(area);
+        HighlightManager.instance.ShowEnemyTiles(area);
 
         // —\’›‰‰o‘Ò‚¿
         yield return new WaitForSeconds(0.5f);
