@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 /// <summary>
 /// ダンジョン内でのプレイヤー視界および探索状態を
@@ -147,6 +148,20 @@ public class MiniMapRenderer : MonoBehaviour
         UpdateEnemyIcons();
 
         UpdateStepsDownIcons();
+
+#if UNITY_EDITOR
+        // デバッグ用のミニマップ全開放関数
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            AllViewMiniMap();
+        }
+
+        // デバッグ用視界範囲のギズモ表示
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            OnDrawGizmos();
+        }
+#endif
     }
 
     /// <summary>
@@ -186,25 +201,7 @@ public class MiniMapRenderer : MonoBehaviour
             minimapRect = minimapImage.rectTransform; 
         }
 
-        //// 発見済み／視界情報配列初期化
-        //discovered = new bool[mapW, mapH];
-        //visibleNow = new bool[mapW, mapH];
-
-        //// 未探索は完全透明の状態で初期化
-        //ClearTextureTransparent();
-
-        //player = GameObject.FindGameObjectWithTag("Player");
-
-        //// 初回描画
-        //ForceRecalculateFOVAndDraw();
-
-        //// ★ これを追加
-        //ForceRefreshEnemies();
-
-        //// 階段タイル座標を収集
-        //CollectStepsDownTiles();
-        //InitStepsDownIcons();
-        // 発見済み配列初期化後すぐ
+        // 発見済み配列の初期作成
         discovered = new bool[mapW, mapH];
         visibleNow = new bool[mapW, mapH];
 
@@ -212,12 +209,12 @@ public class MiniMapRenderer : MonoBehaviour
         CollectStepsDownTiles();
         InitStepsDownIcons();
 
-        // テクスチャ初期化
+        // 未探索は完全透明の状態で初期化
         ClearTextureTransparent();
 
         player = GameObject.FindGameObjectWithTag("Player");
 
-        // ここで初回FOV
+        // 視界更新
         ForceRecalculateFOVAndDraw();
 
         // 敵アイコン
@@ -435,8 +432,11 @@ public class MiniMapRenderer : MonoBehaviour
         // 円形視界 + LOS（Line of Sight）
         for (int tx = minX; tx <= maxX; tx++)
         {
+            // Y 軸ループは内側にして、X 軸ごとにまとめて LOS 判定することで、
+            // 同じ X 座標に対して LOS 判定をまとめて行い、効率化を図る
             for (int ty = minY; ty <= maxY; ty++)
             {
+                // プレイヤーからの距離を計算
                 int dx = tx - p.x;
                 int dy = ty - p.y;
 
@@ -446,6 +446,7 @@ public class MiniMapRenderer : MonoBehaviour
                 // 視界が通れば発見/可視扱い
                 if (HasLineOfSight(p.x, p.y, tx, ty))
                 {
+                    // 視界内
                     visibleNow[tx, ty] = true;
                     discovered[tx, ty] = true;
                 }
@@ -463,6 +464,7 @@ public class MiniMapRenderer : MonoBehaviour
             {
                 Color c;
 
+                // 発見状態と視界状態に応じて色を決定
                 if (!discovered[x, y])
                 {
                     // 未発見は完全透明
@@ -494,7 +496,7 @@ public class MiniMapRenderer : MonoBehaviour
         }
 
         // =============================
-        // 壁アウトライン描画（★ 正しい場所）
+        // 壁アウトライン描画
         // =============================
         for (int x = 0; x < mapW; x++)
         {
@@ -503,6 +505,7 @@ public class MiniMapRenderer : MonoBehaviour
                 if (!discovered[x, y]) continue;
                 if (map[x, y] == TileType.Wall) continue;
 
+                // 周囲に壁があるかをチェックして、あれば対応する辺に線を引く
                 bool N = IsWall(x, y + 1);
                 bool S = IsWall(x, y - 1);
                 bool E = IsWall(x + 1, y);
@@ -634,5 +637,33 @@ public class MiniMapRenderer : MonoBehaviour
         enemies.Clear();
         enemies.AddRange(list);
         InitEnemyIcons();
+    }
+
+    // デバッグ用にミニマップを全開放する処理
+    private void AllViewMiniMap()
+    {
+        // 壁の内部のみを全開放する
+        for (int x = 0; x < mapW; x++)
+        {
+            for (int y = 0; y < mapH; y++)
+            {
+                if (map[x, y] != TileType.Wall)
+                {
+                    discovered[x, y] = true;
+                    visibleNow[x, y] = true;
+                }
+            }
+        }
+
+        ForceRedraw();
+    }
+
+    // デバッグ用に視界範囲をギズモで表示する処理
+    private void OnDrawGizmos()
+    {
+        if (player == null) return;
+        Vector2Int p = WorldToTile(player.transform.position);
+        Gizmos.color = new Color(0f, 1f, 0f, 0.5f);
+        Gizmos.DrawWireSphere(new Vector3(p.x, p.y, 0), viewRadius);
     }
 }

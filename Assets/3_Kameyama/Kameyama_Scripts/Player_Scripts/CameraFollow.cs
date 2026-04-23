@@ -22,6 +22,8 @@ public class CameraFollow : MonoBehaviour
     [Header("マップ制限")]
     [SerializeField] private DungeonGenerator dungeon;
 
+    [SerializeField] private float Zoom = 5f;
+
     /// <summary>
     /// 毎フレームの後処理としてカメラ位置を調整
     /// target が存在しない場合は処理を行わない
@@ -40,6 +42,9 @@ public class CameraFollow : MonoBehaviour
         Camera cam = Camera.main;
         float camHalfHeight = cam.orthographicSize;
         float camHalfWidth = camHalfHeight * cam.aspect;
+
+        // ===== ズーム適用 =====
+        cam.orthographicSize = Zoom;
 
         // ===== マップ端を計算（タイル中心基準）=====
         float minX = camHalfWidth - 0.5f;

@@ -75,7 +75,8 @@ public class BossController : MonoBehaviour
     void ExecuteFrontWideAttack()
     {
         var area = GetFrontWideArea();
-        HighlightManager.instance.ShowTiles(area);
+        //HighlightManager.instance.ShowTiles(area);
+        HighlightManager.instance.ShowEnemyTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
 
@@ -92,7 +93,8 @@ public class BossController : MonoBehaviour
     void ExecuteFrontLineAttack()
     {
         var area = GetFrontLineArea();
-        HighlightManager.instance.ShowTiles(area);
+        //HighlightManager.instance.ShowTiles(area);
+        HighlightManager.instance.ShowEnemyTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
 
@@ -109,7 +111,10 @@ public class BossController : MonoBehaviour
         PlayerStatus player = GetPlayerStatus();
 
         // ハイライト不要 or プレイヤー位置だけ表示してもOK
-        HighlightManager.instance.ShowTiles(
+        //HighlightManager.instance.ShowTiles(
+        //    new List<Vector2Int> { GetPlayerGridPos() }
+        //);
+        HighlightManager.instance.ShowEnemyTiles(
             new List<Vector2Int> { GetPlayerGridPos() }
         );
 
@@ -128,7 +133,8 @@ public class BossController : MonoBehaviour
     void ExecuteSideWideAttack()
     {
         var area = GetSideWideArea();
-        HighlightManager.instance.ShowTiles(area);
+        //HighlightManager.instance.ShowTiles(area);
+        HighlightManager.instance.ShowEnemyTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
 
