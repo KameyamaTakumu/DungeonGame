@@ -96,7 +96,7 @@ public class EnemyAttack : MonoBehaviour
     /// </summary>
     private IEnumerator AttackSequence(Vector2Int dir)
     {
-        // ★ 攻撃開始 → プレイヤー入力ロック
+        // 攻撃開始 → プレイヤー入力ロック
         PlayerInputLock.Instance?.Lock();
 
         EnemyMovement mv = GetComponent<EnemyMovement>();
@@ -126,7 +126,7 @@ public class EnemyAttack : MonoBehaviour
         // ハイライト削除
         HighlightManager.instance.Clear();
 
-        // ★ 攻撃開始 → プレイヤー入力ロック
+        // 攻撃開始 → プレイヤー入力ロック
         PlayerInputLock.Instance?.Unlock();
     }
 

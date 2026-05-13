@@ -6,7 +6,7 @@ public class ChestTrigger : MonoBehaviour
     public ChestCardMode mode;
     bool opened = false;
 
-    // ★ 追加：自分が置かれているタイル座標
+    // 自分が置かれているタイル座標
     private Vector3Int tilePos;
 
     void Start()

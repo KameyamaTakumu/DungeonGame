@@ -14,7 +14,7 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadNextFloor()
     {
-        // š Œ»İHP‚ğ•Û‘¶
+        // Œ»İHP‚ğ•Û‘¶
         if (PlayerStatus.instance != null)
         {
             PlayerStatus.SavedHP = PlayerStatus.instance.status.HP;

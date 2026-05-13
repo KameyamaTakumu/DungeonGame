@@ -10,7 +10,7 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     [SerializeField] TMP_Text rangeText;
     [SerializeField] TMP_Text valueText;
 
-    [SerializeField] Outline outline; // ★ 追加
+    [SerializeField] Outline outline;
 
     [HideInInspector] public int slotIndex;
     [HideInInspector] public bool isConsumable;
@@ -134,7 +134,7 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
             return;
         }
 
-        // ★ 消費カードのみ使用処理へ
+        // 消費カードのみ使用処理へ
         if (isConsumable)
         {
             inv.OnConsumableCardClicked(slotIndex, false);
@@ -148,7 +148,7 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     }
 
     // =========================
-    // ★ キーボード選択対応
+    // キーボード選択対応
     // =========================
 
     public void OnSelect(BaseEventData eventData)
@@ -166,7 +166,7 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     }
 
     // =========================
-    // マウス操作（既存）
+    // マウス操作
     // =========================
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -10,7 +10,7 @@ public class CardSelectButton : MonoBehaviour,IPointerEnterHandler,IPointerExitH
     [SerializeField] TMP_Text rangeText;
     [SerializeField] TMP_Text valueText;
 
-    [SerializeField] Outline outline; // š ’Ç‰Á
+    [SerializeField] Outline outline;
 
     private CardData card;
     private System.Action onSelected;
@@ -60,7 +60,7 @@ public class CardSelectButton : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         btn.onClick.AddListener(() =>
         {
             onSelected?.Invoke();
-            CardTooltipUI.Instance?.Hide(); // š‘I‘ğŠm’è‚ÍÁ‚·
+            CardTooltipUI.Instance?.Hide();
         });
     }
 

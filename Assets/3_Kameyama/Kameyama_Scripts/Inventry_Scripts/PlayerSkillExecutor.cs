@@ -20,9 +20,6 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     public void ExecuteCardSkill(CardData card)
     {
-        //if (card.cardType != CardType.Use)
-        //    return;
-
         HighlightManager.instance.Clear();
 
         if (playerStatus == null)
@@ -37,7 +34,7 @@ public class PlayerSkillExecutor : MonoBehaviour
         cardInventoryUIController?.HideAllUI();
 
         // =========================
-        // ★ バフカード
+        // バフカード
         // =========================
         if (card.cardType == CardType.Buff)
         {
@@ -49,7 +46,7 @@ public class PlayerSkillExecutor : MonoBehaviour
             return;
         }
 
-        // ★ ここで効果タイプ判定
+        // ここで効果タイプ判定
         switch (card.useEffectType)
         {
             case UseEffectType.Attack:
@@ -65,10 +62,10 @@ public class PlayerSkillExecutor : MonoBehaviour
                 break;
         }
 
-        // ★ UIフェーズ終了
+        // UIフェーズ終了
         PlayerInputLock.Instance.Unlock();
 
-        // ★ カード使用 = 行動終了
+        // カード使用 = 行動終了
         EndPlayerTurn();
     }
 
@@ -127,7 +124,6 @@ public class PlayerSkillExecutor : MonoBehaviour
             var target = CombatManager.GetObjectAt(pos);
             if (target == null) continue;
 
-            //EnemyStatus enemy = target.GetComponent<EnemyStatus>();
             EnemyStatus enemy = target.GetComponentInParent<EnemyStatus>();
             if (enemy != null)
             {
@@ -143,7 +139,7 @@ public class PlayerSkillExecutor : MonoBehaviour
 
         int hitCount = 0;
 
-        int damage = CalculateDamage(card); // ★ ここで1回計算
+        int damage = CalculateDamage(card);
 
         for (int x = -range; x <= range; x++)
         {
@@ -156,7 +152,6 @@ public class PlayerSkillExecutor : MonoBehaviour
 
                 if (target == null) continue;
 
-                //EnemyStatus enemy = target.GetComponent<EnemyStatus>();
                 EnemyStatus enemy = target.GetComponentInParent<EnemyStatus>();
                 if (enemy != null)
                 {
@@ -176,7 +171,7 @@ public class PlayerSkillExecutor : MonoBehaviour
         int hitCount = 0;
         Vector2Int dir = playerStatus.facingDir;
 
-        int damage = CalculateDamage(card); // ★ ここで1回計算
+        int damage = CalculateDamage(card);
 
         for (int i = 1; i <= range; i++)
         {
@@ -185,7 +180,6 @@ public class PlayerSkillExecutor : MonoBehaviour
 
             if (target == null) continue;
 
-            //EnemyStatus enemy = target.GetComponent<EnemyStatus>();
             EnemyStatus enemy = target.GetComponentInParent<EnemyStatus>();
             if (enemy != null)
             {

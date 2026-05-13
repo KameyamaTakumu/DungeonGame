@@ -18,7 +18,6 @@ public class ScrollView : MonoBehaviour
         _logText = DebugText.GetComponent<TextMeshProUGUI>();
     }
 
-    // ▼▼▼ 追加: オブジェクトが破壊されたら、ログの購読を解除する ▼▼▼
     void OnDestroy()
     {
         Application.logMessageReceived -= LoggedCb;

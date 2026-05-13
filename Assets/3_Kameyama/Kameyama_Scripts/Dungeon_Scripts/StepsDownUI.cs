@@ -3,40 +3,6 @@ using UnityEngine.UI;
 
 public class StepsDownUI : MonoBehaviour
 {
-    //public static StepsDownUI Instance;
-
-    //public GameObject panel;     // 確認UI本体
-    //private System.Action onYes; // 「はい」時の処理
-
-    //void Awake()
-    //{
-    //    Instance = this;
-    //    panel.SetActive(false);
-    //}
-
-    //public void Open(System.Action yesAction)
-    //{
-    //    onYes = yesAction;
-    //    panel.SetActive(true);
-    //}
-
-    //public void Close()
-    //{
-    //    panel.SetActive(false);
-    //}
-
-    //// ▼ボタンから呼ぶ
-    //public void OnYes()
-    //{
-    //    DungeonGenerator.CurrentFloor += 1;
-    //    panel.SetActive(false);
-    //    onYes?.Invoke();
-    //}
-
-    //public void OnNo()
-    //{
-    //    panel.SetActive(false);
-    //}
     public static StepsDownUI Instance;
 
     public GameObject panel;
@@ -68,7 +34,7 @@ public class StepsDownUI : MonoBehaviour
         onYes = yesAction;
         panel.SetActive(true);
 
-        // ★ プレイヤー操作をロック
+        // プレイヤー操作をロック
         PlayerInputLock.Instance.Lock();
 
         // 初期選択を Yes に
@@ -82,7 +48,7 @@ public class StepsDownUI : MonoBehaviour
 
         panel.SetActive(false);
 
-        // ★ ロック解除
+        // ロック解除
         PlayerInputLock.Instance.Unlock();
     }
 
@@ -120,18 +86,18 @@ public class StepsDownUI : MonoBehaviour
         noButton.image.color = isYesSelected ? unselected : selected;
     }
 
-    // ▼ ボタン / Enter 両対応
+    // ボタン / Enter 両対応
     public void OnYes()
     {
         DungeonGenerator.CurrentFloor += 1;
-        // 先にUIを安全に閉じる
+        // 先にUIを閉じる
         Close();
         onYes?.Invoke();
     }
 
     public void OnNo()
     {
-        // ★ ロック解除
+        // ロック解除
         Close();
     }
 }

@@ -132,7 +132,7 @@ public class PlayerAttack : MonoBehaviour
         Vector2Int origin = Vector2Int.RoundToInt(transform.position);
         List<Vector2Int> tiles = new List<Vector2Int>();
 
-        int range = playerStatus.Range; // š ‚±‚±‚à
+        int range = playerStatus.Range;
 
         // nƒ}ƒX•ª‚ğŒvZ
         for (int i = 1; i <= range; i++)

@@ -37,7 +37,7 @@ public class CardTooltipUI : MonoBehaviour
 
         root.SetActive(true);
 
-        // ===== テキスト設定 =====
+        // テキスト設定 
         nameText.text = card.cardName;
 
         typeText.text = card.cardType == CardType.Use
@@ -46,7 +46,7 @@ public class CardTooltipUI : MonoBehaviour
 
         effectText.text = BuildEffectText(card);
 
-        // ===== 位置調整（吹き出し）=====
+        // 位置調整（吹き出し）
         rect.position = target.position + (Vector3)offset;
     }
 

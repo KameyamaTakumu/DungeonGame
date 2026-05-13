@@ -21,9 +21,9 @@ public class PlayerInputLock : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // ★ 必須
+        DontDestroyOnLoad(gameObject);
 
-        // ★ シーン遷移時に必ず解除
+        // シーン遷移時に必ず解除
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 

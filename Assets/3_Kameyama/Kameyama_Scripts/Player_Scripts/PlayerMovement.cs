@@ -13,7 +13,6 @@ public class PlayerMovement : BaseMovement
 
     [HideInInspector]
     bool isSelectingAttackDir    = false; // 攻撃方向選択中かどうか
-    //bool isAttackmode            = false; // 攻撃モード中かどうか
     private Vector2Int attackDir = Vector2Int.zero; // 選択中の攻撃方向
 
     Animator anim;
@@ -55,7 +54,7 @@ public class PlayerMovement : BaseMovement
         // 左右どちらかの Ctrl が押されている場合はターン無視モード（デバッグ用）
         bool debugMove = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
 
-        // ★ UI操作中は移動不可（DebugModeは例外）
+        // UI操作中は移動不可（DebugModeは例外）
         if (!debugMove && PlayerInputLock.Instance != null && PlayerInputLock.Instance.IsLocked)
             return;
 
@@ -63,7 +62,7 @@ public class PlayerMovement : BaseMovement
         if (!debugMove && tm != null && !tm.isPlayerTurn)
             return;
 
-        HandleLookInput();   // ← ★ これを追加
+        HandleLookInput();
         HandleMovementInput(debugMove);
         HandleAttackInput();
     }
@@ -159,22 +158,21 @@ public class PlayerMovement : BaseMovement
         {
             attackDir = inputDir;
 
-            SetFacingDirection(attackDir);   // ★ 向きを変更
+            SetFacingDirection(attackDir);   // 向きを変更
 
             pa.ShowHighlight(attackDir);
         }
         // 同じ方向 → 攻撃確定
         else if (attackDir == inputDir)
         {
-            SetFacingDirection(attackDir);   // ★ 最終確認
+            SetFacingDirection(attackDir);   // 最終確認
 
             pa.AttackForward(attackDir);
             
             isSelectingAttackDir = false;
             attackDir            = Vector2Int.zero;
-            //isAttackmode         = false;
 
-            ActionStateUI.Instance?.Hide(); // ★ 消す
+            ActionStateUI.Instance?.Hide(); // 消す
 
             tm.PlayerTurn();
         }
@@ -183,14 +181,12 @@ public class PlayerMovement : BaseMovement
         {
             attackDir = inputDir;
 
-            SetFacingDirection(attackDir);   // ★ 向きを変更
+            SetFacingDirection(attackDir);   // 向きを変更
 
             pa.ShowHighlight(attackDir);
         }
-        // もう一度
         else
         {
-
         }
     }
 
@@ -208,7 +204,7 @@ public class PlayerMovement : BaseMovement
 
         if (dir == Vector2Int.zero) return;
 
-        // ★ 向きだけ変更
+        // 向きだけ変更
         SetFacingDirection(dir);
     }
 
@@ -219,7 +215,7 @@ public class PlayerMovement : BaseMovement
 
         Vector2Int moveDir = new Vector2Int(mx, my);
 
-        // ★ 向きの確定（移動開始時）
+        // 向きの確定（移動開始時）
         if (moveDir != Vector2Int.zero && playerStatus != null)
         {
             playerStatus.facingDir = moveDir;
@@ -234,16 +230,14 @@ public class PlayerMovement : BaseMovement
         Vector2Int cur = Vector2Int.RoundToInt(pos);
         Vector2Int next = cur + new Vector2Int(mx, my);
 
-        // ★ 敵がいるなら移動不可（入力を無視）
+        // 敵がいるなら移動不可（入力を無視）
         if (UnitManager.instance.IsEnemyAt(next))
         {
-            // Debug.Log("敵がいて移動できない");
             return false;
         }
         // デバッグモード中は通過可能にする
         else if (!debugMove)
         {
-
         }
 
         // 通常の移動処理
@@ -259,9 +253,8 @@ public class PlayerMovement : BaseMovement
 
         anim.SetFloat("moveX", dir.x);
         anim.SetFloat("moveY", dir.y);
-        anim.SetBool("isMoving", false); // 念のため
+        anim.SetBool("isMoving", false);
 
-        // ★ ロジック用（超重要）
         PlayerStatus status = GetComponent<PlayerStatus>();
         if (status != null)
         {

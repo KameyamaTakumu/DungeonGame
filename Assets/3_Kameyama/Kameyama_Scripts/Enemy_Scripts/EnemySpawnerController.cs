@@ -107,7 +107,7 @@ public class EnemySpawnerController : MonoBehaviour
 
         enemyNameCounter[baseName]++;
 
-        // SlimeA, SlimeB, SlimeC ...
+        // SlimeA, SlimeB, SlimeC Ç∆Ç»ÇÈ
         char suffix = (char)('A' + enemyNameCounter[baseName] - 1);
 
         // ñºëOê›íË

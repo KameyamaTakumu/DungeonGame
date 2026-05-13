@@ -129,7 +129,7 @@ public class OptionMenuUI : MonoBehaviour
         ShowTutorialPanel();
     }
 
-    public void PrevTutorial()   // © –ß‚éƒ{ƒ^ƒ“‚ğ•t‚¯‚½‚¢ê‡
+    public void PrevTutorial()
     {
         if (soundManager != null)
             soundManager.PlaySE(SE.Test_SE);

@@ -34,7 +34,6 @@ public class CardInventory : MonoBehaviour
 
     public CardSlotUI currentSelectedSlot;
 
-    // 追加
     public Action OnSwapEnded;
 
     void Awake()
@@ -65,14 +64,11 @@ public class CardInventory : MonoBehaviour
             if (card.cardType == CardType.Buff)
                 ApplyPassiveEffect(card);
 
-            // ★ ここで「実際に取得できた時だけ」カウントを進める
-            //DropSystem.ResetCardDropCountIncrement();
-
             OnInventoryChanged?.Invoke();
         }
         else
         {
-            // ★ プレイヤー操作ロック
+            // プレイヤー操作ロック
             PlayerInputLock.Instance?.Lock();
 
             StartSwapMode(card, card.cardType);
@@ -97,7 +93,7 @@ public class CardInventory : MonoBehaviour
         PendingCardType = type;
         Debug.Log($"入れ替えモード開始: {card.cardName} ({type})");
 
-        // ★ プレイヤー操作ロック
+        // プレイヤー操作ロック
         PlayerInputLock.Instance?.Lock();
 
         // UIに通知
@@ -135,13 +131,9 @@ public class CardInventory : MonoBehaviour
     {
         IsSwapMode = false;
         PendingCard = null;
-        // PendingCardTypeは残しても良いが初期化しておく
         PendingCardType = default;
 
-        // ★ プレイヤー操作アンロック
-        //PlayerInputLock.Instance?.Unlock();
-
-        // ★ 入れ替え終了通知
+        // 入れ替え終了通知
         OnSwapEnded?.Invoke();
 
         // UIを閉じる
@@ -151,13 +143,11 @@ public class CardInventory : MonoBehaviour
 
     void ApplyPassiveEffect(CardData passiveCard)
     {
-        // TODO: 実際のステータス反映をここに書く
         FindFirstObjectByType<PlayerStatus>()?.ApplyBuff(passiveCard);
     }
 
     void RemovePassiveEffect(CardData passiveCard)
     {
-        // TODO: 古いパッシブの効果解除処理をここに書く
         FindFirstObjectByType<PlayerStatus>()?.RemoveBuff(passiveCard);
     }
 
@@ -169,7 +159,6 @@ public class CardInventory : MonoBehaviour
         if (index < 0 || index >= consumableCards.Count) return;
         if (IsSwapMode)
         {
-            // 入れ替えモード中に直接「使用」するのは混乱するので禁止にしておく
             Debug.Log("入れ替えモード中は直接使用できません。スロットを選んで入れ替えてください。");
             return;
         }
@@ -178,7 +167,7 @@ public class CardInventory : MonoBehaviour
 
         SoundManager.Instance.PlaySE(SE.CardUse);
 
-        // 技発動（プレイヤーに通知）
+        // 技発動
         FindFirstObjectByType<PlayerSkillExecutor>()?.ExecuteCardSkill(card);
 
         // 削除
@@ -189,7 +178,7 @@ public class CardInventory : MonoBehaviour
 
     public void OnConsumableCardClicked(int index)
     {
-        // ★ UIが消費カード表示中でなければ拒否
+        // UIが消費カード表示中でなければ拒否
         if (cardInventoryUIController != null &&
             !cardInventoryUIController.consumableUI.activeSelf)
             return;
@@ -211,7 +200,7 @@ public class CardInventory : MonoBehaviour
         {
             SelectedConsumableIndex = index;
 
-            // ★ ここでロック
+            // ロック
             PlayerInputLock.Instance?.Lock();
 
             HighlightManager.instance.Clear();
@@ -258,9 +247,6 @@ public class CardInventory : MonoBehaviour
         SelectedConsumableIndex = -1;
         HighlightManager.instance.Clear();
 
-        // ★ UIフェーズ終了
-        //PlayerInputLock.Instance?.Unlock();
-
         OnInventoryChanged?.Invoke();
     }
 
@@ -277,15 +263,13 @@ public class CardInventory : MonoBehaviour
 
     public void ClearConsumableSelection()
     {
-        // ★ 入れ替え中は絶対に解除しない
+        // 入れ替え中は絶対に解除しない
         if (IsSwapMode)
             return;
 
         SelectedConsumableIndex = -1;
         HighlightManager.instance?.Clear();
         UpdateSlotSelectionUI();
-
-        //Debug.Log("カード選択状態を解除");
     }
 
     public void OnConsumableCardClicked(int index, bool fromKeyboard)
@@ -295,14 +279,14 @@ public class CardInventory : MonoBehaviour
 
         var card = consumableCards[index];
 
-        // 回復は即使用（入力元問わず）
+        // 回復は即使用
         if (card.useEffectType == UseEffectType.Heal)
         {
             ConsumeConsumableCard(index);
             return;
         }
 
-        // ★ 未選択 → 選択（マウス / キーボード共通）
+        // 未選択 → 選択（マウス / キーボード共通）
         if (SelectedConsumableIndex != index)
         {
             SelectedConsumableIndex = index;
@@ -322,11 +306,11 @@ public class CardInventory : MonoBehaviour
             return;
         }
 
-        // ★ 同じカードだが「キーボード1回目」は消費しない
+        // 同じカードだが「キーボード1回目」は消費しない
         if (fromKeyboard)
             return;
 
-        // ★ マウス2クリック目 or キーボード2回目
+        // マウス2クリック目 or キーボード2回目
         ConsumeConsumableCard(index);
     }
 
@@ -339,8 +323,6 @@ public class CardInventory : MonoBehaviour
         {
             player.ApplyBuff(card);
         }
-
-        //Debug.Log("全バフを再適用しました");
     }
 
     public void ResetInventory()

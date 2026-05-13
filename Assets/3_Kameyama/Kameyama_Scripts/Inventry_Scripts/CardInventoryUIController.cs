@@ -94,20 +94,14 @@ public class CardInventoryUIController : MonoBehaviour
         if (!consumableUI.activeSelf && !passiveUI.activeSelf)
             return;
 
-        //if (Input.GetKeyDown(KeyCode.RightArrow))
-        //    MoveSelection(1);
-
-        //if (Input.GetKeyDown(KeyCode.LeftArrow))
-        //    MoveSelection(-1);
-
-        // 横移動（既存）
+        // 横移動
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             MoveHorizontal(1);
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             MoveHorizontal(-1);
 
-        // ★ 新規：上下移動
+        // 上下移動
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             MoveVertical(1);
 
@@ -136,7 +130,7 @@ public class CardInventoryUIController : MonoBehaviour
         if ((consumableUI.activeSelf || passiveUI.activeSelf) &&
         EventSystem.current.currentSelectedGameObject == null)
         {
-            // ★ UI外に飛んだら強制的に最初へ戻す
+            // UI外に飛んだら強制的に最初へ戻す
             if (consumableUI.activeSelf) SelectFirstConsumable();
             else SelectFirstPassive();
         }
@@ -173,7 +167,7 @@ public class CardInventoryUIController : MonoBehaviour
         var slots = consumableUI.activeSelf ? consumableSlots : passiveSlots;
         if (slots == null || slots.Length == 0) return;
 
-        int columns = 2; // ← 今回は 2列固定
+        int columns = 2;
         int next = currentIndex + (columns * dir);
 
         // はみ出したらループ
@@ -212,19 +206,15 @@ public class CardInventoryUIController : MonoBehaviour
             return;
         }
 
-        // ★ 消費カードのみキーボード操作を許可
+        // 消費カードのみキーボード操作を許可
         if (slot.isConsumable)
         {
             inventory.OnConsumableCardClicked(slot.slotIndex, true);
             return;
         }
 
-        // ★ バフカードは Enter で「何もしない」
+        // バフカードは Enter で「何もしない」
         Debug.Log("バフカードはEnterで使用できません");
-
-        //// パッシブなどは通常クリック扱い
-        //var btn = go.GetComponent<UnityEngine.UI.Button>();
-        //btn?.onClick.Invoke();
     }
 
     // ================================
@@ -245,7 +235,7 @@ public class CardInventoryUIController : MonoBehaviour
         consumableUI?.SetActive(true);
         passiveUI?.SetActive(false);
 
-        // ★ ロック
+        // ロック
         PlayerInputLock.Instance?.Lock();
 
         StartCoroutine(SelectConsumableNextFrame());
@@ -283,7 +273,7 @@ public class CardInventoryUIController : MonoBehaviour
         passiveUI?.SetActive(true);
         consumableUI?.SetActive(false);
 
-        // ★ ロック
+        // ロック
         PlayerInputLock.Instance?.Lock();
 
         StartCoroutine(SelectPassiveNextFrame());
@@ -318,10 +308,10 @@ public class CardInventoryUIController : MonoBehaviour
 
     public void HideAllUI()
     {
-        // ★ 重要：先に選択を明示的に解除
+        // 選択を明示的に解除
         EventSystem.current.SetSelectedGameObject(null);
 
-        // ★ 追加：カード選択解除（範囲も消える）
+        // カード選択解除
         inventory?.ClearConsumableSelection();
 
         consumableUI?.SetActive(false);
@@ -329,18 +319,17 @@ public class CardInventoryUIController : MonoBehaviour
 
         CardTooltipUI.Instance?.Hide();
 
-        // ★ ロック解除
+        // ロック解除
         PlayerInputLock.Instance?.Unlock();
     }
 
     // ================================
-    // スロット更新（核心）
+    // スロット更新
     // ================================
     void Refresh()
     {
         if (inventory == null) return;
 
-        // ---------- Consumable ----------
         for (int i = 0; i < consumableSlotPoints.Length; i++)
         {
             RefreshSlot(
@@ -352,7 +341,6 @@ public class CardInventoryUIController : MonoBehaviour
             );
         }
 
-        // ---------- Passive ----------
         for (int i = 0; i < passiveSlotPoints.Length; i++)
         {
             RefreshSlot(
@@ -381,7 +369,6 @@ public class CardInventoryUIController : MonoBehaviour
         // Prefab生成
         var slot = Instantiate(slotPrefab, parent);
 
-        // ★ここが重要：Setupは使わない
         slot.slotIndex = index;
         slot.isConsumable = isConsumable;
         slot.SetCard(cardList[index]);
@@ -400,7 +387,6 @@ public class CardInventoryUIController : MonoBehaviour
             return;
         }
 
-        // ★ ここでUIフェーズに入る
         PlayerInputLock.Instance?.Lock();
 
         var list = database.GetCards(type);

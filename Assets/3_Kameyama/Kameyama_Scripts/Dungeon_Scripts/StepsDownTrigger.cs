@@ -6,7 +6,7 @@ public class StepsDownTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // ▼UI を開く（シングルトンなどで管理している前提）
+            // UI を開く（シングルトンなどで管理している前提）
             StepsDownUI.Instance.Open(() => {
                 // 「はい」のとき呼ばれる
                 SceneChanger.Instance.LoadNextFloor();

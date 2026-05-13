@@ -58,7 +58,6 @@ public class DungeonGenerator : MonoBehaviour
     // ================================
 
     [Header("マップサイズ")]
-    // ここは public にして外部から参照できるようにする
     [CustomLabel("横幅（タイル数）"), SerializeField]
     public int width = 64;
     [CustomLabel("縦幅（タイル数）"), SerializeField]
@@ -79,7 +78,7 @@ public class DungeonGenerator : MonoBehaviour
 
     [Header("宝箱設定")]
     [SerializeField] private bool generateChest = true;
-    [SerializeField] private int chestCount = 3;   // ← 追加：出現数
+    [SerializeField] private int chestCount = 3;
     [SerializeField] private TileBase chestTile;
     [SerializeField] private ChestCardMode chestMode = ChestCardMode.RandomBoth;
 
@@ -181,47 +180,47 @@ public class DungeonGenerator : MonoBehaviour
         // 生成済み部屋リストをクリア
         rooms.Clear();
 
-        // (1) ランダムに部屋を生成
+        // ランダムに部屋を生成
         CreateRooms();
 
-        // (2) 部屋同士を通路で繋ぐ
+        // 部屋同士を通路で繋ぐ
         ConnectRooms();
 
-        // (2.5) 壁幅1のストライプを自動除去
+        // 壁幅1のストライプを自動除去
         RemoveThinWalls();
 
-        // (3) Tilemap へ反映
+        // Tilemap へ反映
         RenderMap();
 
-        // (4) プレイヤー
+        // プレイヤー
         FindAnyObjectByType<PlayerSpawner>()?.SpawnPlayer(GetRandomFloorPosition());
 
-        // (5) 壁タイルの自動タイル適用
+        // 壁タイルの自動タイル適用
         FindAnyObjectByType<WallAutoTilePainter>()?.ApplyAutoTiles(map);
 
-        // (6) 床タイルの自動タイル適用
+        // 床タイルの自動タイル適用
         FindAnyObjectByType<FloorAutoTilePainter>()?.Apply(map);
 
-        // (7) 階段設置（設定次第）
+        // 階段設置
         if (generateStepsDown)
         {
             PlaceStepDown();
         }
 
-        // (8) 宝箱設置
+        // 宝箱設置
         if (generateChest)
         {
             for (int i = 0; i < chestCount; i++)
                 PlaceChest();
         }
 
-        // (9) ミニマップ描画
+        // ミニマップ描画
         if (miniMapRenderer != null)
         {
             miniMapRenderer.DrawMiniMap(map);
         }
 
-        // (10) ミニマップの敵アイコン更新
+        // ミニマップの敵アイコン更新
         miniMapRenderer.ForceRefreshEnemies();
     }
 
@@ -421,7 +420,7 @@ public class DungeonGenerator : MonoBehaviour
             return;
         }
 
-        // ▼ランダムな部屋に階段を置く
+        // ランダムな部屋に階段を置く
         Room lastRoom = rooms[Random.Range(0, rooms.Count)];
         //Room lastRoom = rooms[rooms.Count - 1];
 
@@ -437,14 +436,14 @@ public class DungeonGenerator : MonoBehaviour
 
         Debug.Log($"下り階段を配置: {x},{y}");
 
-        // ▼トリガー用オブジェクトを生成
+        // トリガー用オブジェクトを生成
         GameObject trigger = new GameObject("StepsDownTrigger");
         trigger.transform.position = new Vector3(x, y, 0); // 中心合わせ
 
         BoxCollider2D col = trigger.AddComponent<BoxCollider2D>();
         col.isTrigger = true;
 
-        // ▼判定用のスクリプトを追加
+        // 判定用のスクリプトを追加
         trigger.AddComponent<StepsDownTrigger>();
     }
 
@@ -535,7 +534,7 @@ public class DungeonGenerator : MonoBehaviour
         trig.mode = chestMode;
     }
 
-    // === 宝箱タイル削除用 ===
+    // 宝箱タイル削除用
 
     // ワールド座標 → タイル座標変換用
     public Vector3Int GetChestTilePosition(Vector3 worldPos)

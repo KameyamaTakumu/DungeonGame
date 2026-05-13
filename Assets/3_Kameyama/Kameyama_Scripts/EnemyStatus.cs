@@ -7,8 +7,8 @@ public class EnemyStatus : MonoBehaviour
     {
         public string attackName;
         public int damage;
-        public int knockbackY;   // 0ならノックバックなし
-        public int stunTurn;     // 0ならスタンなし
+        public int knockbackY;
+        public int stunTurn;
     }
 
     [Header("Enemy Base Status")]
@@ -26,12 +26,9 @@ public class EnemyStatus : MonoBehaviour
 
     private void Start()
     {
-        // ※ シーン内にDropSystemは1つだけ付いている前提
         dropSystem = FindFirstObjectByType<DropSystem>();
         playerInventory = FindFirstObjectByType<PlayerInventory>();
-        // ※ プレイヤーがシーンに1人いる前提
 
-        //cardInventory = FindFirstObjectByType<CardInventory>();
         cardInventory = CardInventory.Instance;
 
         if (dropSystem == null)
@@ -57,7 +54,7 @@ public class EnemyStatus : MonoBehaviour
         {
             Debug.Log("敵死亡！");
 
-            // ★ UnitManager のリストから削除
+            // UnitManager のリストから削除
             UnitManager.instance.enemies.Remove(gameObject);
 
             Die();
@@ -108,13 +105,7 @@ public class EnemyStatus : MonoBehaviour
         return stunRemain > 0;
     }
 
-    //public void OnTurnStart()
-    //{
-    //    if (stunRemain > 0)
-    //        stunRemain--;
-    //}
-
-    // ★ ターン開始時に呼ぶ
+    // ターン開始時に呼ぶ
     public bool ConsumeStun()
     {
         if (stunRemain > 0)
@@ -153,7 +144,7 @@ public class EnemyStatus : MonoBehaviour
             return;
         }
 
-        // ★ インベントリ満杯チェック
+        // インベントリ満杯チェック
         if (IsInventoryFull(type.Value))
         {
             Debug.Log($"カードインベントリ満杯のため報酬スキップ: {type.Value}");
@@ -163,7 +154,7 @@ public class EnemyStatus : MonoBehaviour
 
         Debug.Log($"カード報酬タイプ: {type.Value}");
 
-        // ★ ターン停止
+        // ターン停止
         TurnManager.Instance.isWaitingCardSelect = true;
 
         var ui = FindFirstObjectByType<CardInventoryUIController>();
@@ -178,7 +169,7 @@ public class EnemyStatus : MonoBehaviour
         // プレイヤー操作をロック
         PlayerInputLock.Instance.Lock();
 
-        // ボスAI停止（念のため）
+        // ボスAI停止
         var bossController = GetComponent<BossController>();
         if (bossController != null)
             bossController.enabled = false;

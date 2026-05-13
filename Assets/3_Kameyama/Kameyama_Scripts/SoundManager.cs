@@ -108,17 +108,7 @@ public class SoundManager : MonoBehaviour
             yield break;
         }
 
-        //// --- フェードイン ---
-        //t = 0f;
-        //while (t < fadeTime)
-        //{
-        //    bgmSource.volume = Mathf.Lerp(0f, 1f, t / fadeTime);
-        //    t += Time.unscaledDeltaTime;
-        //    yield return null;
-        //}
-
-        //bgmSource.volume = 1f; // 最終音量を固定
-        // フェードイン（★ 最大は bgmMaxVolume）
+        // フェードイン（最大は bgmMaxVolume）
         t = 0f;
         while (t < fadeTime)
         {
@@ -171,8 +161,6 @@ public class SoundManager : MonoBehaviour
     // 音量設定
     public void SetBGMVolume(float volume)
     {
-        //bgmSource.volume = Mathf.Clamp01(volume);
-
         bgmMaxVolume = Mathf.Clamp01(volume);
 
         // 再生中なら即反映

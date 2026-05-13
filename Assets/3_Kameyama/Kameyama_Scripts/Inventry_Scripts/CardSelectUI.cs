@@ -8,7 +8,7 @@ public class CardSelectUI : MonoBehaviour
     public GameObject optionPrefab;
     public Transform optionParent;
 
-    public GameObject cancelPrefab;   // ★追加
+    public GameObject cancelPrefab;
 
     private CardInventory inventory;
 
@@ -20,14 +20,14 @@ public class CardSelectUI : MonoBehaviour
         inventory = inv;
         this.onClose = onClose;
 
-        // ★ プレイヤー操作ロック
+        // プレイヤー操作ロック
         PlayerInputLock.Instance?.Lock();
 
         foreach (Transform t in optionParent) Destroy(t.gameObject);
 
         for (int i = 0; i < options.Length; i++)
         {
-            int index = i; // ← これが超重要！（i を固定する）
+            int index = i;
 
             var obj = Instantiate(optionPrefab, optionParent);
             var btn = obj.GetComponent<CardSelectButton>();
@@ -38,7 +38,7 @@ public class CardSelectUI : MonoBehaviour
             });
         }
 
-        // ★ キャンセルボタンを最後に追加
+        // キャンセルボタンを最後に追加
         var cancelObj = Instantiate(cancelPrefab, optionParent);
         var cancelButton = cancelObj.GetComponent<Button>();
         cancelButton.onClick.AddListener(() =>
@@ -48,7 +48,7 @@ public class CardSelectUI : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        // ★ Navigation & 選択をまとめて遅延処理
+        // Navigation & 選択をまとめて遅延処理
         StartCoroutine(SetupNavigationAndSelect());
     }
 
@@ -57,28 +57,28 @@ public class CardSelectUI : MonoBehaviour
         // UI有効化完了を待つ
         yield return null;
 
-        // ★ Navigation をここで設定
+        // Navigation をここで設定
         SetupHorizontalLoopNavigation();
 
-        // ★ 選択初期化
+        // 選択初期化
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(optionParent.GetChild(0).gameObject);
     }
 
     public void Close()
     {
-        // ★ 選択解除
+        // 選択解除
         EventSystem.current.SetSelectedGameObject(null);
 
         gameObject.SetActive(false);
 
-        // ★ 入れ替えモードに入らなかった場合だけ Unlock
+        // 入れ替えモードに入らなかった場合だけ Unlock
         if (!inventory.IsSwapMode)
         {
             PlayerInputLock.Instance?.Unlock();
         }
 
-        // ★ カード選択終了 → ターン再開
+        // カード選択終了 → ターン再開
         if (TurnManager.Instance != null)
             TurnManager.Instance.isWaitingCardSelect = false;
 
@@ -89,7 +89,7 @@ public class CardSelectUI : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        // ★ 入れ替えモードに入らなかった場合だけ Unlock
+        // 入れ替えモードに入らなかった場合だけ Unlock
         if (!inventory.IsSwapMode)
         {
             PlayerInputLock.Instance?.Unlock();

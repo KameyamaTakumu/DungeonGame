@@ -9,7 +9,7 @@ public class PlayerStatus : MonoBehaviour
 
     public BaseStatus status = new BaseStatus(20, 10, 1);
 
-    // ★ 追加：シーンを跨いで保持するHP
+    // シーンを跨いで保持するHP
     public static int SavedHP = -1;
 
     int bonusATK = 0;
@@ -20,7 +20,6 @@ public class PlayerStatus : MonoBehaviour
     float passiveMultiplier = 1f;
     float useAttackBoost = 1f;
 
-    // float → int に変更
     int critChancePercent = 0;
 
     // 表示・計算用
@@ -38,7 +37,6 @@ public class PlayerStatus : MonoBehaviour
     public int Range
         => status.RANGE + bonusRange + RangeBonus;
 
-    //public float CritChance => critChance * passiveMultiplier;
     public float PassiveMultiplier => passiveMultiplier;
     public float UseAttackBoost => useAttackBoost;
 
@@ -54,7 +52,7 @@ public class PlayerStatus : MonoBehaviour
     {
         instance = this;
 
-        // ★ シーン遷移後なら復元
+        // シーン遷移後なら復元
         if (SavedHP >= 0)
         {
             status.HP = Mathf.Min(SavedHP, MaxHP);
@@ -65,7 +63,7 @@ public class PlayerStatus : MonoBehaviour
     {
         CardInventory.Instance?.ReapplyAllPassiveEffects();
 
-        // ★ その「あと」で HP を復元する
+        // HP を復元する
         if (SavedHP >= 0)
         {
             status.HP = Mathf.Min(SavedHP, MaxHP);
@@ -74,7 +72,7 @@ public class PlayerStatus : MonoBehaviour
     }
 
     // ======================
-    // ★ 消費カード用最終攻撃力
+    // 消費カード用最終攻撃力
     // ======================
     public int GetUseCardDamage(int cardBaseDamage)
     {
@@ -102,7 +100,7 @@ public class PlayerStatus : MonoBehaviour
 
                 int afterMax = MaxHP;    // 変更後の最大HP
 
-                // ★ 増えた差分だけ現在HPも回復
+                // 増えた差分だけ現在HPも回復
                 int diff = afterMax - beforeMax;
                 status.HP += diff;
 
@@ -117,7 +115,6 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.CritChance:
-                //critChance += card.buffValue * 0.01f;
                 critChancePercent += card.buffValue;
                 break;
 
@@ -156,7 +153,6 @@ public class PlayerStatus : MonoBehaviour
                 break;
 
             case BuffType.CritChance:
-                //critChance -= card.buffValue * 0.01f;
                 critChancePercent -= card.buffValue;
                 break;
 

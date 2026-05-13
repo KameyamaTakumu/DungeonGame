@@ -25,16 +25,16 @@ public class TitleManager : MonoBehaviour
 
     public void OnStartButton()
     {
-        // ★ フロア番号リセット
+        // フロア番号リセット
         DungeonGenerator.instance?.ResetFloorNumber();
 
-        // ★ 抽選回数リセット
+        // 抽選回数リセット
         DropSystem.ResetCardDropCount();
 
-        // ★ インベントリ初期化
+        // インベントリ初期化
         CardInventory.Instance?.ResetInventory();
 
-        // ★ プレイヤーステータス初期化
+        // プレイヤーステータス初期化
         //PlayerStatus.instance?.ResetStatusForNewGame();
 
         // Unitmanager初期化

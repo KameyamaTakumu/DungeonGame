@@ -14,7 +14,7 @@ public class CancelButtonUI : MonoBehaviour,
         outline.enabled = false;
     }
 
-    // ===== キーボード選択 =====
+    // キーボード選択
     public void OnSelect(BaseEventData eventData)
     {
         outline.enabled = true;
@@ -25,7 +25,7 @@ public class CancelButtonUI : MonoBehaviour,
         outline.enabled = false;
     }
 
-    // ===== マウス操作 =====
+    // マウス操作
     public void OnPointerEnter(PointerEventData eventData)
     {
         outline.enabled = true;

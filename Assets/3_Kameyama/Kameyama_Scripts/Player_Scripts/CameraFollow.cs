@@ -38,22 +38,21 @@ public class CameraFollow : MonoBehaviour
         pos.x = Mathf.Lerp(pos.x, target.position.x, smooth * Time.deltaTime);
         pos.y = Mathf.Lerp(pos.y, target.position.y, smooth * Time.deltaTime);
 
-        // ===== カメラサイズ取得 =====
+        //　カメラサイズ取得
         Camera cam = Camera.main;
         float camHalfHeight = cam.orthographicSize;
         float camHalfWidth = camHalfHeight * cam.aspect;
 
-        // ===== ズーム適用 =====
+        //　ズーム適用
         cam.orthographicSize = Zoom;
 
-        // ===== マップ端を計算（タイル中心基準）=====
+        //　マップ端を計算（タイル中心基準）
         float minX = camHalfWidth - 0.5f;
         float maxX = dungeon.width - camHalfWidth - 0.5f;
 
         float minY = camHalfHeight - 0.5f;
         float maxY = dungeon.height - camHalfHeight - 0.5f;
 
-        // ===== Clamp =====
         pos.x = Mathf.Clamp(pos.x, minX, maxX);
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
 

@@ -98,7 +98,6 @@ public class DropSystem : MonoBehaviour
         return null;
     }
 
-    // ★ 追加
     public static void ResetCardDropCount()
     {
         cardDropCount = 0;

@@ -16,11 +16,11 @@ public class EnemyMovement : BaseMovement
     [HideInInspector]
     public bool isAttacking = false;　// 攻撃中フラグ
 
-    // ★ 追加：このターン攻撃したか
+    // このターン攻撃したか
     [HideInInspector]
     public bool hasAttacked = false;
 
-    // ★ 追加：このターン移動したか
+    // このターン移動したか
     [HideInInspector]
     public bool hasMoved = false;
 
@@ -42,7 +42,7 @@ public class EnemyMovement : BaseMovement
         gridPos = Vector2Int.RoundToInt(transform.position);
     }
 
-    // ★ ターン開始時に呼ぶ
+    // ターン開始時に呼ぶ
     public void ResetTurnState()
     {
         hasAttacked = false;
@@ -58,7 +58,7 @@ public class EnemyMovement : BaseMovement
     /// <param name="debugMove">デバッグ用フラグ（派生先で使用可）</param>
     protected override void OnMoveFinished(bool debugMove)
     {
-        anim.SetBool("isMoving", false);   // ★ 歩行停止
+        anim.SetBool("isMoving", false);   // 歩行停止
 
         Vector2Int oldPos = gridPos;
 
@@ -67,7 +67,7 @@ public class EnemyMovement : BaseMovement
 
         gridPos = snapped;
 
-        // ★ UnitManager に位置更新を通知
+        // UnitManager に位置更新を通知
         UnitManager.instance.MoveEnemy(oldPos, gridPos, this);
 
         moveFinished = true;
@@ -118,7 +118,6 @@ public class EnemyMovement : BaseMovement
 
         Vector2Int targetPos = gridPos + dir;
 
-        // ★ 予約チェック（隊列用）
         if (!UnitManager.instance.CanReserve(targetPos))
         {
             moveFinished = true;
@@ -128,8 +127,8 @@ public class EnemyMovement : BaseMovement
 
         UnitManager.instance.Reserve(targetPos);
 
-        SetFacingDirection(dir);              // ★ 向きを先に合わせる
-        anim.SetBool("isMoving", true);       // ★ 歩行開始
+        SetFacingDirection(dir);              // 向きを先に合わせる
+        anim.SetBool("isMoving", true);       // 歩行開始
 
         bool moved = TryMove(dir.x, dir.y);
 

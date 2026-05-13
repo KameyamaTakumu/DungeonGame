@@ -95,7 +95,7 @@ public class MiniMapRenderer : MonoBehaviour
     // visibleNow[x,y] = 現在視界に入っているか
     private bool[,] visibleNow;
 
-    // 最後に記録したプレイヤー位置（1タイル単位
+    // 最後に記録したプレイヤー位置
     private Vector2Int lastPlayerTile = new Vector2Int(int.MinValue, int.MinValue);
 
     // Player オブジェクト参照
@@ -235,7 +235,7 @@ public class MiniMapRenderer : MonoBehaviour
                 continue;
             }
 
-            // ★ 発見済みなら常に表示
+            // 発見済みなら常に表示
             icon.gameObject.SetActive(true);
 
             // ミニマップ座標へ変換
@@ -577,7 +577,7 @@ public class MiniMapRenderer : MonoBehaviour
         foreach (var enemy in enemies)
         {
             var icon = Instantiate(enemyIconPrefab, minimapRect);
-            icon.gameObject.SetActive(true); // 敵数に合わせて新規生成
+            icon.gameObject.SetActive(true);
             enemyIcons.Add(icon);
         }
     }
