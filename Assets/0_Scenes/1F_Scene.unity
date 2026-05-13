@@ -1331,6 +1331,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 145603329}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerBL
+      value: 
+      objectReference: {fileID: 11400000, guid: d74c8575e68e36a46b114ecd9fe018c8, type: 2}
+    - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerBR
+      value: 
+      objectReference: {fileID: 11400000, guid: de14ee83790e2b54e85cf9daf241a187, type: 2}
+    - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerTL
+      value: 
+      objectReference: {fileID: 11400000, guid: a74bbd7ba9093ba40bacae30294213d8, type: 2}
+    - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: cornerTR
+      value: 
+      objectReference: {fileID: 11400000, guid: 099a9d183f5a5954fabe99817a78d56e, type: 2}
+    - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallTilemap
       value: 
       objectReference: {fileID: 145603329}

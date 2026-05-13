@@ -673,6 +673,7 @@ MonoBehaviour:
   target: {fileID: 6737902979630441379, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
   smooth: 5
   dungeon: {fileID: 1383080891}
+  Zoom: 5
 --- !u!114 &357998209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,19 +1287,19 @@ PrefabInstance:
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: cornerBL
       value: 
-      objectReference: {fileID: 11400000, guid: 6f5616df190df2843bc500fe667e8407, type: 2}
+      objectReference: {fileID: 11400000, guid: 1ee0403b9c24ac04c87bc2d2a226b49d, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: cornerBR
       value: 
-      objectReference: {fileID: 11400000, guid: d96eccc3e47fd15418a5ee8b195f53c7, type: 2}
+      objectReference: {fileID: 11400000, guid: 3121350a5b5ba0346851688294b15e6a, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: cornerTL
       value: 
-      objectReference: {fileID: 11400000, guid: 3121350a5b5ba0346851688294b15e6a, type: 2}
+      objectReference: {fileID: 11400000, guid: d96eccc3e47fd15418a5ee8b195f53c7, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: cornerTR
       value: 
-      objectReference: {fileID: 11400000, guid: 1ee0403b9c24ac04c87bc2d2a226b49d, type: 2}
+      objectReference: {fileID: 11400000, guid: 6f5616df190df2843bc500fe667e8407, type: 2}
     - target: {fileID: 699077126088926893, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallTilemap
       value: 

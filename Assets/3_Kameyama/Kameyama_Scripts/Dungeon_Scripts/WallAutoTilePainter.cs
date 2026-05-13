@@ -5,44 +5,43 @@ using UnityEngine.Tilemaps;
 /// 壁タイルの自動タイル適用を担当するクラス
 /// </summary>
 public class WallAutoTilePainter : MonoBehaviour
-{
+{  
     [Header("タイルマップ")]
     [CustomLabel("当たり判定付き壁タイルマップ"), SerializeField]
     private Tilemap wallTilemap;
 
-    [Header("必要な壁タイル")]
-    [Header("内側L字")]
-    [CustomLabel("内側L字左上"), SerializeField]
+    [Header("外角タイル（凸コーナー）")]
+    [CustomLabel("外角・左上"), SerializeField]
     private TileBase cornerTL;
-    [CustomLabel("内側L字右上"), SerializeField]
+    [CustomLabel("外角・右上"), SerializeField]
     private TileBase cornerTR;
-    [CustomLabel("内側L字右下"), SerializeField]
+    [CustomLabel("外角・右下"), SerializeField]
     private TileBase cornerBR;
-    [CustomLabel("内側L字左下"), SerializeField]
+    [CustomLabel("外角・左下"), SerializeField]
     private TileBase cornerBL;
 
-    [Header("外側L字")]
-    [CustomLabel("L字左下"), SerializeField]
-    private TileBase innerTR;
-    [CustomLabel("L字右下"), SerializeField]
+    [Header("内角タイル（凹コーナー）")]
+    [CustomLabel("内角・左上"), SerializeField]
     private TileBase innerTL;
-    [CustomLabel("L字左上"), SerializeField]
+    [CustomLabel("内角・右上"), SerializeField]
+    private TileBase innerTR;
+    [CustomLabel("内角・右下"), SerializeField]
     private TileBase innerBR;
-    [CustomLabel("L字右上"), SerializeField]
+    [CustomLabel("内角・左下"), SerializeField]
     private TileBase innerBL;
 
-    [Header("通常壁")]
-    [CustomLabel("下"), SerializeField]
+    [Header("T字タイル（開口方向）")]
+    [CustomLabel("上が開口"), SerializeField]
     private TileBase tUp;
-    [CustomLabel("左"), SerializeField]
+    [CustomLabel("右が開口"), SerializeField]
     private TileBase tRight;
-    [CustomLabel("上"), SerializeField]
+    [CustomLabel("下が開口"), SerializeField]
     private TileBase tDown;
-    [CustomLabel("右"), SerializeField]
+    [CustomLabel("左が開口"), SerializeField]
     private TileBase tLeft;
 
-    [Header("完全壁")]
-    [CustomLabel("完全壁"), SerializeField]
+    [Header("十字タイル")]
+    [CustomLabel("十字（全方向壁）"), SerializeField]
     private TileBase cross;
 
     /// <summary>
@@ -51,7 +50,7 @@ public class WallAutoTilePainter : MonoBehaviour
     /// <param name="map">タイルマップ配列</param>
     public void ApplyAutoTiles(TileType[,] map)
     {
-        int width  = map.GetLength(0);
+        int width = map.GetLength(0);
         int height = map.GetLength(1);
 
         wallTilemap.ClearAllTiles();
@@ -63,68 +62,93 @@ public class WallAutoTilePainter : MonoBehaviour
                 if (map[x, y] != TileType.Wall) continue;
 
                 Vector3Int pos = new Vector3Int(x, y, 0);
+                TileBase chosen = SelectTile(map, x, y);
 
-                // 8方向の壁の有無をチェック
-                // N, NE, E, SE, S, SW, W, NW
-                bool N  = IsWall(map, x,     y + 1);    // 北
-                bool NE = IsWall(map, x + 1, y + 1);    // 北東
-                bool E  = IsWall(map, x + 1, y);        // 東
-                bool SE = IsWall(map, x + 1, y - 1);    // 南東
-                bool S  = IsWall(map, x,     y - 1);    // 南
-                bool SW = IsWall(map, x - 1, y - 1);    // 南西
-                bool W  = IsWall(map, x - 1, y);        // 西
-                bool NW = IsWall(map, x - 1, y + 1);    // 北西
-
-                TileBase chosen = null;
-
-                // --- 内角 ---
-                if      (E && N && !NE) chosen = innerTR;
-                else if (W && N && !NW) chosen = innerTL;
-                else if (E && S && !SE) chosen = innerBR;
-                else if (W && S && !SW) chosen = innerBL;
-
-                // --- 外角 ---
-                if (chosen == null)
-                {
-                    if      (!E && !N && NE) chosen = cornerTR;
-                    else if (!W && !N && NW) chosen = cornerTL;
-                    else if (!E && !S && SE) chosen = cornerBR;
-                    else if (!W && !S && SW) chosen = cornerBL;
-                }
-
-                // --- 十字 ---
-                if (chosen == null && N && E && S && W)
-                    chosen = cross;
-
-                // --- T字 ---
-                if (chosen == null)
-                {
-                    if     (!N && E && S && W)  chosen = tUp;
-                    else if (N && !E && S && W) chosen = tRight;
-                    else if (N && E && !S && W) chosen = tDown;
-                    else if (N && E && S && !W) chosen = tLeft;
-                }
-
-                // --- 2方向（L字など） ---
-                if (chosen == null)
-                {
-                    if      (N && E) chosen = cornerTR;
-                    else if (E && S) chosen = cornerBR;
-                    else if (S && W) chosen = cornerBL;
-                    else if (W && N) chosen = cornerTL;
-                }
-
-                wallTilemap.SetTile(pos, chosen);
+                // null の場合はタイルを置かない
+                if (chosen != null)
+                    wallTilemap.SetTile(pos, chosen);
             }
         }
     }
 
     /// <summary>
-    /// 指定座標が壁タイルかどうかを判定する
+    /// 座標 (x, y) の壁タイルに対して適切なタイルを選択して返す
+    /// 優先順位: 内角 → 外角 → 十字 → T字 → 2方向L字
+    /// どのパターンにも該当しない場合は null を返す
     /// </summary>
-    /// <param name="map">タイルマップ配列</param>
-    /// <param name="x">X座標</param>
-    /// <param name="y">Y座標</param>
+    private TileBase SelectTile(TileType[,] map, int x, int y)
+    {
+        // 8方向の壁の有無をチェック (N=北=Y+)
+        bool N  = IsWall(map, x, y + 1);
+        bool NE = IsWall(map, x + 1, y + 1);
+        bool E  = IsWall(map, x + 1, y);
+        bool SE = IsWall(map, x + 1, y - 1);
+        bool S  = IsWall(map, x, y - 1);
+        bool SW = IsWall(map, x - 1, y - 1);
+        bool W  = IsWall(map, x - 1, y);
+        bool NW = IsWall(map, x - 1, y + 1);
+
+        // -------------------------------------------------------------------------
+        // 1. 内角（凹コーナー）
+        //    条件: 隣接2方向が両方壁 かつ その対角のみが空き
+        //    内角・右上 = 東と北が壁 かつ 北東が空き
+        //    内角・左上 = 西と北が壁 かつ 北西が空き
+        //    内角・右下 = 東と南が壁 かつ 南東が空き
+        //    内角・左下 = 西と南が壁 かつ 南西が空き
+        // -------------------------------------------------------------------------
+        if (E && N && !NE) return innerTR;
+        if (W && N && !NW) return innerTL;
+        if (E && S && !SE) return innerBR;
+        if (W && S && !SW) return innerBL;
+
+        // -------------------------------------------------------------------------
+        // 2. 外角（凸コーナー）
+        //    条件: 隣接2方向が両方空き（対角は問わない）
+        //    外角・右上 = 東と北が両方空き
+        //    外角・左上 = 西と北が両方空き
+        //    外角・右下 = 東と南が両方空き
+        //    外角・左下 = 西と南が両方空き
+        // -------------------------------------------------------------------------
+        if (!E && !N) return cornerTR;
+        if (!W && !N) return cornerTL;
+        if (!E && !S) return cornerBR;
+        if (!W && !S) return cornerBL;
+
+        // -------------------------------------------------------------------------
+        // 3. 十字（全4方向が壁）
+        // -------------------------------------------------------------------------
+        if (N && E && S && W) return cross;
+
+        // -------------------------------------------------------------------------
+        // 4. T字（3方向が壁・1方向が開口）
+        //    tUp    = 上が開口（N なし、E/S/W あり）
+        //    tRight = 右が開口（E なし、N/S/W あり）
+        //    tDown  = 下が開口（S なし、N/E/W あり）
+        //    tLeft  = 左が開口（W なし、N/E/S あり）
+        // -------------------------------------------------------------------------
+        if (!N  &&  E &&  S &&  W) return tUp;
+        if ( N  && !E &&  S &&  W) return tRight;
+        if ( N  &&  E && !S &&  W) return tDown;
+        if ( N  &&  E &&  S && !W) return tLeft;
+
+        // -------------------------------------------------------------------------
+        // 5. 2方向L字（外角と同形状のフォールバック）
+        //    上記の外角判定で既にカバーされるケースが多いが
+        //    対角情報によって外角に該当しなかった場合のフォールバック
+        // -------------------------------------------------------------------------
+        if (N && E) return cornerTR;
+        if (E && S) return cornerBR;
+        if (S && W) return cornerBL;
+        if (W && N) return cornerTL;
+
+        // どのパターンにも該当しない→タイルなし
+        return null;
+    }
+
+    /// <summary>
+    /// 指定座標が壁タイルかどうかを判定する
+    /// マップ範囲外は壁として扱う
+    /// </summary>
     private bool IsWall(TileType[,] map, int x, int y)
     {
         int w = map.GetLength(0);
