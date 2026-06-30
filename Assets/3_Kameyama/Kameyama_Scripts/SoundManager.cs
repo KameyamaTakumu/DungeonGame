@@ -20,6 +20,7 @@ public enum BGM
 {
     Test_BGM,
     Dungeon,
+    Ending,
 }
 
 public enum SE
