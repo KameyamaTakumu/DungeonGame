@@ -12,7 +12,7 @@ public class HPBarController : MonoBehaviour
 
     void Start()
     {
-        playerStatus = FindFirstObjectByType<PlayerStatus>(); 
+        playerStatus = FindAnyObjectByType<PlayerStatus>(); 
         hpSlider.minValue = 0;
         hpSlider.maxValue = playerStatus.MaxHP;
 

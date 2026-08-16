@@ -31,8 +31,8 @@ public class BaseMovement : MonoBehaviour
     /// </summary>
     protected virtual void Awake()
     {
-        dungeon = FindFirstObjectByType<DungeonGenerator>();
-        tm      = FindFirstObjectByType<TurnManager>();
+        dungeon = FindAnyObjectByType<DungeonGenerator>();
+        tm      = FindAnyObjectByType<TurnManager>();
 
         if (dungeon == null) Debug.LogError("DungeonGenerator がシーン内に存在しません。"); 
         if (tm      == null) Debug.LogError("TurnManager がシーン内に存在しません。"); 

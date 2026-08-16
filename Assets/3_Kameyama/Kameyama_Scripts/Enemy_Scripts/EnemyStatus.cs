@@ -26,8 +26,8 @@ public class EnemyStatus : MonoBehaviour
 
     private void Start()
     {
-        dropSystem = FindFirstObjectByType<DropSystem>();
-        playerInventory = FindFirstObjectByType<PlayerInventory>();
+        dropSystem = FindAnyObjectByType<DropSystem>();
+        playerInventory = FindAnyObjectByType<PlayerInventory>();
 
         cardInventory = CardInventory.Instance;
 
@@ -157,7 +157,7 @@ public class EnemyStatus : MonoBehaviour
         // É^Å[Éìí‚é~
         TurnManager.Instance.isWaitingCardSelect = true;
 
-        var ui = FindFirstObjectByType<CardInventoryUIController>();
+        var ui = FindAnyObjectByType<CardInventoryUIController>();
         if (ui != null)
             ui.ShowRandomSelect(type.Value);
 

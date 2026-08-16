@@ -35,7 +35,7 @@ public class OptionMenuUI : MonoBehaviour
         soundManager = SoundManager.Instance;
         if (soundManager == null)
         {
-            Debug.LogWarning("SoundManager ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+            Debug.LogWarning("[OptionMenuUI] SoundManager ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
             return;
         }
 

@@ -29,6 +29,7 @@ public enum TileType
     /// ・通行可能
     /// ・次のフロアへの移動地点として利用される
     /// ・Tilemap では floorTile として描画される
+    /// </summary>
     StepsDown
 }
 
@@ -106,8 +107,22 @@ public class DungeonGenerator : MonoBehaviour
     [CustomLabel("現在のフロア番号"), SerializeField]
     public static int CurrentFloor = 1;
 
+    // フィールド追加（デバッグ用セクションなどに）
+    private enum DebugGenPhase { AfterRooms, AfterCorridors, AfterThinWalls, Full }
+
+    [Header("デバッグ用")]
+    [CustomLabel("デバッグモードON/OFF"), SerializeField]
+    private bool debugSwitch = false;
+
+    [CustomLabel("スクリーンショット用の生成停止フェーズ"), SerializeField]
+    private DebugGenPhase debugStopAt = DebugGenPhase.Full;
+
+    [CustomLabel("スクリーンショット用シード"), SerializeField]
+    private int debugSeed = 12345;
+
     // マップデータ（TileType の 2 次元配列）
     // ここを基準に Tilemap やミニマップ描画を行う
+    [System.NonSerialized]
     public TileType[,] map;
 
     /// <summary>
@@ -179,15 +194,21 @@ public class DungeonGenerator : MonoBehaviour
 
         // 生成済み部屋リストをクリア
         rooms.Clear();
+        
+        if(debugSwitch)
+            Random.InitState(debugSeed);
 
         // ランダムに部屋を生成
         CreateRooms();
+        if (debugStopAt == DebugGenPhase.AfterRooms) { RenderMap(); return; }
 
         // 部屋同士を通路で繋ぐ
         ConnectRooms();
+        if (debugStopAt == DebugGenPhase.AfterCorridors) { RenderMap(); return; }
 
         // 壁幅1のストライプを自動除去
         RemoveThinWalls();
+        if (debugStopAt == DebugGenPhase.AfterThinWalls) { RenderMap(); return; }
 
         // Tilemap へ反映
         RenderMap();
@@ -433,8 +454,6 @@ public class DungeonGenerator : MonoBehaviour
 
         // Tilemap 描画
         floorTilemap.SetTile(new Vector3Int(x, y, 0), stepsDownTile);
-
-        Debug.Log($"下り階段を配置: {x},{y}");
 
         // トリガー用オブジェクトを生成
         GameObject trigger = new GameObject("StepsDownTrigger");

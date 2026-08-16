@@ -125,7 +125,7 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
     void OnClick()
     {
-        var inv = FindFirstObjectByType<CardInventory>();
+        var inv = FindAnyObjectByType<CardInventory>();
         if (inv == null) return;
 
         if (inv.IsSwapMode)

@@ -11,11 +11,11 @@ public class PlayerSkillExecutor : MonoBehaviour
 
     void Awake()
     {
-        playerStatus = FindFirstObjectByType<PlayerStatus>();
+        playerStatus = FindAnyObjectByType<PlayerStatus>();
 
-        cardInventoryUIController = FindFirstObjectByType<CardInventoryUIController>();
+        cardInventoryUIController = FindAnyObjectByType<CardInventoryUIController>();
 
-        turnManager = FindFirstObjectByType<TurnManager>();
+        turnManager = FindAnyObjectByType<TurnManager>();
     }
 
     public void ExecuteCardSkill(CardData card)

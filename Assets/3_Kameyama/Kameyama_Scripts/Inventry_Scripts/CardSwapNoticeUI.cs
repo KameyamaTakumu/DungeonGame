@@ -11,7 +11,7 @@ public class CardSwapNoticeUI : MonoBehaviour
 
     void Start()
     {
-        inventory = FindFirstObjectByType<CardInventory>();
+        inventory = FindAnyObjectByType<CardInventory>();
 
         inventory.OnSwapRequested += OnSwapStart;
         inventory.OnSwapEnded += OnSwapEnd;

@@ -35,7 +35,7 @@ public class PlayerAttack : MonoBehaviour
         bool hitAny = false;
 
         // シーン内のボスヒットボックスを取得（1体想定）
-        BossHitbox bossHitbox = FindObjectOfType<BossHitbox>();
+        BossHitbox bossHitbox = FindAnyObjectByType<BossHitbox>();
         EnemyStatus bossStatus = null;
 
         if (bossHitbox != null)

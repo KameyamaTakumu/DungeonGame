@@ -143,12 +143,12 @@ public class CardInventory : MonoBehaviour
 
     void ApplyPassiveEffect(CardData passiveCard)
     {
-        FindFirstObjectByType<PlayerStatus>()?.ApplyBuff(passiveCard);
+        FindAnyObjectByType<PlayerStatus>()?.ApplyBuff(passiveCard);
     }
 
     void RemovePassiveEffect(CardData passiveCard)
     {
-        FindFirstObjectByType<PlayerStatus>()?.RemoveBuff(passiveCard);
+        FindAnyObjectByType<PlayerStatus>()?.RemoveBuff(passiveCard);
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ public class CardInventory : MonoBehaviour
         SoundManager.Instance.PlaySE(SE.CardUse);
 
         // ãZî≠ìÆ
-        FindFirstObjectByType<PlayerSkillExecutor>()?.ExecuteCardSkill(card);
+        FindAnyObjectByType<PlayerSkillExecutor>()?.ExecuteCardSkill(card);
 
         // çÌèú
         consumableCards.RemoveAt(index);
@@ -205,7 +205,7 @@ public class CardInventory : MonoBehaviour
 
             HighlightManager.instance.Clear();
 
-            var executor = FindFirstObjectByType<PlayerSkillExecutor>();
+            var executor = FindAnyObjectByType<PlayerSkillExecutor>();
             if (executor != null)
             {
                 var tiles = executor.GetCardRangeTiles(card);
@@ -239,7 +239,7 @@ public class CardInventory : MonoBehaviour
     {
         var card = consumableCards[index];
 
-        FindFirstObjectByType<PlayerSkillExecutor>()
+        FindAnyObjectByType<PlayerSkillExecutor>()
             ?.ExecuteCardSkill(card);
 
         consumableCards.RemoveAt(index);
@@ -295,7 +295,7 @@ public class CardInventory : MonoBehaviour
 
             HighlightManager.instance.Clear();
 
-            var executor = FindFirstObjectByType<PlayerSkillExecutor>();
+            var executor = FindAnyObjectByType<PlayerSkillExecutor>();
             if (executor != null)
             {
                 var tiles = executor.GetCardRangeTiles(card);
@@ -316,7 +316,7 @@ public class CardInventory : MonoBehaviour
 
     public void ReapplyAllPassiveEffects()
     {
-        var player = FindFirstObjectByType<PlayerStatus>();
+        var player = FindAnyObjectByType<PlayerStatus>();
         if (player == null) return;
 
         foreach (var card in passiveCards)

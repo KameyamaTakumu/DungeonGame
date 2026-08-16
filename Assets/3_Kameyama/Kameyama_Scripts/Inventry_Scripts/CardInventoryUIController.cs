@@ -39,7 +39,7 @@ public class CardInventoryUIController : MonoBehaviour
     void Start()
     {
         if (inventory == null)
-            inventory = FindFirstObjectByType<CardInventory>();
+            inventory = FindAnyObjectByType<CardInventory>();
 
         if (inventory != null)
         {

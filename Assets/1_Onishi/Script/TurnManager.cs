@@ -50,8 +50,6 @@ public class TurnManager : MonoBehaviour
         // プレイヤーのターンでない場合は処理しない
         if (!isPlayerTurn) return;
 
-        Debug.Log("プレイヤーのターン ");
-
         // ダメージ処理
 
         // プレイヤーのターン終了
@@ -82,8 +80,6 @@ public class TurnManager : MonoBehaviour
 
         yield return new WaitForSeconds(turnDelay);
 
-        Debug.Log("敵のターン");
-
         var enemies = UnitManager.instance.enemies;
         int finishedCount = 0;
 
@@ -103,7 +99,7 @@ public class TurnManager : MonoBehaviour
         Vector2Int playerPos =
             Vector2Int.RoundToInt(PlayerMovement.instance.transform.position);
 
-        DungeonGenerator dungeon = FindFirstObjectByType<DungeonGenerator>();
+        DungeonGenerator dungeon = FindAnyObjectByType<DungeonGenerator>();
         var distMap = DistanceMap.Build(playerPos, dungeon);
 
         // ==============================
@@ -187,7 +183,7 @@ public class TurnManager : MonoBehaviour
 
         // ボス取得
         BossController boss =
-            FindFirstObjectByType<BossController>();
+            FindAnyObjectByType<BossController>();
 
         if (boss != null)
         {

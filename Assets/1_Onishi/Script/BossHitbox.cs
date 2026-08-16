@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ボスが占有しているグリッド座標を管理するクラス。
-/// プレイヤー攻撃判定や範囲攻撃判定に使用される。
+/// ボスが占有しているグリッド座標を管理するクラス
+/// プレイヤー攻撃判定や範囲攻撃判定に使用される
 /// </summary>
 public class BossHitbox : MonoBehaviour
 {
@@ -14,8 +14,6 @@ public class BossHitbox : MonoBehaviour
     {
         List<Vector2Int> tiles = new List<Vector2Int>();
         Vector2Int center = Vector2Int.RoundToInt(transform.position);
-
-        //Debug.Log($"[BOSS] center = {center}");
 
         for (int y = -1; y <= 1; y++)
         {

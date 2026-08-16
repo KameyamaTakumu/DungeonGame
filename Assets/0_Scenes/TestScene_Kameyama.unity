@@ -311,11 +311,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8904356041923809283, guid: c1c13f87381ee204f8c9cbc3ecbf1f8d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8904356041923809283, guid: c1c13f87381ee204f8c9cbc3ecbf1f8d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -357,6 +357,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &268405776
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -375,6 +376,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -396,9 +399,11 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -406,7 +411,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &268405777
 Tilemap:
   m_ObjectHideFlags: 0
@@ -510,7 +514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &346483865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,7 +522,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346483864}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 961327e4a49009441830764cf49af42d, type: 3}
   m_Name: 
@@ -533,13 +537,13 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 2657344967390109580, guid: 48f5c9d1adf37b8439fda9d12c6024f7, type: 3}
     count: 1
   - enemyPrefab: {fileID: 2657344967390109580, guid: 1cfda98e858dc3144889fae1f3178a7d, type: 3}
-    count: 2
+    count: 1
   - enemyPrefab: {fileID: 2657344967390109580, guid: 1ba6e2f5dfa1dc0448075c80309a76de, type: 3}
-    count: 3
+    count: 1
   - enemyPrefab: {fileID: 2657344967390109580, guid: c80244d46144e3f489e83b4ce8802a48, type: 3}
-    count: 4
+    count: 1
   - enemyPrefab: {fileID: 2657344967390109580, guid: 927837bdaa6a33b4685412f6305ddff4, type: 3}
-    count: 5
+    count: 1
   bossPrefab: {fileID: 2688545153726980253, guid: 27e68eb40ef5e204f90c7ae2d2a2e9a5, type: 3}
 --- !u!114 &346483866
 MonoBehaviour:
@@ -678,7 +682,7 @@ MonoBehaviour:
   target: {fileID: 6737902979630441379, guid: b80f7f50f66a08e44a53ccc36e071c47, type: 3}
   smooth: 5
   dungeon: {fileID: 1383080891}
-  Zoom: 5
+  Zoom: 9
 --- !u!114 &357998209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,7 +719,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -723,6 +726,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &365817780
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,6 +916,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &506071335
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -930,6 +935,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -951,9 +958,11 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -961,7 +970,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &506071336
 Tilemap:
   m_ObjectHideFlags: 0
@@ -1035,6 +1043,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &553791489
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1053,6 +1062,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1074,9 +1085,11 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1084,7 +1097,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &553791490
 Tilemap:
   m_ObjectHideFlags: 0
@@ -1451,6 +1463,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -1581,20 +1594,32 @@ PrefabInstance:
       value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: debugSeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: floorTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c1dca8506025394d922491d7156f1d9, type: 2}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: roomCount
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: chestCount
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
+      propertyPath: debugStopAt
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: roomMaxSize
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: roomMinSize
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8184004258957010693, guid: 44c8caf0a7af69440954687b578732d6, type: 3}
       propertyPath: wallPadding
@@ -2187,6 +2212,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!483693784 &2039461359
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2205,6 +2231,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2226,9 +2254,11 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -2236,7 +2266,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!4 &2039461360
 Transform:
   m_ObjectHideFlags: 0
@@ -2262,23 +2291,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 370727416553385139, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 370727416553385139, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1030933436468522069, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1030933436468522069, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1030933436468522069, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.000000059604645
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2513238381582378722, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_Name
@@ -2294,47 +2323,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5465193355298770902, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5465193355298770902, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5465193355298770902, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 505
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5592498767586808602, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5592498767586808602, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5948166463342168572, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5948166463342168572, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6762015728076822800, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618661609649984052, guid: 3b21f0ab2b9bbc344bdc7fa2b3777829, type: 3}
       propertyPath: m_AnchoredPosition.x

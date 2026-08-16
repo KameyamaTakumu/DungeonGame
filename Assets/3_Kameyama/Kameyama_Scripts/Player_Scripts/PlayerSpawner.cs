@@ -26,7 +26,7 @@ public class PlayerSpawner : MonoBehaviour
         // ƒvƒŒƒCƒ„[–¢¶¬‚Í¶¬
         if (playerInstance == null)
         {
-            playerInstance = FindFirstObjectByType<PlayerStatus>()?.gameObject;
+            playerInstance = FindAnyObjectByType<PlayerStatus>()?.gameObject;
 
             if (playerInstance == null)
             {

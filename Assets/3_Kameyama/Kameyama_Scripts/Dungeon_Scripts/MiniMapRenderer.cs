@@ -1,19 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 /// <summary>
 /// ダンジョン内でのプレイヤー視界および探索状態を
 /// Texture2D ベースでミニマップとして描画するコンポーネント
-///
-/// 【主な機能】
-/// - DungeonGenerator から DrawMiniMap(map) を受けて初期化
-/// - プレイヤー位置の変化に応じて視界（FOV）を再計算
-/// - 発見済み／未発見／現在視認中 の状態を色と透明度で表現
-/// - 敵アイコンをミニマップ上に自動反映
-///
-/// Texture2D を使用することで、UI とは独立した柔軟なビジュアル制御を可能にしている
 /// </summary>
 public class MiniMapRenderer : MonoBehaviour
 {
@@ -23,7 +14,7 @@ public class MiniMapRenderer : MonoBehaviour
 
     [Header("UI")]
     [CustomLabel("ミニマップ表示に使用する RawImage"), SerializeField]
-    private RawImage      minimapImage;   // 生成した Texture2D を割り当てる
+    private RawImage minimapImage;   // 生成した Texture2D を割り当てる
     [CustomLabel("ミニマップの RectTransform"), SerializeField]
     private RectTransform minimapRect;    // 位置変換に使用する
     [CustomLabel("プレイヤー位置を示す UI アイコン"), SerializeField]
@@ -39,15 +30,15 @@ public class MiniMapRenderer : MonoBehaviour
     // 敵ごとのアイコンインスタンスを管理
     private List<RectTransform> enemyIcons = new List<RectTransform>();
     // 現在の敵オブジェクト参照リスト
-    private List<GameObject>    enemies    = new List<GameObject>();
+    private List<GameObject> enemies = new List<GameObject>();
 
     // ======================
     // 階段アイコン
     // ======================
 
     [Header("階段アイコン")]
-    [CustomLabel("下り階段を示す UI アイコン")]
-    [SerializeField] private RectTransform stepsDownIconPrefab;
+    [CustomLabel("下り階段を示す UI アイコン"), SerializeField]
+    private RectTransform stepsDownIconPrefab;
 
     private List<RectTransform> stepsDownIcons = new List<RectTransform>();
     private List<Vector2Int> stepsDownTiles = new List<Vector2Int>();
@@ -57,14 +48,13 @@ public class MiniMapRenderer : MonoBehaviour
     // ======================
 
     [Header("見た目")]
-    [CustomLabel("1タイルを何ピクセルで描画するか")]
-    [Tooltip("値が大きいほど粗くなる。")]
+    [CustomLabel("1タイルを何ピクセルで描画するか"), Tooltip("値が大きいほど粗くなる。"), SerializeField]
     private int pixelScale = 4;
 
     [Header("タイル色設定")]
-    [CustomLabel("床タイルの表示色")]
-    private Color floorColor     = new Color(0.85f, 0.85f, 0.85f);
-    [CustomLabel("探索済みだが現在視界外のタイルの色")]
+    [CustomLabel("床タイルの表示色"), SerializeField]
+    private Color floorColor = new Color(0.85f, 0.85f, 0.85f);
+    [CustomLabel("探索済みだが現在視界外のタイルの色"), SerializeField]
     private Color discoveredTint = new Color(0.35f, 0.35f, 0.35f);
 
     // 未探索は完全透明
@@ -75,7 +65,7 @@ public class MiniMapRenderer : MonoBehaviour
     // ======================
 
     [Header("視界")]
-    [CustomLabel("プレイヤーの視界半径（円形）")]
+    [CustomLabel("プレイヤーの視界半径（円形）"), SerializeField]
     private int viewRadius = 8;
 
     [Header("壁表示")]
@@ -87,8 +77,8 @@ public class MiniMapRenderer : MonoBehaviour
     // ======================
 
     private TileType[,] map;
-    private int         mapW, mapH;
-    private Texture2D   tex;
+    private int mapW, mapH;
+    private Texture2D tex;
 
     // discovered[x,y] = 一度でも視界に入ったか
     private bool[,] discovered;
@@ -102,6 +92,9 @@ public class MiniMapRenderer : MonoBehaviour
     private GameObject player;
 
     private bool enemyInitialized = false;
+
+    // デバッグ用ギズモ表示トグル（OnDrawGizmos を直接呼ぶのを避ける）
+    private bool debugGizmosToggle = false;
 
     private void Start()
     {
@@ -140,8 +133,8 @@ public class MiniMapRenderer : MonoBehaviour
 
         // UI アイコン座標更新
         if (playerIcon != null)
-        { 
-            UpdatePlayerIconPosition(playerTile); 
+        {
+            UpdatePlayerIconPosition(playerTile);
         }
 
         // 敵アイコン更新
@@ -156,10 +149,10 @@ public class MiniMapRenderer : MonoBehaviour
             AllViewMiniMap();
         }
 
-        // デバッグ用視界範囲のギズモ表示
+        // デバッグ用視界範囲のギズモ表示トグル
         if (Input.GetKeyDown(KeyCode.N))
         {
-            OnDrawGizmos();
+            debugGizmosToggle = !debugGizmosToggle;
         }
 #endif
     }
@@ -173,7 +166,7 @@ public class MiniMapRenderer : MonoBehaviour
     {
         if (sourceMap == null) return;
 
-        map  = sourceMap;
+        map = sourceMap;
 
         // マップサイズ取得
         mapW = map.GetLength(0);
@@ -197,8 +190,8 @@ public class MiniMapRenderer : MonoBehaviour
 
         // RectTransform 参照が未設定なら RawImage から取得
         if (minimapRect == null && minimapImage != null)
-        { 
-            minimapRect = minimapImage.rectTransform; 
+        {
+            minimapRect = minimapImage.rectTransform;
         }
 
         // 発見済み配列の初期作成
@@ -285,9 +278,16 @@ public class MiniMapRenderer : MonoBehaviour
     private void InitStepsDownIcons()
     {
         foreach (var icon in stepsDownIcons)
-            Destroy(icon.gameObject);
+            if (icon != null) Destroy(icon.gameObject);
 
         stepsDownIcons.Clear();
+
+        if (stepsDownIconPrefab == null || minimapRect == null)
+        {
+            if (stepsDownIconPrefab == null) Debug.LogWarning("stepsDownIconPrefab is not assigned.");
+            if (minimapRect == null) Debug.LogWarning("minimapRect is not assigned.");
+            return;
+        }
 
         foreach (var pos in stepsDownTiles)
         {
@@ -321,81 +321,8 @@ public class MiniMapRenderer : MonoBehaviour
     }
 
     /// <summary>
-    /// Bresenham のアルゴリズムを用いて LOS 判定
-    /// 壁に到達するまで視界が通るかをチェックする
+    /// 壁かどうか（範囲外は壁扱い）
     /// </summary>
-    private bool HasLineOfSight(int x0, int y0, int x1, int y1)
-    {
-        // Bresenham の直線上の各タイルをチェック
-        foreach (var pt in BresenhamLine(x0, y0, x1, y1))
-        {
-            // 始点は無視
-            if (pt.x == x0 && pt.y == y0) continue;
-
-            // 壁に到達したら視界が通らない
-            if (map[pt.x, pt.y] == TileType.Wall) return false;
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// Bresenham の直線生成
-    /// タイルベースで直線上の座標列を返す
-    /// </summary>
-    /// <returns>直線上のタイル座標列</returns>
-    /// <param name="x0">始点X座標</param>
-    /// <param name="y0">始点Y座標</param>
-    /// <param name="x1">終点X座標</param>
-    /// <param name="y1">終点Y座標</param>
-    private IEnumerable<Vector2Int> BresenhamLine(int x0, int y0, int x1, int y1)
-    {
-        // 差分計算
-        int dx  = Mathf.Abs(x1 - x0);
-        int dy  = Mathf.Abs(y1 - y0);
-
-        // 進行方向
-        int sx  = x0 < x1 ? 1 : -1;
-        int sy  = y0 < y1 ? 1 : -1;
-
-        // 誤差初期値
-        int err = dx - dy;
-
-        int x = x0, y = y0;
-
-        while (true)
-        {
-            // 座標を返す
-            yield return new Vector2Int(x, y);
-
-            // 終点に到達したら終了
-            if (x == x1 && y == y1) break;
-
-            // 誤差計算
-            int e2 = 2 * err;
-            // 誤差に応じて座標を進める
-            if (e2 > -dy) { err -= dy; x += sx; }
-            if (e2 <  dx) { err += dx; y += sy; }
-        }
-    }
-
-    /// <summary>
-    /// Texture 全体を透明クリアで初期化
-    /// 未探索タイルが黒く見えてしまう問題を防ぐ
-    /// </summary>
-    private void ClearTextureTransparent()
-    {
-        // 全ピクセル透明で初期化
-        for (int x = 0; x < tex.width; x++)
-        {
-            for (int y = 0; y < tex.height; y++)
-            {
-                tex.SetPixel(x, y, clearColor);
-            }
-        }
-
-        tex.Apply();
-    }
-
     private bool IsWall(int x, int y)
     {
         if (x < 0 || y < 0 || x >= mapW || y >= mapH)
@@ -432,21 +359,15 @@ public class MiniMapRenderer : MonoBehaviour
         // 円形視界 + LOS（Line of Sight）
         for (int tx = minX; tx <= maxX; tx++)
         {
-            // Y 軸ループは内側にして、X 軸ごとにまとめて LOS 判定することで、
-            // 同じ X 座標に対して LOS 判定をまとめて行い、効率化を図る
             for (int ty = minY; ty <= maxY; ty++)
             {
-                // プレイヤーからの距離を計算
                 int dx = tx - p.x;
                 int dy = ty - p.y;
 
-                // 円形の範囲外は除外
                 if (dx * dx + dy * dy > viewRadius * viewRadius) continue;
 
-                // 視界が通れば発見/可視扱い
                 if (HasLineOfSight(p.x, p.y, tx, ty))
                 {
-                    // 視界内
                     visibleNow[tx, ty] = true;
                     discovered[tx, ty] = true;
                 }
@@ -454,50 +375,53 @@ public class MiniMapRenderer : MonoBehaviour
         }
 
         // =============================
-        // 描画処理
+        // 描画処理（SetPixels バッファを使用）
         // =============================
 
-        // 全タイルを走査
+        if (tex == null) return;
+
+        int texW = tex.width;
+        int texH = tex.height;
+        Color[] pixels = new Color[texW * texH];
+
+        // 初期化（全ピクセルを透明に）
+        for (int i = 0; i < pixels.Length; i++) pixels[i] = clearColor;
+
+        // 全タイルを走査してピクセルバッファに色をセット
         for (int x = 0; x < mapW; x++)
         {
             for (int y = 0; y < mapH; y++)
             {
                 Color c;
 
-                // 発見状態と視界状態に応じて色を決定
                 if (!discovered[x, y])
                 {
-                    // 未発見は完全透明
                     c = clearColor;
                 }
                 else
                 {
-                    // 発見済み → フロアタイル
                     c = floorColor;
-
-                    // 視界外 → 暗くして見せる
                     if (!visibleNow[x, y])
                         c = Color.Lerp(c, discoveredTint, 0.5f);
                 }
 
-                // ピクセルスケールに応じて塗る
                 int baseX = x * pixelScale;
                 int baseY = y * pixelScale;
 
-                // 塗りつぶし
                 for (int px = 0; px < pixelScale; px++)
                 {
                     for (int py = 0; py < pixelScale; py++)
                     {
-                        tex.SetPixel(baseX + px, baseY + py, c);
+                        int ix = baseX + px;
+                        int iy = baseY + py;
+                        if (ix < 0 || iy < 0 || ix >= texW || iy >= texH) continue;
+                        pixels[iy * texW + ix] = c;
                     }
                 }
             }
         }
 
-        // =============================
-        // 壁アウトライン描画
-        // =============================
+        // 壁アウトライン描画（ピクセルバッファへ直接）
         for (int x = 0; x < mapW; x++)
         {
             for (int y = 0; y < mapH; y++)
@@ -505,7 +429,6 @@ public class MiniMapRenderer : MonoBehaviour
                 if (!discovered[x, y]) continue;
                 if (map[x, y] == TileType.Wall) continue;
 
-                // 周囲に壁があるかをチェックして、あれば対応する辺に線を引く
                 bool N = IsWall(x, y + 1);
                 bool S = IsWall(x, y - 1);
                 bool E = IsWall(x + 1, y);
@@ -515,23 +438,52 @@ public class MiniMapRenderer : MonoBehaviour
                 int baseY = y * pixelScale;
 
                 if (N)
+                {
+                    int py = baseY + pixelScale - 1;
                     for (int px = 0; px < pixelScale; px++)
-                        tex.SetPixel(baseX + px, baseY + pixelScale - 1, wallLineColor);
+                    {
+                        int ix = baseX + px;
+                        if (ix < 0 || py < 0 || ix >= texW || py >= texH) continue;
+                        pixels[py * texW + ix] = wallLineColor;
+                    }
+                }
 
                 if (S)
+                {
+                    int py = baseY;
                     for (int px = 0; px < pixelScale; px++)
-                        tex.SetPixel(baseX + px, baseY, wallLineColor);
+                    {
+                        int ix = baseX + px;
+                        if (ix < 0 || py < 0 || ix >= texW || py >= texH) continue;
+                        pixels[py * texW + ix] = wallLineColor;
+                    }
+                }
 
                 if (E)
+                {
+                    int ix = baseX + pixelScale - 1;
                     for (int py = 0; py < pixelScale; py++)
-                        tex.SetPixel(baseX + pixelScale - 1, baseY + py, wallLineColor);
+                    {
+                        int iy = baseY + py;
+                        if (ix < 0 || iy < 0 || ix >= texW || iy >= texH) continue;
+                        pixels[iy * texW + ix] = wallLineColor;
+                    }
+                }
 
                 if (W)
+                {
+                    int ix = baseX;
                     for (int py = 0; py < pixelScale; py++)
-                        tex.SetPixel(baseX, baseY + py, wallLineColor);
+                    {
+                        int iy = baseY + py;
+                        if (ix < 0 || iy < 0 || ix >= texW || iy >= texH) continue;
+                        pixels[iy * texW + ix] = wallLineColor;
+                    }
+                }
             }
         }
 
+        tex.SetPixels(pixels);
         tex.Apply();
     }
 
@@ -544,16 +496,13 @@ public class MiniMapRenderer : MonoBehaviour
     {
         if (minimapRect == null || playerIcon == null) return;
 
-        // ミニマップ上の UV 座標へ変換
         float u = (t.x + 0.5f) / mapW;
         float v = (t.y + 0.5f) / mapH;
 
-        // 位置計算
         Vector2 size = minimapRect.sizeDelta;
         float px = (u - 0.5f) * size.x;
         float py = (v - 0.5f) * size.y;
 
-        // アイコン位置更新
         playerIcon.anchoredPosition = new Vector2(px, py);
     }
 
@@ -567,13 +516,18 @@ public class MiniMapRenderer : MonoBehaviour
     /// </summary>
     private void InitEnemyIcons()
     {
-        // 既存アイコン削除
         foreach (var icon in enemyIcons)
-            Destroy(icon.gameObject);
+            if (icon != null) Destroy(icon.gameObject);
 
         enemyIcons.Clear();
 
-        // 敵数に合わせて新規生成
+        if (enemyIconPrefab == null || minimapRect == null)
+        {
+            if (enemyIconPrefab == null) Debug.LogWarning("enemyIconPrefab is not assigned.");
+            if (minimapRect == null) Debug.LogWarning("minimapRect is not assigned.");
+            return;
+        }
+
         foreach (var enemy in enemies)
         {
             var icon = Instantiate(enemyIconPrefab, minimapRect);
@@ -588,46 +542,41 @@ public class MiniMapRenderer : MonoBehaviour
     /// </summary>
     private void UpdateEnemyIcons()
     {
-        // 敵数とアイコン数が違えば作り直す
+        // 敵数とアイコン数が違えば作り直す（重いので1度だけ再生成)
         if (enemyIcons.Count != enemies.Count)
         {
             InitEnemyIcons();
+            return; // 次フレームで整合後に位置更新する
         }
 
         for (int i = 0; i < enemies.Count; i++)
         {
             var enemy = enemies[i];
-            var icon  = enemyIcons[i];
+            var icon = enemyIcons[i];
 
             if (enemy == null)
             {
-                // 敵が消滅していればアイコンも非表示
                 icon.gameObject.SetActive(false);
                 continue;
             }
 
             Vector2Int tile = WorldToTile(enemy.transform.position);
 
-            // 視界に入っていない → 表示しない
             if (!visibleNow[tile.x, tile.y])
             {
                 icon.gameObject.SetActive(false);
                 continue;
             }
 
-            // 視界内 → 表示
             icon.gameObject.SetActive(true);
 
-            // ミニマップ UI 座標へ変換
             float u = (tile.x + 0.5f) / mapW;
             float v = (tile.y + 0.5f) / mapH;
 
-            // 位置計算
             Vector2 size = minimapRect.sizeDelta;
             float px = (u - 0.5f) * size.x;
             float py = (v - 0.5f) * size.y;
 
-            // アイコン位置更新
             icon.anchoredPosition = new Vector2(px, py);
         }
     }
@@ -642,7 +591,6 @@ public class MiniMapRenderer : MonoBehaviour
     // デバッグ用にミニマップを全開放する処理
     private void AllViewMiniMap()
     {
-        // 壁の内部のみを全開放する
         for (int x = 0; x < mapW; x++)
         {
             for (int y = 0; y < mapH; y++)
@@ -658,12 +606,55 @@ public class MiniMapRenderer : MonoBehaviour
         ForceRedraw();
     }
 
-    // デバッグ用に視界範囲をギズモで表示する処理
+    // ギズモ表示（Unity によって呼ばれる）
     private void OnDrawGizmos()
     {
+        if (!debugGizmosToggle) return;
         if (player == null) return;
         Vector2Int p = WorldToTile(player.transform.position);
         Gizmos.color = new Color(0f, 1f, 0f, 0.5f);
         Gizmos.DrawWireSphere(new Vector3(p.x, p.y, 0), viewRadius);
+    }
+
+    /// <summary>
+    /// テクスチャ全体を透明クリアで初期化（SetPixels 化）
+    /// </summary>
+    private void ClearTextureTransparent()
+    {
+        if (tex == null) return;
+        Color[] pixels = new Color[tex.width * tex.height];
+        for (int i = 0; i < pixels.Length; i++) pixels[i] = clearColor;
+        tex.SetPixels(pixels);
+        tex.Apply();
+    }
+
+    /// <summary>
+    /// Bresenham のアルゴリズムを HasLineOfSight 内で直接実行（アロケーションゼロ）
+    /// </summary>
+    private bool HasLineOfSight(int x0, int y0, int x1, int y1)
+    {
+        int dx = Mathf.Abs(x1 - x0);
+        int dy = Mathf.Abs(y1 - y0);
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+        int err = dx - dy;
+        int x = x0, y = y0;
+
+        while (true)
+        {
+            if (!(x == x0 && y == y0))
+            {
+                if (x < 0 || y < 0 || x >= mapW || y >= mapH) return false;
+                if (map[x, y] == TileType.Wall) return false;
+            }
+
+            if (x == x1 && y == y1) break;
+
+            int e2 = err * 2;
+            if (e2 > -dy) { err -= dy; x += sx; }
+            if (e2 < dx) { err += dx; y += sy; }
+        }
+
+        return true;
     }
 }

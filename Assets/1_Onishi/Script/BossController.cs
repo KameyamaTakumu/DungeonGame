@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyStatus;
+
 /// <summary>
-/// ボス専用の行動制御クラス。
+/// ボス専用の行動制御クラス
 /// 雑魚敵とは異なり「移動せず、範囲攻撃でプレイヤーを制圧する」
-/// ことを目的としたAI設計になっている。
+/// ことを目的としたAI設計になっている
 /// 
 /// 各攻撃は
 /// ・攻撃範囲の計算
 /// ・予兆（ハイライト表示）
 /// ・ダメージ／特殊効果の適用
-/// の3段階で構成されており、拡張性を重視している。
+/// の3段階で構成されており、拡張性を重視している
 /// </summary>
 public class BossController : MonoBehaviour
 {
@@ -38,8 +39,8 @@ public class BossController : MonoBehaviour
     };
 
     /// <summary>
-    /// ボスの行動開始。
-    /// ターン制バトルマネージャーから呼ばれる想定。
+    /// ボスの行動開始
+    /// ターン制バトルマネージャーから呼ばれる想定
     /// </summary>
     public void BossAction()
     {
@@ -68,14 +69,13 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボス正面に対する2×3範囲攻撃。
+    /// ボス正面に対する2×3範囲攻撃
     /// プレイヤーが範囲内にいる場合、
-    /// ダメージ＋Y方向に2マスのノックバックを行う。
+    /// ダメージ＋Y方向に2マスのノックバックを行う
     /// </summary>
     void ExecuteFrontWideAttack()
     {
         var area = GetFrontWideArea();
-        //HighlightManager.instance.ShowTiles(area);
         HighlightManager.instance.ShowEnemyTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
@@ -87,13 +87,12 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボス正面に対する5×1の横一直線範囲攻撃。
-    /// シンプルな範囲ダメージ攻撃として使用。
+    /// ボス正面に対する5×1の横一直線範囲攻撃
+    /// シンプルな範囲ダメージ攻撃として使用
     /// </summary>
     void ExecuteFrontLineAttack()
     {
         var area = GetFrontLineArea();
-        //HighlightManager.instance.ShowTiles(area);
         HighlightManager.instance.ShowEnemyTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
@@ -110,10 +109,6 @@ public class BossController : MonoBehaviour
 
         PlayerStatus player = GetPlayerStatus();
 
-        // ハイライト不要 or プレイヤー位置だけ表示してもOK
-        //HighlightManager.instance.ShowTiles(
-        //    new List<Vector2Int> { GetPlayerGridPos() }
-        //);
         HighlightManager.instance.ShowEnemyTiles(
             new List<Vector2Int> { GetPlayerGridPos() }
         );
@@ -127,13 +122,12 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボスの左右に対する3×3範囲攻撃。
-    /// 左右それぞれに判定を持つ。
+    /// ボスの左右に対する3×3範囲攻撃
+    /// 左右それぞれに判定を持つ
     /// </summary>
     void ExecuteSideWideAttack()
     {
         var area = GetSideWideArea();
-        //HighlightManager.instance.ShowTiles(area);
         HighlightManager.instance.ShowEnemyTiles(area);
 
         Vector2Int playerPos = GetPlayerGridPos();
@@ -163,8 +157,8 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボス正面（下方向）に2×3の攻撃範囲を生成する。
-    /// ボスは3×3サイズのため、足元基準で計算している。
+    /// ボス正面（下方向）に2×3の攻撃範囲を生成する
+    /// ボスは3×3サイズのため、足元基準で計算している
     /// </summary>
     List<Vector2Int> GetFrontWideArea()
     {
@@ -185,7 +179,7 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボス正面に横5マスの攻撃範囲を生成する。
+    /// ボス正面に横5マスの攻撃範囲を生成する
     /// </summary>
     List<Vector2Int> GetFrontLineArea()
     {
@@ -202,8 +196,8 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// ボス左右の3×3範囲を生成する。
-    /// ボスは3×3サイズを想定。
+    /// ボス左右の3×3範囲を生成する
+    /// ボスは3×3サイズを想定
     /// </summary>
     List<Vector2Int> GetSideWideArea()
     {
@@ -233,7 +227,7 @@ public class BossController : MonoBehaviour
 
 
     /// <summary>
-    /// プレイヤーの現在のグリッド座標を取得する。
+    /// プレイヤーの現在のグリッド座標を取得する
     /// </summary>
     Vector2Int GetPlayerGridPos()
     {
@@ -243,7 +237,7 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// プレイヤーの PlayerStatus コンポーネントを取得する。
+    /// プレイヤーの PlayerStatus コンポーネントを取得する
     /// </summary>
     PlayerStatus GetPlayerStatus()
     {

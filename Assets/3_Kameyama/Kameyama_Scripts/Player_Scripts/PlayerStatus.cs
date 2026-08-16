@@ -16,7 +16,6 @@ public class PlayerStatus : MonoBehaviour
     int bonusHP = 0;
     int bonusRange = 0;
 
-    float critChance = 0f;
     float passiveMultiplier = 1f;
     float useAttackBoost = 1f;
 
@@ -228,7 +227,6 @@ public class PlayerStatus : MonoBehaviour
         bonusATK = 0;
         bonusHP = 0;
         bonusRange = 0;
-        critChance = 0f;
         passiveMultiplier = 1f;
         useAttackBoost = 1f;
         RangeBonus = 0;

@@ -35,7 +35,7 @@ public class VolumeUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("SoundManager.Instance ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñI");
+            Debug.LogError("[VolumeUI] SoundManager.Instance ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
         }
     }
 }

@@ -26,14 +26,14 @@ public class ChestTrigger : MonoBehaviour
 
         CardInventory inventory = CardInventory.Instance;
 
-        CardSelectUI selectUI = FindFirstObjectByType<CardSelectUI>(FindObjectsInactive.Include);
+        CardSelectUI selectUI = FindAnyObjectByType<CardSelectUI>(FindObjectsInactive.Include);
         if (selectUI == null)
         {
             Debug.LogError("CardSelectUI がシーンに存在しません");
             return;
         }
 
-        CardInventoryUIController uiCtrl = FindFirstObjectByType<CardInventoryUIController>();
+        CardInventoryUIController uiCtrl = FindAnyObjectByType<CardInventoryUIController>();
         if (uiCtrl == null)
         {
             Debug.LogError("CardInventoryUIController がシーンに存在しません");
