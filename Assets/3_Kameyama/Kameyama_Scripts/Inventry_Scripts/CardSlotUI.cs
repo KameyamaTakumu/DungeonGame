@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,6 +20,18 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
     CardData card;
     RectTransform rect;
+
+    // BuffType ごとのデータを構造化
+    private readonly Dictionary<BuffType, (string displayName, string valueFormat)> buffDisplayConfig = new()
+{
+    { BuffType.Attack, ("攻撃力UP", "+{0}") },
+    { BuffType.HP, ("最大HPUP", "+{0}") },
+    { BuffType.Range, ("攻撃範囲UP", "+{0}") },
+    { BuffType.CritChance, ("CRT確率UP", "+{0}%") },
+    { BuffType.PassiveMultiplier, ("倍率UP", "×{0}") },
+    { BuffType.UseAttackBoost, ("倍率UP", "×{0}") }
+};
+
 
     void Awake()
     {
@@ -83,42 +96,10 @@ public class CardSlotUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     {
         rangeText.gameObject.SetActive(true);
 
-        switch (card.buffType)
+        if (buffDisplayConfig.TryGetValue(card.buffType, out var config))
         {
-            case BuffType.Attack:
-                rangeText.text = "攻撃力UP";
-                valueText.text = $"+{card.buffValue}";
-                break;
-
-            case BuffType.HP:
-                rangeText.text = "最大HPUP";
-                valueText.text = $"+{card.buffValue}";
-                break;
-
-            case BuffType.Range:
-                rangeText.text = "攻撃範囲UP";
-                valueText.text = $"+{card.buffValue}";
-                break;
-
-            case BuffType.CritChance:
-                rangeText.text = "CRT確率UP";
-                valueText.text = $"+{card.buffValue}%";
-                break;
-
-            case BuffType.PassiveMultiplier:
-                rangeText.text = "倍率UP";
-                valueText.text = $"×{card.buffMultiplier}";
-                break;
-
-            case BuffType.UseAttackBoost:
-                rangeText.text = "倍率UP";
-                valueText.text = $"×{card.buffValue}";
-                break;
-
-            default:
-                rangeText.text = "";
-                valueText.text = "";
-                break;
+            rangeText.text = config.displayName;
+            valueText.text = string.Format(config.valueFormat, card.buffValue);
         }
     }
 

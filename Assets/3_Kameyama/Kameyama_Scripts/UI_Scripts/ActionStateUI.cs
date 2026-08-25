@@ -21,7 +21,6 @@ public class ActionStateUI : MonoBehaviour
 
     public void Hide()
     {
-        stateText.text = "";
         stateText.gameObject.SetActive(false);
     }
 }
